@@ -1,144 +1,593 @@
-/* PharmaSnap.AI home page. Apple product-page conventions, the brand's own orange.
+/* PharmaSnap.AI home page. An Apple "highlights" bento on a 12-column grid:
+   Apple's type ladder and spacing, the brand's orange.
 
-   🚨 ONE LIGHT LOOK, ON PURPOSE. The photography is lit on light grounds —
-   the bottle sits on #F3F3F3, the jars on a warm #F1F0EA — so a dark theme
-   would turn every image into a white slab. This page therefore paints its own
-   background and colours explicitly and does not load the dark-mode tokens the
-   legal pages use. The legal pages keep _style.css and their dark mode.
+   🚨 ONE LIGHT LOOK, ON PURPOSE. Every render is lit on a light grey ground
+   (#EBEBED to #F6F6F6), so a dark theme would turn each photo into a pale slab.
+   The page paints its own colours and ignores prefers-color-scheme. The single
+   dark band holds DRAWN graphics only (SVG and HTML), never a photograph.
+   The legal pages keep _style.css and its dark mode. Never edit those files.
 
-   🚨 NO PHONE MOCKUPS. Screens shown to the public must be real captures and
-   there are none yet. The photography is product imagery (unbranded capsules,
-   no text, no packs), and the one diagram draws the mechanism rather than
-   imitating a screen.
+   🚨 NO PHONE MOCKUPS OR FAKE APP SCREENS. Public screens must be real captures
+   and none exist. The document pages, question bubble, waveforms, street map
+   and source thread are drawings of a mechanism; none has a status bar,
+   keyboard, send button, app reply, legible text or map-app chrome.
 
-   🚨 NOTHING WAITS ON AN ANIMATION TO APPEAR. Every section is visible in the
-   first painted frame. */
+   🚨 NOTHING WAITS ON MOTION TO APPEAR. The base styles below are the finished,
+   static page. All motion lives in the two blocks at the end of the file,
+   under prefers-reduced-motion: no-preference, and scroll-driven effects also
+   under @supports (animation-timeline: view()). Start keyframes for text or
+   photos never go below opacity .4, and nothing nested inside a fading tile
+   fades again (so .4 is the real floor). Text and photo ranges end on "entry"
+   so they always complete; only the decorative waveform bars and map pulse run
+   on "cover". No JavaScript, no 100vh sections. Tiles are not links, so they
+   have no hover effects.
+
+   🚨 PHOTO GROUNDS. Each photo tile's background is that render's sampled
+   ground colour, so no image edge shows. Re-sample if a render is replaced. */
 
 :root {
   color-scheme: light;
   --ink: #1D1D1F;
-  --ink2: #6E6E73;
-  --ink3: #86868B;
+  --ink2: #636366;       /* secondary grey: at least 5:1 on every photo ground */
+  --hero: #F4F4F4;       /* the bottle render's own ground */
   --tile: #F5F5F7;
-  --photo: #F4F4F4;      /* matched to the bottle photograph's own background */
-  --warm: #F1F0EA;       /* matched to the jar photographs */
-  --line: #D2D2D7;
-  --brand: #F26B1D;      /* the app's orange, and the capsules' */
-  --brand-ink: #C2500F;  /* same hue, dark enough for small text on white */
+  --hair: #E6E6E8;
+  --brand: #F26B1D;      /* graphics only: 3.05:1 on white, too light for small text */
+  --brand-ink: #A8440C;  /* small orange text: 5.5:1 on #F4F4F4 */
+  --night: #121110;      /* the dark band: a warm near-black, softer than #000 */
+  --night-tile: #1E1D1C;
+  --night-ink2: #A1A1A6; /* 6.4:1 on --night-tile */
+  --r: 28px;             /* tile radius */
+  --pad: 40px;           /* tile inset */
+  --gap: 20px;
+  --ease: cubic-bezier(.2, .7, .2, 1);
 }
 
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+html { background: var(--hero); }
 body {
-  margin: 0; background: #FFFFFF; color: var(--ink);
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, system-ui, sans-serif;
-  font-size: 17px; line-height: 1.47; letter-spacing: -.022em;
+  margin: 0; background: var(--hero); color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", "Segoe UI", Roboto, system-ui, sans-serif;
+  font-size: 17px; line-height: 1.47059; letter-spacing: -.022em;
   -webkit-font-smoothing: antialiased;
 }
 img { max-width: 100%; display: block; }
 a { color: var(--brand-ink); text-decoration: none; }
 a:hover { text-decoration: underline; }
-:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; border-radius: 6px; }
+:focus-visible { outline: 2px solid var(--brand-ink); outline-offset: 3px; border-radius: 8px; }
+[id] { scroll-margin-top: 84px; }  /* anchors land below the floating bar */
+h1, h2, h3, .lede { text-wrap: balance; }
+p { text-wrap: pretty; }
 
-.wrap { max-width: 1024px; margin: 0 auto; padding: 0 22px; }
+.nw { white-space: nowrap; }  /* keeps a noun phrase on one line */
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.skip { position: absolute; left: 12px; top: -60px; z-index: 50; padding: 10px 16px; border-radius: 980px; background: var(--ink); color: #fff; }
+.skip:focus { top: 12px; text-decoration: none; }
 
-/* ── The bar: translucent, sticky, 52px — the Apple global nav, quieter ───── */
-.bar {
-  position: sticky; top: 0; z-index: 10;
-  background: rgba(255,255,255,.78);
-  -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px);
-  border-bottom: 1px solid rgba(0,0,0,.08);
+/* Content width: Apple's 87.5% capped at 1260px. */
+.wrap { width: min(1260px, 87.5%); margin-inline: auto; }
+
+/* ── The bar: Apple's floating glass pill ─────────────────────────────────── */
+/* The outer strip is click-through so the 10px margin never blocks content. */
+.bar { position: sticky; top: 0; z-index: 20; padding: 10px 10px 0; pointer-events: none; }
+.bar-in {
+  pointer-events: auto;
+  max-width: 1024px; min-height: 52px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 8px 8px 8px 18px; border-radius: 32px;
+  background: rgba(255, 255, 255, .94);  /* solid enough without blur support */
+  box-shadow: 0 0 0 1px var(--hair);
 }
-.bar .wrap { height: 52px; display: flex; align-items: center; justify-content: space-between; gap: 18px; }
-.logo { display: flex; align-items: center; gap: 9px; color: var(--ink); font-weight: 600; font-size: 17px; letter-spacing: -.02em; }
+@supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  .bar-in {
+    background: rgba(255, 255, 255, .86);  /* .86 keeps the pill clean over the dark band */
+    -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px);
+  }
+}
+.logo { display: flex; align-items: center; gap: 8px; color: var(--ink); font-size: 19px; font-weight: 600; letter-spacing: .012em; white-space: nowrap; }
 .logo:hover { text-decoration: none; }
 .logo svg { flex: none; }
-.bar nav { display: flex; gap: 26px; font-size: 13px; }
-.bar nav a { color: var(--ink); opacity: .82; }
-.bar nav a:hover { opacity: 1; text-decoration: none; }
-@media (max-width: 640px) { .bar nav a.hide-sm { display: none; } }
+.bar nav { display: flex; gap: 2px; }
+.bar nav a { color: var(--ink); font-size: 14px; letter-spacing: -.016em; padding: 7px 12px; border-radius: 980px; white-space: nowrap; }
+.bar nav a:hover { background: rgba(0, 0, 0, .05); text-decoration: none; }
 
-/* ── Hero ─────────────────────────────────────────────────────────────────── */
-.hero { background: var(--photo); text-align: center; overflow: hidden; }
-.hero .wrap { padding-top: 64px; }
+/* ── Hero (kept as signed off; only the lede and spacing changed) ─────────── */
+.hero { background: var(--hero); text-align: center; overflow: clip; }
+.hero .wrap { padding: 52px 0 56px; }
 .eyebrow { font-size: 19px; font-weight: 600; color: var(--brand-ink); margin: 0 0 6px; letter-spacing: -.01em; }
 .hero h1 {
-  font-size: clamp(48px, 9vw, 96px); line-height: 1.02; font-weight: 700;
-  letter-spacing: -.045em; margin: 0 0 14px; text-wrap: balance;
+  font-size: 96px; line-height: 1.04167; font-weight: 700;
+  letter-spacing: -.03em; margin: 0 0 16px;
 }
-.hero .lede { font-size: clamp(21px, 2.6vw, 28px); line-height: 1.25; color: var(--ink); font-weight: 400; margin: 0 auto 26px; max-width: 26ch; letter-spacing: -.02em; }
+.lede { font-size: 28px; line-height: 1.2; font-weight: 400; letter-spacing: -.005em; max-width: 820px; margin: 0 auto 28px; }
 .ctas { display: flex; gap: 22px; justify-content: center; align-items: center; flex-wrap: wrap; font-size: 17px; }
 .soon {
-  display: inline-flex; align-items: center; gap: 8px; padding: 11px 22px; border-radius: 999px;
+  display: inline-flex; align-items: center; gap: 8px; padding: 11px 22px; border-radius: 980px;
   background: var(--ink); color: #fff; font-size: 15px; font-weight: 500; letter-spacing: -.01em;
+  cursor: default;  /* not a link: the app is not on the store yet */
 }
-.soon svg { width: 15px; height: 15px; }
-.more::after { content: " \203A"; }
-/* display:block is load-bearing: <picture> is inline by default, which ignores
-   the width and lets the 2k bottle render 1300px tall. The mask feathers the
-   photograph's edges so no rectangle shows against the hero ground. */
-.hero-shot { display: block; margin: 20px auto 0; width: min(520px, 88%); }
+.more::after { content: "\203A"; content: "\203A" / ""; display: inline-block; margin-left: 5px; }  /* empty alt: not read out */
+.more:hover::after, .more:focus-visible::after { translate: 3px 0; }
+/* display:block is load-bearing: <picture> is inline by default and would let
+   the 2k bottle render at its natural 1300px height. The mask feathers all four
+   edges so the render's rectangle never shows against the hero ground. */
+.hero-shot { display: block; position: relative; isolation: isolate; margin: 24px auto 0; width: min(520px, 88%); }
+/* The render's empty floor was re-levelled to exactly #F4F4F4 (the hero ground)
+   outside the objects and their shadows, so there is no lighter rectangle to hide.
+   Re-level again if the hero photo is ever replaced. */
 .hero-shot img {
   width: 100%; height: auto;
-  -webkit-mask-image: linear-gradient(to right, transparent, #000 9%, #000 91%, transparent);
-          mask-image: linear-gradient(to right, transparent, #000 9%, #000 91%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 9%, #000 91%, transparent), linear-gradient(to bottom, transparent, #000 5%, #000 95%, transparent);
+  -webkit-mask-composite: source-in;
+          mask-image: linear-gradient(to right, transparent, #000 9%, #000 91%, transparent), linear-gradient(to bottom, transparent, #000 5%, #000 95%, transparent);
+          mask-composite: intersect;
 }
 
-/* ── Sections ─────────────────────────────────────────────────────────────── */
-.sec { padding: 104px 0; }
-.sec.tint { background: var(--tile); }
-.sec h2 {
-  font-size: clamp(36px, 5.6vw, 56px); line-height: 1.07; font-weight: 700;
-  letter-spacing: -.04em; margin: 0 0 12px; text-wrap: balance;
+/* ── Bands ────────────────────────────────────────────────────────────────── */
+.band { padding: 120px 0; }
+.hero + .band { padding-top: 72px; }
+/* Apple's soft seam: the hero grey melts into the white band. */
+.band.light { background: linear-gradient(180deg, var(--hero) 0, #FFFFFF 360px) #FFFFFF; padding-bottom: 0; }
+.band.light-cont { background: #FFFFFF; padding-top: var(--gap); }  /* two classes: beats every .band padding below */
+.band.dark { background: var(--night); color: #F5F5F7; }
+.head {
+  font-size: 80px; line-height: 1.05; font-weight: 600; letter-spacing: -.015em;
+  margin: 0 0 48px; padding-top: 24px; border-top: 1px solid rgba(0, 0, 0, .16);
 }
-.sec .sub { font-size: clamp(19px, 2.1vw, 24px); line-height: 1.33; color: var(--ink2); margin: 0 0 48px; max-width: 34ch; letter-spacing: -.02em; }
-.center { text-align: center; }
-.center .sub { margin-left: auto; margin-right: auto; }
+.dark .head { border-top-color: rgba(255, 255, 255, .22); }
 
-/* Bento: one big photo tile, four small icon tiles. */
-.bento { display: grid; gap: 18px; grid-template-columns: 1fr; }
-@media (min-width: 820px) { .bento { grid-template-columns: 1.15fr 1fr; } }
-.tile { background: var(--tile); border-radius: 28px; overflow: hidden; }
-.tile.photo { background: var(--warm); display: flex; align-items: center; justify-content: center; }
-.tile.photo img { width: 100%; height: 100%; object-fit: cover; aspect-ratio: 1 / 1; }
-.tile.photo.wide img { aspect-ratio: 4 / 3; }
-.minis { display: grid; gap: 18px; grid-template-columns: 1fr 1fr; }
-.mini { padding: 26px 22px; display: flex; flex-direction: column; justify-content: space-between; min-height: 190px; }
-.mini .ico { width: 44px; height: 44px; border-radius: 12px; background: #fff; display: grid; place-items: center; color: var(--brand); box-shadow: 0 1px 2px rgba(0,0,0,.06); }
-.mini b { display: block; font-size: 21px; line-height: 1.2; font-weight: 600; letter-spacing: -.025em; margin-top: 18px; }
-.mini span { display: block; font-size: 15px; color: var(--ink2); margin-top: 4px; }
+/* ── The bento grid ───────────────────────────────────────────────────────── */
+.bento { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--gap); }
+.s12 { grid-column: span 12; } .s7 { grid-column: span 7; } .s5 { grid-column: span 5; }
 
-/* The mechanism, drawn. */
-.figure { background: #fff; border-radius: 28px; padding: clamp(24px, 5vw, 56px); max-width: 860px; margin: 0 auto; box-shadow: 0 2px 30px rgba(0,0,0,.05); }
-.figure svg { width: 100%; height: auto; display: block; }
-.steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; max-width: 860px; margin: 26px auto 0; text-align: center; }
-.steps div { font-size: 15px; color: var(--ink2); }
-.steps b { display: block; color: var(--ink); font-size: 17px; font-weight: 600; margin-bottom: 2px; }
-@media (max-width: 560px) { .steps { grid-template-columns: 1fr; } }
+/* overflow:clip, never hidden: hidden makes a scroll container, and a scroll
+   container silently stops view() timelines inside it from running. */
+.tile { position: relative; min-width: 0; border-radius: var(--r); background: var(--tile); overflow: clip; }
+.dark .tile { background: var(--night-tile); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .07); }
 
-/* Split: words one side, photograph the other. */
-.split { display: grid; gap: 48px; align-items: center; grid-template-columns: 1fr; }
-@media (min-width: 820px) { .split { grid-template-columns: 1fr 1fr; gap: 64px; } .split.flip > :first-child { order: 2; } }
-.split .tile img { width: 100%; height: auto; }
+/* Tile captions: a dark title, then the grey remainder on its own line. */
+.cap { position: relative; z-index: 2; padding: var(--pad) var(--pad) 0; }
+.cap h2, .cap h3, .lead { margin: 0; max-width: 22em; font-size: 32px; line-height: 1.125; font-weight: 600; letter-spacing: .004em; color: var(--ink); }
+.cap p { margin: 8px 0 0; max-width: 26em; font-size: 21px; line-height: 1.381; letter-spacing: .011em; color: var(--ink2); }
+.dark .cap h3 { color: #F5F5F7; }
+.dark .cap p { color: var(--night-ink2); }
 
-.langs { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
-.langs b {
-  font-weight: 500; font-size: 19px; letter-spacing: -.01em; line-height: 1;
-  padding: 11px 16px; border-radius: 999px; background: #fff; border: 1px solid var(--line); color: var(--ink);
+/* Shared pill style for chips, tags and cabinet labels (not buttons: no hover). */
+.chips li, .pills li, .tag {
+  font-size: 17px; font-weight: 600; line-height: 1; letter-spacing: -.01em; color: var(--ink);
+  padding: 11px 16px; border-radius: 980px; background: #FFFFFF; box-shadow: 0 0 0 1px var(--hair);
+  white-space: nowrap;
 }
-.langs b.on { background: var(--brand); border-color: var(--brand); color: #fff; }
-.langs i { font-style: normal; font-size: 15px; color: var(--ink3); align-self: center; padding-left: 4px; }
 
-.nots { list-style: none; margin: 0; padding: 0; display: grid; gap: 22px; }
-.nots li { display: grid; grid-template-columns: 34px 1fr; gap: 14px; align-items: start; }
-.nots .x { width: 34px; height: 34px; border-radius: 50%; background: rgba(242,107,29,.12); color: var(--brand-ink); display: grid; place-items: center; font-size: 15px; font-weight: 700; }
-.nots b { display: block; font-size: 19px; font-weight: 600; letter-spacing: -.02em; }
-.nots span { display: block; font-size: 16px; color: var(--ink2); margin-top: 2px; }
+/* 1. Lineup. The render's empty floor and sky are cropped (2048x900 window),
+   the caption sits on the sky, and each label hangs on a hairline under its
+   object. --x is the measured centre of each object. */
+.t-lineup { aspect-ratio: 2048 / 900; background: #EFEFEF; }
+.t-lineup .ph { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 55%; }
+.t-lineup .lead { position: absolute; top: 0; left: 0; z-index: 2; padding: var(--pad); }
+.labels { list-style: none; margin: 0; padding: 0; position: absolute; inset: 0; z-index: 1; }
+.labels li { position: absolute; left: var(--x); top: 74.5%; transform: translateX(-50%); padding-top: 16px; }
+.crop { display: none; }
+.tag { position: relative; display: inline-block; font-size: 19px; padding: 10px 18px; box-shadow: 0 0 0 1px var(--hair), 0 6px 16px -10px rgba(0, 0, 0, .25); }
+.tag::before { content: ""; position: absolute; bottom: 100%; left: 50%; width: 1px; height: 16px; background: #AEAEB2; }
+
+/* 2. Health documents. Drawn pages sit to the right; the words sit left,
+   centred on the tile. The drawing's box matches the tile's 2.8:1 height. */
+.t-docs { aspect-ratio: 2.8 / 1; display: flex; align-items: center; }
+.docs-cap { position: relative; z-index: 2; max-width: 46%; padding: 0 var(--pad); }
+.docs-cap h3 { margin: 0; font-size: 40px; line-height: 1.1; font-weight: 600; letter-spacing: 0; }
+.docs-cap p { margin: 14px 0 0; font-size: 24px; line-height: 1.33; letter-spacing: .009em; color: var(--ink2); }
+.docs { position: absolute; right: 3%; bottom: 0; width: 52%; height: auto; overflow: visible; }
+
+/* 3. The numeral. Orange gradient text; every stop keeps 3:1 or better on the
+   tile (large text: #D95B0E is 3.3:1 on #ECECF0), with a solid fallback and a
+   forced-colours reset. The tile takes the wave render's ground beside it. */
+.t-num { display: flex; flex-direction: column; padding: var(--pad); background: #ECECF0; }
+.t-num h2 { margin: 0; font-weight: 600; }
+.t-num .n {
+  display: block; width: fit-content; font-size: 240px; line-height: .82; font-weight: 700; letter-spacing: -.045em;
+  color: #B84A0D; padding-bottom: .04em;
+}
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .t-num .n {
+    background: linear-gradient(180deg, #D95B0E 0%, #A8440C 50%, #D95B0E 100%) 0 0 / 100% 200%;
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent; color: transparent;
+  }
+}
+@media (forced-colors: active) { .t-num .n { background: none; -webkit-text-fill-color: CanvasText; color: CanvasText; } }
+.t-num .w { display: block; margin-top: 20px; font-size: 40px; line-height: 1.1; letter-spacing: 0; }
+/* The spoken voice, drawn: fills the space between the promise and its reason. */
+.voice-line { display: block; width: 100%; height: 72px; margin: auto 0; padding: 12px 0; box-sizing: content-box; }
+.t-num p { margin: 0; max-width: 20em; font-size: 21px; line-height: 1.381; letter-spacing: .011em; color: var(--ink2); }
+
+/* 4. Wave + native scripts. object-fit crops only empty ground (the wave sits at 28 to 72% height). */
+.t-wave { display: flex; flex-direction: column; background: #ECECF0; }
+.t-wave .ph {
+  width: 100%; height: auto; aspect-ratio: 2 / 1; object-fit: cover;
+  -webkit-mask-image: linear-gradient(to bottom, #000 85%, transparent); mask-image: linear-gradient(to bottom, #000 85%, transparent);
+}
+.chips { list-style: none; margin: auto 0 0; padding: 4px var(--pad) var(--pad); display: flex; flex-wrap: wrap; gap: 8px; }
+.chips .and { background: none; box-shadow: none; color: var(--ink2); padding-inline: 6px; }
+
+/* 5. Cabinet. Title and labels on top, the organiser fills the rest of the row. */
+.t-cab { display: flex; flex-direction: column; background: #EDEDED; }
+.pills { list-style: none; margin: 20px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.pills li { display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px 9px 11px; }
+.pills svg { flex: none; fill: none; stroke: var(--brand-ink); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+/* The render's upper rows sit a few levels darker than the tile, so the top
+   edge is feathered or it shows as a line. */
+.t-cab .ph {
+  flex: 1 1 0; min-height: 0; width: 100%; height: 0; object-fit: cover; object-position: 50% 58%;
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 24%); mask-image: linear-gradient(to bottom, transparent, #000 24%);
+}
+
+/* 6. Sources. The frame holds photo, thread and chip, so the drawn ring stays on
+   the capsule and the thread ends exactly on the chip's top edge (81%).
+   The leaflets render is levelled to the cabinet's neutral grey beside it.
+   place-self: stretch is load-bearing: a grid item with an aspect ratio does
+   not stretch by default, so a taller cabinet would leave a notch under it.
+   Both axes, or the stretched height widens the tile past its columns. */
+.t-src { aspect-ratio: 1 / 1; place-self: stretch; background: #EFEFEF; }
+.t-src .cap { position: absolute; top: 0; left: 0; right: 0; }
+.t-src .frame { position: absolute; right: 0; bottom: 0; width: 92%; aspect-ratio: 1 / 1; }
+.t-src .ph {
+  width: 100%; height: 100%;
+  /* feather the two edges that do not meet the tile's edge */
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 10%), linear-gradient(to bottom, transparent, #000 10%);
+  -webkit-mask-composite: source-in;
+          mask-image: linear-gradient(to right, transparent, #000 10%), linear-gradient(to bottom, transparent, #000 10%);
+          mask-composite: intersect;
+}
+.thread { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.thread .ring { fill: none; stroke: var(--brand); stroke-width: .5; }
+.thread .line { fill: none; stroke: var(--brand); stroke-width: .5; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 0; }
+.thread .dot { fill: var(--brand); }
+.chip-src {
+  position: absolute; left: 2%; top: 81%; z-index: 2; margin: 0;
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 16px 10px 12px; border-radius: 980px;
+  font-size: 15px; font-weight: 600; line-height: 1.2; letter-spacing: -.01em; color: var(--ink); white-space: nowrap;
+  background: rgba(255, 255, 255, .94); box-shadow: 0 0 0 1px var(--hair), 0 8px 24px -12px rgba(0, 0, 0, .25);
+}
+@supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  .chip-src { background: rgba(255, 255, 255, .8); -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px); }
+}
+.chip-src svg { color: var(--brand-ink); flex: none; }
+
+/* 7. Limits: the tablets photo and the list share one tile on the photo's ground. */
+.t-lim { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); min-height: 480px; background: #EBEBED; }
+.lim-ph { position: relative; min-height: 0; }
+.lim-ph .ph {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 62%;
+  -webkit-mask-image: linear-gradient(to left, transparent, #000 12%); mask-image: linear-gradient(to left, transparent, #000 12%);
+}
+.lim-txt { display: flex; flex-direction: column; padding: var(--pad) var(--pad) var(--pad) 12px; }
+.lim-txt h2 { margin: 0 0 20px; font-size: 40px; line-height: 1.1; font-weight: 600; letter-spacing: 0; }
+.nots { list-style: none; margin: 0; padding: 0; }
+.nots li {
+  display: flex; align-items: center; gap: 16px; padding: 16px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, .1);
+  font-size: 24px; line-height: 1.16667; font-weight: 600; letter-spacing: .009em; text-wrap: balance;
+}
+.nots svg { flex: none; width: 34px; height: 34px; fill: none; stroke: var(--ink); stroke-width: 1.7; stroke-linecap: round; }
+.lim-p { margin: auto 0 0; padding-top: 24px; font-size: 21px; line-height: 1.381; letter-spacing: .011em; color: var(--ink2); }
+.lim-p b { color: var(--ink); font-weight: 600; white-space: nowrap; }
+
+/* ── Dark band tiles (drawn only) ─────────────────────────────────────────── */
+/* Ask */
+.t-ask { display: flex; flex-direction: column; min-height: 500px; container-type: inline-size; }
+.ask { margin: auto 0; padding: 32px var(--pad) var(--pad); }
+.bubble {
+  display: inline-block; margin: 0 0 28px; max-width: 12em;
+  padding: .61em .78em; border-radius: 32px 32px 32px 8px;
+  background: #2E2C2B; color: #FFFFFF;
+  font-size: 36px; line-height: 1.11; font-weight: 600; letter-spacing: .002em;
+  /* "What is paracetamol" is 9.3em wide; with padding the bubble needs about
+     11.4em, so size the text to the tile and it keeps two even lines. */
+  font-size: clamp(26px, calc((100cqi - 2 * var(--pad)) / 11.4), 36px);
+}
+.voice { display: flex; align-items: center; gap: 18px; }
+.mic { flex: none; width: 56px; height: 56px; border-radius: 50%; background: var(--brand); display: grid; place-items: center; box-shadow: 0 0 0 8px rgba(242, 107, 29, .16); }
+.bars { flex: 1 1 auto; min-width: 0; max-width: 286px; height: 64px; fill: var(--brand); overflow: visible; }
+
+/* Map: a frosted card edge and a warm glow behind the nearest pharmacy. */
+.t-map { display: flex; flex-direction: column; min-height: 500px; }  /* the glow is the SVG's own gradient */
+.dark .t-map { box-shadow: inset 0 1px 0 rgba(255, 255, 255, .12), inset 0 0 0 1px rgba(255, 255, 255, .08); }
+.map-box {
+  position: relative; flex: 1 1 auto; min-height: 280px; margin-top: 12px;
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 16%); mask-image: linear-gradient(to bottom, transparent, #000 16%);
+}
+.map { position: absolute; inset: 0; width: 100%; height: 100%; }
+.roads-minor path { fill: none; stroke: #2C2A29; stroke-width: 5; }
+.roads-main path { fill: none; stroke: #3B3937; stroke-width: 13; stroke-linecap: round; }
+.park { fill: #282625; }
+.you .halo { fill: rgba(255, 255, 255, .14); }
+.you circle:last-child { fill: #FFFFFF; stroke: var(--night-tile); stroke-width: 3; }
+.pin-g path { fill: #6E6C6A; }
+.pin-g circle { fill: var(--night-tile); }
+.pin-near path { fill: var(--brand); }
+.pulse { fill: none; stroke: var(--brand); stroke-width: 2; opacity: .55; }
+
+/* Emergency strip */
+.t-sos { display: flex; align-items: center; gap: 20px; padding: 26px var(--pad); }
+.sos-ico { flex: none; width: 54px; height: 54px; border-radius: 16px; display: grid; place-items: center; color: var(--brand); background: rgba(242, 107, 29, .14); }
+.t-sos p { margin: 0; font-size: 28px; line-height: 1.14286; font-weight: 600; letter-spacing: .007em; color: #F5F5F7; }
+
+/* ── Closing ──────────────────────────────────────────────────────────────── */
+.closing { background: #FFFFFF; text-align: center; padding: 120px 0 128px; }
+.closing .mark { display: block; margin: 0 auto 20px; }
+.closing h2 { margin: 0 0 28px; font-size: 64px; line-height: 1.0625; font-weight: 600; letter-spacing: -.009em; }
+/* A quiet label, not a button: hairline, grey text, no fill, no glyph. */
+.soon-quiet {
+  display: inline-block; margin: 0; padding: 10px 20px; border-radius: 980px;
+  box-shadow: inset 0 0 0 1px #D2D2D7; color: var(--ink2);
+  font-size: 15px; font-weight: 500; letter-spacing: -.01em; cursor: default;
+}
 
 /* ── Footer ───────────────────────────────────────────────────────────────── */
-.foot { background: var(--tile); border-top: 1px solid var(--line); font-size: 12px; color: var(--ink3); letter-spacing: -.01em; }
-.foot .wrap { padding-top: 22px; padding-bottom: 34px; display: flex; flex-wrap: wrap; gap: 10px 22px; justify-content: space-between; }
-.foot a { color: var(--ink2); }
-.foot .links { display: flex; gap: 18px; }
+.foot { background: var(--tile); color: var(--ink2); font-size: 14px; line-height: 1.43; letter-spacing: -.016em; border-top: 1px solid rgba(0, 0, 0, .08); }
+.foot .wrap { padding: 22px 0 34px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 22px; }
 .foot p { margin: 0; }
+.foot nav { display: flex; gap: 6px; margin-inline: -10px; }  /* link text lines up with the edges, on one line or wrapped */
+.foot a { display: inline-block; min-height: 24px; padding: 4px 10px; color: var(--ink); }
+
+/* ── Up to 1068px: Apple's middle step ────────────────────────────────────── */
+@media (max-width: 1068px) {
+  :root { --pad: 32px; --gap: 16px; }
+  .hero h1 { font-size: 72px; line-height: 1.05556; }
+  .band { padding: 96px 0; }
+  .hero + .band { padding-top: 64px; }
+  .band.light-cont { padding: var(--gap) 0 96px; }
+  .head { font-size: 64px; margin-bottom: 40px; }
+  .cap h2, .cap h3, .lead { font-size: 26px; line-height: 1.15; }
+  .cap p { font-size: 19px; }
+  .tag { font-size: 16px; padding: 9px 14px; }
+  .docs-cap h3 { font-size: 30px; }
+  .docs-cap p { font-size: 19px; margin-top: 10px; }
+  .t-num .n { font-size: 180px; }
+  .t-num .w { font-size: 30px; }
+  .t-num p { font-size: 19px; }
+  .voice-line { height: 56px; }
+  .chips li, .pills li { font-size: 15px; }
+  .chips li { padding: 10px 14px; }
+  .pills li { padding: 8px 13px 8px 9px; }
+  /* Cabinet and sources share the row evenly; limits keeps the full width. */
+  .bento > .t-cab, .bento > .t-src { grid-column: span 6; }
+  .t-src { aspect-ratio: 10 / 11; }
+  .t-lim { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); min-height: 0; }
+  /* At half width the organiser would be cropped at both ends: show all of it. */
+  .t-cab .ph { flex: none; height: auto; margin-top: auto; }
+  .lim-txt h2 { font-size: 32px; }
+  .nots li { font-size: 21px; padding: 13px 0; gap: 14px; }
+  .nots svg { width: 28px; height: 28px; }
+  .lim-p { font-size: 19px; }
+  .t-ask, .t-map { min-height: 460px; }
+  .bubble { font-size: 24px; padding: 18px 22px; }
+  .t-sos p { font-size: 24px; }
+  .closing { padding: 96px 0 104px; }
+  .closing h2 { font-size: 48px; }
+}
+
+/* ── Up to 734px: phones. One column; everything returns to the flow. ─────── */
+@media (max-width: 734px) {
+  :root { --pad: 24px; --gap: 14px; --r: 24px; }
+  .wrap { width: calc(100% - 32px); }
+  .bar { padding: 8px 8px 0; }
+  .bar-in { padding-left: 14px; }
+  .bar nav a.hide-sm { display: none; }
+  .bar nav a { padding: 7px 10px; }
+  .logo { font-size: 17px; }
+  .hero .wrap { padding: 40px 0 44px; }
+  .hero h1 { font-size: 48px; line-height: 1.08349; letter-spacing: -.025em; }
+  .eyebrow { font-size: 17px; }
+  .lede { font-size: 21px; line-height: 1.25; }
+  .band { padding: 72px 0; }
+  .hero + .band { padding-top: 36px; }
+  .band.light { background: linear-gradient(180deg, var(--hero) 0, #FFFFFF 240px) #FFFFFF; }
+  .band.light-cont { padding: var(--gap) 0 72px; }
+  .head { font-size: 40px; line-height: 1.1; margin-bottom: 28px; padding-top: 16px; }
+  .bento { grid-template-columns: minmax(0, 1fr); }
+  .bento > .tile { grid-column: 1 / -1; }
+  .cap h2, .cap h3, .lead { font-size: 24px; line-height: 1.1667; }
+  .cap p { font-size: 17px; margin-top: 6px; }
+
+  /* Lineup: the wide render would leave each object about 50px tall, so the
+     same render is shown as four crops, one object in each, labelled below.
+     Each object still appears once. The <img> stays for its alt text. */
+  .t-lineup { aspect-ratio: auto; }
+  .t-lineup .lead { position: static; padding: var(--pad) var(--pad) 4px; }
+  .t-lineup .ph { width: 1px; height: 1px; inset: auto; top: 0; left: 0; clip-path: inset(50%); }
+  .labels { position: static; display: grid; grid-template-columns: 1fr 1fr; gap: 10px 6px; padding: 0 10px 24px; }
+  .labels li { position: static; transform: none; display: flex; flex-direction: column; align-items: center; padding: 0; }
+  .crop {
+    display: block; width: 100%; aspect-ratio: 1 / 1;
+    background: url(/img/lineup-2k.webp) no-repeat;
+    background-image: -webkit-image-set(url(/img/lineup-1k.webp) 1x, url(/img/lineup-2k.webp) 2x);
+    background-image: image-set(url(/img/lineup-1k.webp) 1x, url(/img/lineup-2k.webp) 2x);
+    background-size: var(--z, 400%) auto; background-position: var(--p) var(--py, 52%);
+    /* The objects' floor shadows run into each other, so each crop is feathered
+       on all four sides (--f at the sides): no rectangle and no hard seam. Each
+       window keeps its whole object inside the feather. */
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 var(--f, 8%), #000 calc(100% - var(--f, 8%)), transparent), linear-gradient(to bottom, transparent, #000 8%, #000 92%, transparent);
+    -webkit-mask-composite: source-in;
+            mask-image: linear-gradient(to right, transparent, #000 var(--f, 8%), #000 calc(100% - var(--f, 8%)), transparent), linear-gradient(to bottom, transparent, #000 8%, #000 92%, transparent);
+            mask-composite: intersect;
+  }
+  .tag { margin-top: 14px; font-size: 15px; padding: 8px 13px; }
+  .tag::before { height: 14px; }
+
+  .t-docs { aspect-ratio: auto; flex-direction: column; align-items: stretch; }
+  .docs-cap { max-width: none; padding: var(--pad) var(--pad) 0; }
+  .docs-cap h3 { font-size: 24px; line-height: 1.1667; }
+  .docs-cap p { font-size: 17px; margin-top: 6px; }
+  .docs { position: static; width: 100%; margin: 4px 0 -6px; }
+
+  .t-num .n { font-size: 150px; }
+  .t-num .w { font-size: 28px; margin-top: 14px; }
+  .voice-line { height: 48px; padding: 18px 0; }
+  .t-num p { font-size: 17px; }
+
+  .chips { gap: 6px; }
+  .chips li { padding: 9px 13px; }
+
+  .t-cab .ph { flex: none; height: auto; aspect-ratio: 2048 / 1000; margin-top: 4px; }
+  .pills { margin-top: 14px; gap: 6px; }
+  .pills li { font-size: 14px; padding: 7px 12px 7px 8px; gap: 6px; }
+  .pills svg { width: 18px; height: 18px; }
+
+  .chip-src { font-size: 14px; padding: 8px 13px 8px 10px; }
+
+  .t-lim { grid-template-columns: minmax(0, 1fr); min-height: 0; }
+  .lim-ph { aspect-ratio: 4 / 3; }
+  .lim-ph .ph { -webkit-mask-image: linear-gradient(to top, transparent, #000 14%); mask-image: linear-gradient(to top, transparent, #000 14%); }
+  .lim-txt { padding: 8px var(--pad) var(--pad); }
+  .lim-txt h2 { font-size: 28px; margin-bottom: 8px; }
+  .nots li { font-size: 19px; gap: 14px; }
+  .nots svg { width: 26px; height: 26px; }
+  .lim-p { font-size: 17px; padding-top: 20px; }
+
+  .t-ask, .t-map { min-height: 0; }
+  .ask { padding-top: 24px; }
+  .bubble { font-size: 22px; padding: 16px 20px; border-radius: 24px 24px 24px 6px; margin-bottom: 22px; }
+  .mic { width: 48px; height: 48px; }
+  .map-box { flex: none; min-height: 0; aspect-ratio: 720 / 420; margin-top: 4px; }
+  .t-sos { align-items: flex-start; gap: 14px; padding: 20px var(--pad); }
+  .sos-ico { width: 44px; height: 44px; border-radius: 13px; }
+  .t-sos p { font-size: 19px; line-height: 1.26; padding-top: 2px; }
+  .closing { padding: 72px 0 80px; }
+  .closing .mark { width: 56px; height: 56px; }
+  .closing h2 { font-size: 36px; line-height: 1.1; }
+  .foot .wrap { padding: 18px 0 28px; }
+}
+
+/* Narrow tablets (735 to 800px): the documents heading keeps "Prescriptions
+   and" on one line, the lineup labels keep clear space between them, and
+   the cabinet labels stay on two rows. */
+@media (min-width: 735px) and (max-width: 800px) {
+  .docs-cap { max-width: 50%; }
+  .docs-cap h3 { font-size: 26px; }
+  .tag { font-size: 15px; padding: 8px 12px; }
+  .pills li { font-size: 14px; padding: 7px 12px 7px 8px; gap: 6px; }
+  .pills svg { width: 18px; height: 18px; }
+}
+
+/* Very small phones (under 375px): the bar keeps the logo and Privacy only. */
+@media (max-width: 374px) {
+  .bar nav a.hide-xs { display: none; }
+}
+
+/* ══ MOTION ═══════════════════════════════════════════════════════════════
+   Everything above is the finished page. Everything below is optional. */
+
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+  .more::after { transition: translate .3s var(--ease); }
+
+  /* Hero entrance on first paint. Starts at .4, never 0, so the bottle stays
+     eligible for Largest Contentful Paint and nothing hides if it never runs.
+     @starting-style must come after the rules it animates. */
+  .hero .lede, .hero .ctas, .hero-shot img { transition: opacity .9s ease, translate .9s var(--ease); }
+  .hero .ctas { transition-delay: .08s; }
+  .hero-shot img { transition-delay: .16s; }
+  @starting-style {
+    .hero .lede, .hero .ctas { opacity: .4; translate: 0 8px; }
+    .hero-shot img { opacity: .4; translate: 0 16px; }
+  }
+
+  /* A tile reached from the nav flashes a brief orange ring. */
+  .tile:target { animation: ping 1.6s ease-out 1; }
+  @keyframes ping {
+    0%   { box-shadow: 0 0 0 0 rgba(242, 107, 29, 0); }
+    20%  { box-shadow: 0 0 0 4px rgba(242, 107, 29, .9); }
+    100% { box-shadow: 0 0 0 4px rgba(242, 107, 29, 0); }
+  }
+}
+
+/* Scroll-driven effects: Chrome 115+, Safari 26+. Firefox shows the static page. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+
+    /* Tiles rise 30px from .4 (Apple's staggered fade-up). Ranges end on
+       "entry" in pixels, and opacity is already 1 at 60%, so a caption peeking
+       over the bottom edge of the screen is fully legible. */
+    .tile {
+      view-timeline: --t block;
+      animation: rise linear both;
+      animation-timeline: --t;
+      animation-range: entry 0% entry 120px;
+    }
+    @media (min-width: 735px) {
+      .bento > .t-wave, .bento > .t-src, .bento > .t-map { animation-range: entry 32px entry 152px; }
+    }
+    @keyframes rise { 0% { opacity: .4; translate: 0 30px; } 60% { opacity: 1; } 100% { opacity: 1; translate: none; } }
+
+    /* Photos settle from 1.08 to 1 inside their clipped tiles. The lineup and
+       sources photos stay put so their labels and ring stay on target. */
+    .t-wave .ph, .t-cab .ph, .lim-ph .ph, .t-src .frame { animation: settle linear both; animation-timeline: --t; animation-range: entry 0% entry 100%; }
+    @keyframes settle { from { scale: 1.08; } to { scale: 1; } }
+
+    /* Labels (and the sources chip) sit inside a tile that is already fading
+       up, so they only move: a second fade would multiply to .16. */
+    .labels li { animation: nudge linear both; animation-timeline: --t; animation-range: entry 40% entry 100%; }
+    .labels li:nth-child(2) { animation-range: entry 50% entry 100%; }
+    .labels li:nth-child(3) { animation-range: entry 60% entry 100%; }
+    .labels li:nth-child(4) { animation-range: entry 70% entry 100%; }
+    @keyframes nudge { from { translate: 0 16px; } to { translate: none; } }
+    /* Phones stack the labels 2x2 in a tall tile: each settles as it enters. */
+    @media (max-width: 734px) {
+      .labels li:nth-child(n) { animation-timeline: view(); animation-range: entry 0% entry 100%; }
+    }
+    @keyframes lift { 0% { opacity: .4; translate: 0 16px; } 60% { opacity: 1; } 100% { opacity: 1; translate: none; } }
+
+    /* Documents: the letter tilts into place, the prescription slides over it,
+       the line is circled and the question pops. */
+    .sheet-back, .sheet-front, .ask-pop { transform-box: fill-box; }
+    .sheet-back { transform-origin: 50% 100%; animation: sheet-b linear both; animation-timeline: --t; animation-range: entry 0% entry 100%; }
+    @keyframes sheet-b { from { rotate: 5deg; translate: 0 18px; } to { rotate: 0deg; translate: none; } }
+    .sheet-front { transform-origin: 50% 100%; animation: sheet-f linear both; animation-timeline: --t; animation-range: entry 10% entry 100%; }
+    @keyframes sheet-f { from { rotate: -5deg; translate: 0 44px; } to { rotate: 0deg; translate: none; } }
+    .docs .mark { animation: draw linear both; animation-timeline: --t; animation-range: entry 50% entry 100%; }
+    .ask-pop { transform-origin: 50% 50%; animation: pop linear both; animation-timeline: --t; animation-range: entry 60% entry 100%; }
+    @keyframes pop { 0% { scale: .6; opacity: .4; } 60% { opacity: 1; } 100% { scale: 1; opacity: 1; } }
+
+    /* Numeral: the orange sweeps through the gradient as it arrives; the voice
+       line swells from a murmur. */
+    .t-num .n { animation: sweep linear both; animation-timeline: --t; animation-range: entry 0% entry 100%; }
+    @keyframes sweep { from { background-position: 0 100%; } to { background-position: 0 0; } }
+    .voice-line path { transform-box: fill-box; transform-origin: 50% 50%; animation: swell linear both; animation-timeline: --t; animation-range: entry 20% entry 100%; }
+    @keyframes swell { from { scale: 1 .3; } to { scale: 1 1; } }
+
+    /* Sources: ring closes on the capsule, thread draws to the chip. */
+    .thread .ring { transform-box: fill-box; transform-origin: center; animation: ringin linear both; animation-timeline: --t; animation-range: entry 10% entry 70%; }
+    @keyframes ringin { from { scale: 1.6; opacity: .4; } to { scale: 1; opacity: 1; } }
+    .thread .line { animation: draw linear both; animation-timeline: --t; animation-range: entry 40% entry 100%; }
+    @keyframes draw { from { stroke-dasharray: 1; stroke-dashoffset: 1; } to { stroke-dasharray: 1; stroke-dashoffset: 0; } }
+    .chip-src { animation: nudge linear both; animation-timeline: --t; animation-range: entry 55% entry 100%; }
+
+    /* Ask: bars move only while the page scrolls (user controlled, so no
+       pause button is needed). Scale never hides a bar; opacity stays 1. */
+    .bars rect { transform-box: fill-box; transform-origin: center; animation: talk-a linear both; animation-timeline: --t; animation-range: cover 0% cover 100%; }
+    .bars rect:nth-child(3n+2) { animation-name: talk-b; }
+    .bars rect:nth-child(3n) { animation-name: talk-c; }
+    @keyframes talk-a { 0% { scale: 1 .4; } 30% { scale: 1 1; } 55% { scale: 1 .55; } 80% { scale: 1 .95; } 100% { scale: 1 .7; } }
+    @keyframes talk-b { 0% { scale: 1 1; } 25% { scale: 1 .45; } 50% { scale: 1 .9; } 75% { scale: 1 .5; } 100% { scale: 1 1; } }
+    @keyframes talk-c { 0% { scale: 1 .6; } 35% { scale: 1 .85; } 60% { scale: 1 .4; } 85% { scale: 1 1; } 100% { scale: 1 .8; } }
+
+    /* Map: pins drop in from .4, the nearest one last, then its ring opens. */
+    .pin-g, .pin-near { animation: drop linear both; animation-timeline: --t; animation-range: entry 20% entry 70%; }
+    .pin-g.p2 { animation-range: entry 30% entry 80%; }
+    .pin-g.p3 { animation-range: entry 40% entry 90%; }
+    .pin-near { animation-range: entry 50% entry 100%; }
+    @keyframes drop { from { opacity: .4; translate: 0 -14px; } to { opacity: 1; translate: none; } }
+    .pulse { transform-box: fill-box; transform-origin: center; animation: pulse linear both; animation-timeline: --t; animation-range: entry 60% cover 55%; }
+    @keyframes pulse { from { scale: .5; opacity: .9; } to { scale: 1.5; opacity: .3; } }
+
+    /* Closing: the mark and line rise once, from .4. */
+    .closing .wrap { view-timeline: --c block; }
+    .closing .mark, .closing h2, .soon-quiet { animation: lift linear both; animation-timeline: --c; animation-range: entry 0% entry 100%; }
+
+    /* A targeted tile swaps its scroll animation for the one-off ring. */
+    .tile:target { animation: ping 1.6s ease-out 1; animation-timeline: auto; animation-range: normal; }
+  }
+}
