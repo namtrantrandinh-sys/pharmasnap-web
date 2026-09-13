@@ -1,125 +1,144 @@
-/* Home page only. The legal pages keep _style.css untouched and never load this.
-   Body colours come from the var() tokens _style.css already defines, so the
-   light and dark themes inherit a palette the legal pages have proven.
+/* PharmaSnap.AI home page. Apple product-page conventions, the brand's own orange.
+
+   🚨 ONE LIGHT LOOK, ON PURPOSE. The photography is lit on light grounds —
+   the bottle sits on #F3F3F3, the jars on a warm #F1F0EA — so a dark theme
+   would turn every image into a white slab. This page therefore paints its own
+   background and colours explicitly and does not load the dark-mode tokens the
+   legal pages use. The legal pages keep _style.css and their dark mode.
 
    🚨 NO PHONE MOCKUPS. Screens shown to the public must be real captures and
-   there are none yet, so the graphics here are DIAGRAMS: they draw the
-   mechanism, they do not imitate a screen. For a product whose whole claim is
-   that it shows you where a sentence came from, a fabricated screenshot would
-   be the worst possible first impression.
+   there are none yet. The photography is product imagery (unbranded capsules,
+   no text, no packs), and the one diagram draws the mechanism rather than
+   imitating a screen.
 
-   🚨 NO SCROLL ANIMATION, DELIBERATELY. Everything is visible in the first
-   painted frame. A page that parks its sections at opacity:0 waiting for an
-   observer shows a shared link, a preview card and a slow connection nothing
-   at all, and this audience includes people on old phones. The page reads
-   modern through contrast, type and space instead, which cannot fail to
-   load. */
+   🚨 NOTHING WAITS ON AN ANIMATION TO APPEAR. Every section is visible in the
+   first painted frame. */
 
-:root { --band: #17120E; --band-ink: #F6F1EA; --band-ink2: #B6A597; --band-rule: rgba(255,255,255,.13); }
-
-.home { max-width: 1140px; margin: 0 auto; padding: 0 26px; }
-
-/* ── A dark band, full bleed. The page opens dark and closes dark, with the
-      substance in the light between: rhythm, rather than one cream surface
-      scrolling past for two thousand pixels. ─────────────────────────────── */
-.band {
-  background: var(--band); color: var(--band-ink); position: relative; overflow: hidden;
+:root {
+  color-scheme: light;
+  --ink: #1D1D1F;
+  --ink2: #6E6E73;
+  --ink3: #86868B;
+  --tile: #F5F5F7;
+  --photo: #F4F4F4;      /* matched to the bottle photograph's own background */
+  --warm: #F1F0EA;       /* matched to the jar photographs */
+  --line: #D2D2D7;
+  --brand: #F26B1D;      /* the app's orange, and the capsules' */
+  --brand-ink: #C2500F;  /* same hue, dark enough for small text on white */
 }
-.band::before {   /* one soft ember behind the headline, not a gradient wash */
-  content: ""; position: absolute; inset: -40% 30% 40% -20%;
-  background: radial-gradient(50% 50% at 30% 60%, rgba(196,85,26,.30), transparent 70%);
-  pointer-events: none;
-}
-.band > * { position: relative; }
 
-/* ── Masthead ─────────────────────────────────────────────────────────────── */
-.nav {
-  max-width: 1140px; margin: 0 auto; padding: 26px;
-  display: flex; align-items: center; justify-content: space-between;
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  margin: 0; background: #FFFFFF; color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, system-ui, sans-serif;
+  font-size: 17px; line-height: 1.47; letter-spacing: -.022em;
+  -webkit-font-smoothing: antialiased;
 }
-.mark { font-weight: 800; letter-spacing: -.035em; font-size: 19px; color: var(--band-ink); text-decoration: none; }
-.mark span { color: #F0913F; }
-.nav-links { display: flex; gap: 22px; font-size: 14px; }
-.nav-links a { color: var(--band-ink2); text-decoration: none; }
-.nav-links a:hover { color: var(--band-ink); }
+img { max-width: 100%; display: block; }
+a { color: var(--brand-ink); text-decoration: none; }
+a:hover { text-decoration: underline; }
+:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; border-radius: 6px; }
+
+.wrap { max-width: 1024px; margin: 0 auto; padding: 0 22px; }
+
+/* ── The bar: translucent, sticky, 52px — the Apple global nav, quieter ───── */
+.bar {
+  position: sticky; top: 0; z-index: 10;
+  background: rgba(255,255,255,.78);
+  -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid rgba(0,0,0,.08);
+}
+.bar .wrap { height: 52px; display: flex; align-items: center; justify-content: space-between; gap: 18px; }
+.logo { display: flex; align-items: center; gap: 9px; color: var(--ink); font-weight: 600; font-size: 17px; letter-spacing: -.02em; }
+.logo:hover { text-decoration: none; }
+.logo svg { flex: none; }
+.bar nav { display: flex; gap: 26px; font-size: 13px; }
+.bar nav a { color: var(--ink); opacity: .82; }
+.bar nav a:hover { opacity: 1; text-decoration: none; }
+@media (max-width: 640px) { .bar nav a.hide-sm { display: none; } }
 
 /* ── Hero ─────────────────────────────────────────────────────────────────── */
-.hero { max-width: 1140px; margin: 0 auto; padding: 74px 26px 96px; }
-@media (min-width: 900px) { .hero { padding: 118px 26px 132px; } }
-.eyebrow {
-  font-family: ui-monospace, Menlo, monospace; font-size: 11.5px; letter-spacing: .15em;
-  text-transform: uppercase; color: #F0913F; margin: 0 0 24px;
-}
+.hero { background: var(--photo); text-align: center; overflow: hidden; }
+.hero .wrap { padding-top: 64px; }
+.eyebrow { font-size: 19px; font-weight: 600; color: var(--brand-ink); margin: 0 0 6px; letter-spacing: -.01em; }
 .hero h1 {
-  font-size: clamp(52px, 11vw, 124px); line-height: .92; letter-spacing: -.05em;
-  font-weight: 800; margin: 0 0 26px; color: var(--band-ink); text-wrap: balance;
+  font-size: clamp(48px, 9vw, 96px); line-height: 1.02; font-weight: 700;
+  letter-spacing: -.045em; margin: 0 0 14px; text-wrap: balance;
 }
-.hero .lede {
-  font-size: clamp(18px, 2.1vw, 23px); line-height: 1.45; color: var(--band-ink2);
-  margin: 0 0 34px; max-width: 30ch;
+.hero .lede { font-size: clamp(21px, 2.6vw, 28px); line-height: 1.25; color: var(--ink); font-weight: 400; margin: 0 auto 26px; max-width: 26ch; letter-spacing: -.02em; }
+.ctas { display: flex; gap: 22px; justify-content: center; align-items: center; flex-wrap: wrap; font-size: 17px; }
+.soon {
+  display: inline-flex; align-items: center; gap: 8px; padding: 11px 22px; border-radius: 999px;
+  background: var(--ink); color: #fff; font-size: 15px; font-weight: 500; letter-spacing: -.01em;
 }
-.pill {
-  display: inline-flex; align-items: center; gap: 10px; padding: 11px 19px;
-  border: 1px solid var(--band-rule); border-radius: 999px; background: rgba(255,255,255,.045);
-  font-size: 14px; color: var(--band-ink2);
+.soon svg { width: 15px; height: 15px; }
+.more::after { content: " \203A"; }
+/* display:block is load-bearing: <picture> is inline by default, which ignores
+   the width and lets the 2k bottle render 1300px tall. The mask feathers the
+   photograph's edges so no rectangle shows against the hero ground. */
+.hero-shot { display: block; margin: 20px auto 0; width: min(520px, 88%); }
+.hero-shot img {
+  width: 100%; height: auto;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 9%, #000 91%, transparent);
+          mask-image: linear-gradient(to right, transparent, #000 9%, #000 91%, transparent);
 }
-.dot { width: 7px; height: 7px; border-radius: 50%; background: #F0913F; flex: none; }
 
 /* ── Sections ─────────────────────────────────────────────────────────────── */
-.section { padding: 92px 0 0; }
-.section:last-of-type { padding-bottom: 4px; }
-.section h2 {
-  font-size: clamp(30px, 5vw, 54px); letter-spacing: -.042em; line-height: 1.0;
-  font-weight: 800; margin: 0 0 16px; color: var(--ink); text-wrap: balance;
+.sec { padding: 104px 0; }
+.sec.tint { background: var(--tile); }
+.sec h2 {
+  font-size: clamp(36px, 5.6vw, 56px); line-height: 1.07; font-weight: 700;
+  letter-spacing: -.04em; margin: 0 0 12px; text-wrap: balance;
 }
-.section .sub { color: var(--ink2); margin: 0 0 44px; max-width: 44ch; font-size: 17.5px; line-height: 1.5; }
+.sec .sub { font-size: clamp(19px, 2.1vw, 24px); line-height: 1.33; color: var(--ink2); margin: 0 0 48px; max-width: 34ch; letter-spacing: -.02em; }
+.center { text-align: center; }
+.center .sub { margin-left: auto; margin-right: auto; }
 
-/* ── What you can photograph. No card chrome: the icon and the words are the
-      object, and four bordered boxes in a row is the look this page is trying
-      not to have. ────────────────────────────────────────────────────────── */
-.things { display: grid; gap: 40px 28px; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
-.thing svg { display: block; margin: 0 0 16px; color: var(--brand); }
-.thing span { font-size: 16.5px; font-weight: 650; color: var(--ink); letter-spacing: -.01em; }
-.thing p { margin: 4px 0 0; font-size: 14.5px; color: var(--ink3); }
+/* Bento: one big photo tile, four small icon tiles. */
+.bento { display: grid; gap: 18px; grid-template-columns: 1fr; }
+@media (min-width: 820px) { .bento { grid-template-columns: 1.15fr 1fr; } }
+.tile { background: var(--tile); border-radius: 28px; overflow: hidden; }
+.tile.photo { background: var(--warm); display: flex; align-items: center; justify-content: center; }
+.tile.photo img { width: 100%; height: 100%; object-fit: cover; aspect-ratio: 1 / 1; }
+.tile.photo.wide img { aspect-ratio: 4 / 3; }
+.minis { display: grid; gap: 18px; grid-template-columns: 1fr 1fr; }
+.mini { padding: 26px 22px; display: flex; flex-direction: column; justify-content: space-between; min-height: 190px; }
+.mini .ico { width: 44px; height: 44px; border-radius: 12px; background: #fff; display: grid; place-items: center; color: var(--brand); box-shadow: 0 1px 2px rgba(0,0,0,.06); }
+.mini b { display: block; font-size: 21px; line-height: 1.2; font-weight: 600; letter-spacing: -.025em; margin-top: 18px; }
+.mini span { display: block; font-size: 15px; color: var(--ink2); margin-top: 4px; }
 
-/* ── The mechanism diagram ────────────────────────────────────────────────── */
-.diagram { max-width: 640px; }
-.diagram svg { display: block; width: 100%; height: auto; }
+/* The mechanism, drawn. */
+.figure { background: #fff; border-radius: 28px; padding: clamp(24px, 5vw, 56px); max-width: 860px; margin: 0 auto; box-shadow: 0 2px 30px rgba(0,0,0,.05); }
+.figure svg { width: 100%; height: auto; display: block; }
+.steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; max-width: 860px; margin: 26px auto 0; text-align: center; }
+.steps div { font-size: 15px; color: var(--ink2); }
+.steps b { display: block; color: var(--ink); font-size: 17px; font-weight: 600; margin-bottom: 2px; }
+@media (max-width: 560px) { .steps { grid-template-columns: 1fr; } }
 
-/* ── Languages: real words, as the graphic ────────────────────────────────── */
-.langs { display: flex; flex-wrap: wrap; gap: 12px 14px; max-width: 820px; align-items: center; }
+/* Split: words one side, photograph the other. */
+.split { display: grid; gap: 48px; align-items: center; grid-template-columns: 1fr; }
+@media (min-width: 820px) { .split { grid-template-columns: 1fr 1fr; gap: 64px; } .split.flip > :first-child { order: 2; } }
+.split .tile img { width: 100%; height: auto; }
+
+.langs { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
 .langs b {
-  font-weight: 640; font-size: clamp(20px, 2.8vw, 32px); letter-spacing: -.025em;
-  color: var(--ink); line-height: 1.3;
+  font-weight: 500; font-size: 19px; letter-spacing: -.01em; line-height: 1;
+  padding: 11px 16px; border-radius: 999px; background: #fff; border: 1px solid var(--line); color: var(--ink);
 }
-.langs b:nth-of-type(3n) { color: var(--brand); }
-/* nth-OF-TYPE, not nth-child: the middots between the words are <i> elements,
-   so nth-child counted them too and the accent landed on a different word than
-   intended — scattered rather than rhythmic. Of-type counts only the words. */
-.langs i { font-style: normal; color: var(--rule); font-size: 22px; }
-.langs .more { color: var(--ink3); font-size: 15px; }
+.langs b.on { background: var(--brand); border-color: var(--brand); color: #fff; }
+.langs i { font-style: normal; font-size: 15px; color: var(--ink3); align-self: center; padding-left: 4px; }
 
-/* ── Refusals, on the closing dark band ───────────────────────────────────── */
-.closing { margin-top: 108px; padding: 84px 0 92px; }
-.closing h2 { color: var(--band-ink); font-size: clamp(30px, 5vw, 54px); letter-spacing: -.042em; line-height: 1; margin: 0 0 16px; font-weight: 800; }
-.closing .sub { color: var(--band-ink2); margin: 0 0 48px; max-width: 44ch; font-size: 17.5px; }
-.nots { display: grid; gap: 0; }
-.not { padding: 26px 0; border-top: 1px solid var(--band-rule); display: grid; grid-template-columns: 30px 1fr; gap: 16px; align-items: baseline; }
-.not:last-child { border-bottom: 1px solid var(--band-rule); }
-.not .x { color: #F0913F; font-weight: 700; font-size: 16px; }
-.not b { display: block; color: var(--band-ink); font-weight: 660; font-size: clamp(17px, 2vw, 21px); letter-spacing: -.02em; margin-bottom: 5px; }
-.not span { color: var(--band-ink2); font-size: 16px; line-height: 1.5; }
+.nots { list-style: none; margin: 0; padding: 0; display: grid; gap: 22px; }
+.nots li { display: grid; grid-template-columns: 34px 1fr; gap: 14px; align-items: start; }
+.nots .x { width: 34px; height: 34px; border-radius: 50%; background: rgba(242,107,29,.12); color: var(--brand-ink); display: grid; place-items: center; font-size: 15px; font-weight: 700; }
+.nots b { display: block; font-size: 19px; font-weight: 600; letter-spacing: -.02em; }
+.nots span { display: block; font-size: 16px; color: var(--ink2); margin-top: 2px; }
 
 /* ── Footer ───────────────────────────────────────────────────────────────── */
-.foot {
-  max-width: 1140px; margin: 0 auto; padding: 30px 26px 64px;
-  display: flex; flex-wrap: wrap; gap: 12px 26px; align-items: center;
-  color: var(--band-ink2); font-size: 13.5px; border-top: 1px solid var(--band-rule);
-}
-.foot a { color: var(--band-ink2); text-decoration: none; border-bottom: 1px solid var(--band-rule); }
-.foot a:hover { color: #F0913F; border-color: #F0913F; }
-.foot .spacer { flex: 1 1 auto; }
-
-@media (prefers-reduced-motion: no-preference) {
-  a, .thing svg { transition: color .16s ease, border-color .16s ease; }
-}
+.foot { background: var(--tile); border-top: 1px solid var(--line); font-size: 12px; color: var(--ink3); letter-spacing: -.01em; }
+.foot .wrap { padding-top: 22px; padding-bottom: 34px; display: flex; flex-wrap: wrap; gap: 10px 22px; justify-content: space-between; }
+.foot a { color: var(--ink2); }
+.foot .links { display: flex; gap: 18px; }
+.foot p { margin: 0; }
