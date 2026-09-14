@@ -1,11 +1,11 @@
 <!doctype html><html lang="en-AU"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>PharmaSnap.AI · Your medicines, explained</title>
-<meta name="description" content="Photograph a medicine, pharmacy label or blood test and hear it explained in 29 languages. Every number has a source. Made in Australia.">
+<meta name="description" content="Photograph a medicine, pharmacy label or blood test, then talk it through in 29 languages. Your medicines and health in one place. Every number has a source. Made in Australia.">
 <meta name="theme-color" content="#F4F4F4">
 <meta name="color-scheme" content="light">
 <meta property="og:title" content="PharmaSnap.AI · Your medicines, explained">
-<meta property="og:description" content="Photograph a medicine, pharmacy label or blood test and hear it explained in 29 languages. Every number has a source. Made in Australia.">
+<meta property="og:description" content="Photograph a medicine, pharmacy label or blood test, then talk it through in 29 languages. Your medicines and health in one place. Every number has a source. Made in Australia.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://pharmasnap.app/">
 <meta property="og:image" content="https://pharmasnap.app/img/og.jpg">
@@ -55,7 +55,7 @@
       <p class="eyebrow">PharmaSnap.AI</p>
       <h1 id="hero-title">Point. Listen.</h1>
       <!-- "29 languages", not "your language": Samoan is shown but has no voice. -->
-      <p class="lede">Photograph a medicine, <span class="nw">pharmacy label</span> or <span class="nw">blood test</span>. Hear it explained in <span class="nw">29 languages</span>, then ask questions.</p>
+      <p class="lede">Photograph a medicine, <span class="nw">pharmacy label</span> or <span class="nw">blood test</span>. Then talk it through, in <span class="nw">29 languages</span>.</p>
       <div class="ctas">
         <span class="soon">Coming to the App Store
         </span>
@@ -87,7 +87,9 @@
              placeholder so the render is not fetched twice (the crops load it);
              the <img> stays for its alt text. -->
         <div class="tile t-lineup s12">
-          <p class="lead">Up to four at once.</p>
+          <!-- TRUE: packs are matched to the Australian register and a name match
+               no longer vouches for the wrong strength (sibling-strength gate). -->
+          <p class="lead">The exact medicine, down to the strength.</p>
           <picture>
             <source media="(max-width: 734px)" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">
             <img class="ph" src="/img/lineup-2k.webp"
@@ -266,7 +268,7 @@
           </svg>
           <div class="sum-cap">
             <h3>Put it all together.</h3>
-            <p>Photograph your medicines and blood test together. See how they connect.</p>
+            <p>Photograph your medicines and blood test together, up to four at once. See how they connect.</p>
             <ul class="sum-list" role="list">
               <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4v16m0 0l-3.5-3.5M8 20l3.5-3.5M16 20V4m0 0l-3.5 3.5M16 4l3.5 3.5"/></svg>Results your lab marked high or low.</li>
               <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14a4.2 4.2 0 0 0 6 0l3-3a4.2 4.2 0 0 0-6-6l-1 1"/><path d="M14 10a4.2 4.2 0 0 0-6 0l-3 3a4.2 4.2 0 0 0 6 6l1-1"/></svg>What your medicine&rsquo;s label says about them.</li>
@@ -388,7 +390,8 @@
        ground and would read as a pale slab here. -->
   <section class="band dark" aria-labelledby="h-ask">
     <div class="wrap">
-      <h2 class="head" id="h-ask">Then ask.</h2>
+      <h2 class="head" id="h-ask">Ask it anything.</h2>
+      <p class="head-sub">A real conversation about your medicines, your results and your health.</p>
 
       <div class="bento">
 
@@ -397,7 +400,7 @@
         <div class="tile t-ask s5">
           <div class="cap">
             <h3>Speak or type.</h3>
-            <p>It remembers the conversation.</p>
+            <p>It asks what it needs and remembers what you said.</p>
           </div>
           <div class="ask">
             <p class="bubble"><span class="sr">Example question: </span>What is paracetamol used for?</p>
@@ -430,6 +433,56 @@
                 <rect x="276" y="27" width="6" height="10" rx="3"/>
               </svg>
             </div>
+          </div>
+        </div>
+
+        <!-- My health, drawn. TRUE (src/screens/HealthScreen.tsx, lang.ts healthLede
+             "What I know about you, and what I use when you ask me something"):
+             medicines, allergies and reactions, conditions and readings in one
+             record with a timeline, filled from scans and from what the person
+             says (saved only on their "Yes"). No legible text, no app screen:
+             four rows of icons on a timeline, joined to an answer. -->
+        <div class="tile t-me s7">
+          <div class="cap">
+            <h3>Your health in one place.</h3>
+            <p>Medicines, allergies, conditions and readings, from what you scan and tell it. Ask about any of it.</p>
+          </div>
+          <div class="me-box">
+            <svg class="me" viewBox="0 0 720 360" aria-hidden="true" focusable="false">
+              <path class="spine" d="M96 52V308"/>
+              <g class="me-row r1" transform="translate(0 52)">
+                <circle class="dot on" cx="96" cy="0" r="7"/>
+                <rect class="card" x="128" y="-30" width="330" height="60" rx="16"/>
+                <g transform="translate(166 0) rotate(-35)"><rect x="-15" y="-6.5" width="30" height="13" rx="6.5" fill="#F26B1D"/><path d="M0 -6.5h8.5a6.5 6.5 0 0 1 0 13H0z" fill="#F5F5F7"/></g>
+                <rect class="bar1" x="200" y="-10" width="150" height="9" rx="4.5"/><rect class="bar2" x="200" y="6" width="96" height="7" rx="3.5"/>
+              </g>
+              <g class="me-row r2" transform="translate(0 137)">
+                <circle class="dot" cx="96" cy="0" r="7"/>
+                <rect class="card" x="128" y="-30" width="330" height="60" rx="16"/>
+                <path d="M166 -14l15 26h-30z" fill="none" stroke="#F26B1D" stroke-width="2.6" stroke-linejoin="round"/><path d="M166 -4v8" stroke="#F26B1D" stroke-width="2.6" stroke-linecap="round"/>
+                <rect class="bar1" x="200" y="-10" width="120" height="9" rx="4.5"/><rect class="bar2" x="200" y="6" width="80" height="7" rx="3.5"/>
+              </g>
+              <g class="me-row r3" transform="translate(0 222)">
+                <circle class="dot" cx="96" cy="0" r="7"/>
+                <rect class="card" x="128" y="-30" width="330" height="60" rx="16"/>
+                <path d="M166 13s-14-8.6-14-19.6a8 8 0 0 1 14-5.3a8 8 0 0 1 14 5.3C180 4.4 166 13 166 13z" fill="none" stroke="#F26B1D" stroke-width="2.6" stroke-linejoin="round"/>
+                <rect class="bar1" x="200" y="-10" width="136" height="9" rx="4.5"/><rect class="bar2" x="200" y="6" width="70" height="7" rx="3.5"/>
+              </g>
+              <g class="me-row r4" transform="translate(0 307)">
+                <circle class="dot" cx="96" cy="0" r="7"/>
+                <rect class="card" x="128" y="-30" width="330" height="60" rx="16"/>
+                <path d="M150 1h8l5-11l7 21l5-10h9" fill="none" stroke="#F26B1D" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+                <rect class="bar1" x="200" y="-10" width="110" height="9" rx="4.5"/><rect class="bar2" x="200" y="6" width="88" height="7" rx="3.5"/>
+              </g>
+              <!-- The record feeds the answer. -->
+              <path class="link" pathLength="1" d="M458 52C512 52 506 150 538 158M458 222C508 222 506 176 538 170" fill="none" stroke="#F26B1D" stroke-width="2.2" stroke-linecap="round"/>
+              <g class="answer">
+                <path d="M560 118h118a22 22 0 0 1 22 22v44a22 22 0 0 1-22 22h-96l-22 18v-18a22 22 0 0 1-22-22v-44a22 22 0 0 1 22-22z" transform="translate(-22 0)" fill="rgba(242,107,29,.16)" stroke="#F26B1D" stroke-width="2"/>
+                <rect x="560" y="140" width="112" height="9" rx="4.5" fill="#F5F5F7" opacity=".85"/>
+                <rect x="560" y="158" width="92" height="8" rx="4" fill="#F5F5F7" opacity=".55"/>
+                <rect x="560" y="175" width="104" height="8" rx="4" fill="#F5F5F7" opacity=".55"/>
+              </g>
+            </svg>
           </div>
         </div>
 
@@ -468,9 +521,12 @@
         </div>
 
         <!-- Emergency. Fixed safety wording, no AI involved. -->
-        <div class="tile t-sos s12">
+        <div class="tile t-sos s5">
           <span class="sos-ico" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24"><path d="M9 3h6v6h6v6h-6v6H9v-6H3V9h6z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></span>
-          <p>Emergency questions get safety steps first.</p>
+          <div class="sos-txt">
+            <p>Emergency questions get safety steps first.</p>
+            <p class="sos-sub">Straight away, with 000 and Poisons Information on 13 11 26.</p>
+          </div>
         </div>
 
       </div>
@@ -487,7 +543,7 @@
           <path d="M16 11h7.6a5.4 5.4 0 0 1 0 10.8H16z" fill="#fff" stroke="#D6D6DB" stroke-width=".5"/>
         </g>
       </svg>
-      <h2 id="h-close">Your medicines, explained.</h2>
+      <h2 id="h-close">Point. Listen. Ask.</h2>
       <p class="soon-quiet">Coming to the App Store</p>
     </div>
   </section>
