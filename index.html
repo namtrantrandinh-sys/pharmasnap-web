@@ -1,11 +1,11 @@
 <!doctype html><html lang="en-AU"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>PharmaSnap AI · Your medicines, explained</title>
-<meta name="description" content="Photograph a medicine, pharmacy label or blood test, then talk it through in 29 languages. Your medicines and health in one place. Every number has a source. Made in Australia.">
+<title>PharmaSnap AI · Your health, explained</title>
+<meta name="description" content="Photograph a medicine, a label, a result or a rash, then talk it through in 29 languages. Your medicines and your health in one place. Every number has a source. Made in Australia.">
 <meta name="theme-color" content="#F4F4F4">
 <meta name="color-scheme" content="light">
-<meta property="og:title" content="PharmaSnap AI · Your medicines, explained">
-<meta property="og:description" content="Photograph a medicine, pharmacy label or blood test, then talk it through in 29 languages. Your medicines and health in one place. Every number has a source. Made in Australia.">
+<meta property="og:title" content="PharmaSnap AI · Your health, explained">
+<meta property="og:description" content="Photograph a medicine, a label, a result or a rash, then talk it through in 29 languages. Your medicines and your health in one place. Every number has a source. Made in Australia.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://pharmasnap.app/">
 <meta property="og:image" content="https://pharmasnap.app/img/og.jpg">
@@ -55,7 +55,11 @@
       <p class="eyebrow">PharmaSnap AI</p>
       <h1 id="hero-title">Point. Listen.</h1>
       <!-- "29 languages", not "your language": Samoan is shown but has no voice. -->
-      <p class="lede">Photograph a medicine, <span class="nw">pharmacy label</span> or <span class="nw">blood test</span>. Then talk it through, in <span class="nw">29 languages</span>.</p>
+      <!-- The HERO HEADLINE above is the founder's and is untouched. The lede
+           is the line the note at the top of this section says may change, and
+           it named three things to photograph while the app also reads a rash
+           and answers with no photograph at all. -->
+      <p class="lede">Photograph a medicine, a <span class="nw">pharmacy label</span>, a <span class="nw">blood test</span> or a rash. Then talk it through, in <span class="nw">29 languages</span>.</p>
       <div class="ctas">
         <span class="soon">Coming to the App Store
         </span>
@@ -400,7 +404,16 @@
         <div class="tile t-ask s5">
           <div class="cap">
             <h3>Speak or type.</h3>
-            <p>It asks what it needs and remembers what you said.</p>
+            <!-- 🚨 CLAIM ACCURACY, FENCE 4 (2026-09-17). This tile said "It
+                 asks what it needs and remembers what you said." The second
+                 half is true today: the conversation carries its subject, the
+                 corrections and what the person volunteered. The FIRST half is
+                 not reliably true yet: the server's retrieval ladder still
+                 ends several turns in a full stop rather than a question
+                 (rewrite-plan P1-5, P1-9), and this page is not allowed to
+                 describe the roadmap. Restore the sentence in the same commit
+                 that lands those, and not before. -->
+            <p>It remembers what you said, so you never start again from the top.</p>
           </div>
           <div class="ask">
             <p class="bubble"><span class="sr">Example question: </span>What is paracetamol used for?</p>
