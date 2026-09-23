@@ -1,10 +1,10 @@
 <!doctype html><html lang="en-AU"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>PharmaSnap AI · Your health, explained</title>
+<title>PharmaSNAP AI · Your health, explained</title>
 <meta name="description" content="Photograph a medicine, a label, a result or a rash, then talk it through in 29 languages. Your medicines and your health in one place. Every number has a source. Made in Australia.">
-<meta name="theme-color" content="#F4F4F4">
+<meta name="theme-color" content="#FFFFFF">
 <meta name="color-scheme" content="light">
-<meta property="og:title" content="PharmaSnap AI · Your health, explained">
+<meta property="og:title" content="PharmaSNAP AI · Your health, explained">
 <meta property="og:description" content="Photograph a medicine, a label, a result or a rash, then talk it through in 29 languages. Your medicines and your health in one place. Every number has a source. Made in Australia.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://pharmasnap.app/">
@@ -14,12 +14,11 @@
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Point. Listen. A clear bottle of orange capsules on a light grey background.">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<!-- No href on purpose: browsers without imagesrcset then skip the preload
-     instead of fetching the 2k bottle on a phone. Sizes match the <img>. -->
-<link rel="preload" as="image" fetchpriority="high" imagesrcset="/img/bottle-1k.webp 768w, /img/bottle-2k.webp 1536w" imagesizes="(max-width: 600px) 88vw, 520px">
+<link rel="preload" as="image" href="/img/bottle-1k.webp" type="image/webp" media="(max-width: 734px)" fetchpriority="high">
+<link rel="preload" as="image" href="/img/bottle-2k.webp" type="image/webp" media="(min-width: 735px)" fetchpriority="high">
 <link rel="stylesheet" href="/_home.css">
 </head><body>
 
@@ -27,15 +26,9 @@
 
 <header class="bar">
   <div class="bar-in">
-    <a class="logo" href="/" aria-label="PharmaSnap AI home">
-      <!-- The mark: one capsule, the app's orange and white. -->
-      <svg width="24" height="24" viewBox="0 0 32 32" aria-hidden="true">
-        <g transform="rotate(-40 16 16)">
-          <rect x="4" y="11" width="24" height="10" rx="5" fill="#F26B1D"/>
-          <path d="M16 11h7a5 5 0 0 1 0 10h-7z" fill="#fff" stroke="#E7E7EA" stroke-width=".8"/>
-        </g>
-      </svg>
-      <span>PharmaSnap AI</span>
+    <a class="logo" href="/" aria-label="PharmaSNAP AI home">
+      <img class="logo-mark" src="/img/pharmasnap-logo.png" width="512" height="512" alt="">
+      <span class="wordmark">Pharma<span class="wordmark-snap">SNAP</span> <span class="wordmark-ai">AI</span></span>
     </a>
     <nav aria-label="Sections">
       <a class="hide-sm" href="#photograph">What to photograph</a>
@@ -48,30 +41,29 @@
 
 <main id="main">
 
-  <!-- HERO. The founder signed this off: centred headline, black pill, the
-       bottle render on #F4F4F4. Only the lede and spacing may change. -->
+  <!-- HERO. Existing copy and the medicine render are retained. The clean
+       white field keeps the orange capsules as the single dominant visual. -->
   <section class="hero" aria-labelledby="hero-title">
     <div class="wrap">
-      <p class="eyebrow">PharmaSnap AI</p>
-      <h1 id="hero-title">Point. Listen.</h1>
-      <!-- "29 languages", not "your language": Samoan is shown but has no voice. -->
-      <!-- The HERO HEADLINE above is the founder's and is untouched. The lede
-           is the line the note at the top of this section says may change, and
-           it named three things to photograph while the app also reads a rash
-           and answers with no photograph at all. -->
-      <p class="lede">Photograph a medicine, a <span class="nw">pharmacy label</span>, a <span class="nw">blood test</span> or a rash. Then talk it through, in <span class="nw">29 languages</span>.</p>
-      <div class="ctas">
-        <span class="soon">Coming to the App Store
-        </span>
-        <a class="more" href="#photograph">See how it works</a>
+      <div class="hero-copy">
+        <h1 id="hero-title">Point. Listen.</h1>
+        <!-- "29 languages", not "your language": Samoan is shown but has no voice. -->
+        <p class="lede">Photograph a medicine, a <span class="nw">pharmacy label</span>, a <span class="nw">blood test</span> or a rash. Then talk it through, in <span class="nw">29 languages</span>.</p>
+        <div class="ctas">
+          <span class="soon">Coming to the App Store
+          </span>
+          <a class="more" href="#photograph">See how it works</a>
+        </div>
       </div>
-      <picture class="hero-shot">
-        <img src="/img/bottle-2k.webp"
-             srcset="/img/bottle-1k.webp 768w, /img/bottle-2k.webp 1536w"
-             sizes="(max-width: 600px) 88vw, 520px"
-             width="1536" height="2048" fetchpriority="high"
-             alt="A clear bottle filled with orange capsules, with more capsules floating around it.">
-      </picture>
+      <div class="hero-media">
+        <picture class="hero-shot">
+          <img src="/img/bottle-2k.webp"
+               srcset="/img/bottle-1k.webp 768w, /img/bottle-2k.webp 1536w"
+               sizes="(max-width: 734px) 92vw, (max-width: 1068px) 84vw, 840px"
+               width="1536" height="2048" fetchpriority="high" decoding="async"
+               alt="A clear bottle filled with orange capsules, with more capsules floating around it.">
+        </picture>
+      </div>
     </div>
   </section>
 
@@ -390,14 +382,26 @@
     </div>
   </div>
 
-  <!-- THE DARK BAND. Drawn graphics only: every photograph is lit on a light
-       ground and would read as a pale slab here. -->
+  <!-- THE ORANGE CONVERSATION BAND. The scan-to-understanding illustration is
+       introduced here, in the page's second half, above the existing tiles. -->
   <section class="band dark" aria-labelledby="h-ask">
     <div class="wrap">
       <h2 class="head" id="h-ask">Ask it anything.</h2>
       <p class="head-sub">A real conversation about your medicines, your results and your health.</p>
 
       <div class="bento">
+
+        <div class="tile scan-feature s12">
+          <picture>
+            <source type="image/webp"
+                    srcset="/img/scan-understand-1k.webp 768w, /img/scan-understand-2k.webp 1536w"
+                    sizes="(max-width: 734px) calc(100vw - 32px), min(1100px, 87.5vw)">
+            <img src="/img/scan-understand-2k.webp"
+                 width="1536" height="1024" loading="lazy" decoding="async"
+                 alt="Medicine packaging and capsules passing through an orange scan plane, with structured information cards emerging on the other side.">
+          </picture>
+          <span class="scan-line" aria-hidden="true"></span>
+        </div>
 
         <!-- Ask. A question bubble and a voice glyph. No phone, no keyboard,
              no invented answer. -->
@@ -416,6 +420,10 @@
             <p>It remembers what you said, so you never start again from the top.</p>
           </div>
           <div class="ask">
+            <div class="ask-orb" aria-hidden="true">
+              <span class="orb-aura"></span>
+              <img src="/img/orb-idle.png" width="576" height="576" loading="lazy" decoding="async" alt="">
+            </div>
             <p class="bubble"><span class="sr">Example question: </span>What is paracetamol used for?</p>
             <div class="voice" aria-hidden="true">
               <span class="mic"><svg width="22" height="22" viewBox="0 0 24 24"><rect x="8.5" y="2.5" width="7" height="12" rx="3.5" fill="#fff"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3.5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></span>
@@ -550,12 +558,7 @@
        Apple glyph. -->
   <section class="closing" aria-labelledby="h-close">
     <div class="wrap">
-      <svg class="mark" width="72" height="72" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
-        <g transform="rotate(-40 16 16)">
-          <rect x="3" y="11" width="26" height="10.8" rx="5.4" fill="#F26B1D"/>
-          <path d="M16 11h7.6a5.4 5.4 0 0 1 0 10.8H16z" fill="#fff" stroke="#D6D6DB" stroke-width=".5"/>
-        </g>
-      </svg>
+      <img class="mark" src="/img/pharmasnap-logo.png" width="512" height="512" alt="">
       <h2 id="h-close">Point. Listen. Ask.</h2>
       <p class="soon-quiet">Coming to the App Store</p>
     </div>
