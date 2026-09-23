@@ -1,0 +1,34 @@
+<!doctype html><html lang="en-AU"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Explore PharmaSNAP AI · Design previews</title><meta name="description" content="Explore sample conversation and document screens for PharmaSNAP AI. No microphone, camera or personal health information is used.">
+<meta name="theme-color" content="#fffaf5"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="/_preview.css"><script src="/preview.js" defer></script></head>
+<body class="pfs-demo">
+<header class="demo-header"><a class="demo-brand" href="/"><img src="/img/pharmasnap-logo.png" width="42" height="42" alt=""><span>Pharma<strong>SNAP</strong> AI</span></a><a href="/">Back to the website</a></header>
+<main class="demo-layout">
+  <section class="demo-intro"><span class="demo-kicker">Interactive design preview</span><h1>A little less uncertainty.<br>A clearer conversation.</h1>
+    <p>Try the proposed sphere-led conversation and choose the documents you want to ask about together.</p>
+    <p>Sample screens only. No microphone, camera or health records are used.</p>
+    <details><summary>About this design preview</summary><p>These are not medical answers. Separate answer/voice language choices and the saved-document tray shown here are proposed features, not yet available in the app. No location is accessed.</p></details>
+    <nav class="demo-tabs" aria-label="Preview screens"><a href="#conversation">Conversation</a><a href="#documents">Documents</a></nav>
+    <noscript><p>Turn on JavaScript to try the sample interactions. The preview screens remain available below.</p></noscript>
+  </section>
+  <div class="demo-phone">
+    <div class="demo-top"><span>Pharma<strong>SNAP</strong> AI</span><span>SAMPLE ONLY</span></div>
+    <section id="conversation" aria-labelledby="conversation-title">
+      <div class="demo-orbit"><img src="/img/orb-idle.png" width="196" height="196" alt="The PharmaSNAP AI sphere"></div>
+      <h2 class="demo-status" id="conversation-title">What’s on your mind?</h2>
+      <div class="demo-transcript" aria-live="polite">Try a sample conversation to see the listening, thinking and speaking states. No microphone or audio is used.</div>
+      <div class="demo-language"><label>Answer language<select id="answer-language"><option value="en">English</option><option value="vi">Tiếng Việt</option></select></label><label>Spoken language<select id="voice-language"><option value="en">English</option><option value="vi">Tiếng Việt</option></select></label></div>
+      <button class="demo-primary" id="play-conversation">Try sample conversation</button><button class="demo-secondary" id="stop-conversation" hidden>Stop preview</button>
+      <p class="demo-note" id="language-note">Language controls are a design preview. No speech is generated.</p>
+    </section>
+    <section id="documents" aria-labelledby="documents-title">
+      <h2 class="demo-doc-title" id="documents-title">Your health.<br>The whole picture.</h2>
+      <div class="demo-doc-hero"><div class="demo-doc-art" aria-hidden="true"></div><strong>You choose what to include.</strong><p class="demo-note">Select sample items for one question. Nothing is uploaded or saved.</p></div>
+      <label class="demo-document"><input type="checkbox" name="document" value="Medicine pack" checked><span><strong>Medicine pack</strong><small>Sample item · exact product to verify</small></span></label>
+      <label class="demo-document"><input type="checkbox" name="document" value="Blood test" checked><span><strong>Blood test</strong><small>Sample document · pathology</small></span></label>
+      <label class="demo-document"><input type="checkbox" name="document" value="Hospital report"><span><strong>Hospital report</strong><small>Sample document · discharge summary</small></span></label>
+      <p class="demo-note" id="document-count" aria-live="polite">2 sample items selected</p>
+      <button class="demo-primary" id="ask-documents">Ask about selected items</button>
+    </section>
+  </div>
+</main></body></html>
