@@ -368,12 +368,19 @@
                  alt="A scatter of plain round white tablets with a single orange tablet among them.">
           </div>
           <div class="lim-txt">
+            <!-- TRUE CLAIMS ONLY (checked in code 2026-10-05). The fourth line said
+                 "Show ads or track you." A pharmacy can pay for a labelled sponsored
+                 slot in the nearby list (migration 00004, PharmacistScreen), so "no
+                 ads" was false. What holds is no tracking: app.json declares
+                 NSPrivacyTracking false and there is no ad or analytics SDK.
+                 consentTruth.test.ts fails if "Show ads" comes back while the slot
+                 exists. -->
             <h2>What it will not do.</h2>
             <ul class="nots" role="list">
               <li><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.2"/><path d="M5.5 5.5l13 13"/></svg>Name a loose tablet.</li>
               <li><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.2"/><path d="M5.5 5.5l13 13"/></svg>Diagnose you.</li>
               <li><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.2"/><path d="M5.5 5.5l13 13"/></svg>Promise a pharmacy has stock.</li>
-              <li><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.2"/><path d="M5.5 5.5l13 13"/></svg>Show ads or track you.</li>
+              <li><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.2"/><path d="M5.5 5.5l13 13"/></svg>Track you across other apps.</li>
             </ul>
             <p class="lim-p">It describes. <b>A doctor or pharmacist decides.</b></p>
           </div>
@@ -592,7 +599,7 @@
 <footer class="foot">
   <div class="wrap">
     <p>LORDLY PTY LTD · ABN 19 697 848 132 · Made in Australia. Information, not medical advice.</p>
-    <nav aria-label="Legal"><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="mailto:support@lordly.com.au">Contact</a></nav>
+    <nav aria-label="Legal"><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="/support">Support</a><a href="mailto:support@lordly.com.au">Contact</a></nav>
   </div>
 </footer>
 
