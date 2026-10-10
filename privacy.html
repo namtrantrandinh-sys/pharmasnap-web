@@ -2,7 +2,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Privacy Policy · PharmaSNAP AI</title><link rel="stylesheet" href="/_style.css"></head><body><div class="wrap">
 <h1>Privacy Policy</h1>
-<p class="updated">PharmaSNAP AI · Last updated 8 October 2026</p>
+<p class="updated">PharmaSNAP AI · Last updated 10 October 2026</p>
 
 <p>PharmaSNAP AI is an app that reads medicines and health documents from a photograph and explains
 them, out loud, in your language. It is made by LORDLY PTY LTD in Australia.</p>
@@ -19,7 +19,7 @@ Microsoft Azure is the backup for that voice work and runs the live conversation
 switched on. A pharmacy stock search sends the medicine name and the names of nearby pharmacies. We do
 not save scanned photographs or chosen files in our own storage unless you choose to keep a cabinet
 photo. These companies can hold what they receive for a time under their own rules, as explained
-below. We keep your account, your cabinet, your dose records and what you add to My health until you
+below. We keep your account, your cabinet, your dose records, saved chat text and what you add to My health until you
 delete them. We do not sell personal information. Paid pharmacy placements are labelled as
 sponsored.</p></div>
 
@@ -42,6 +42,18 @@ sponsored.</p></div>
 <tr><td>Purchases: your account identifier and whether you have a subscription. Also a count of how many times your account has asked us to check your subscription in the current minute and the current hour</td><td>To know whether you have a subscription. The count stops one account using up the checks all customers share</td><td>Yes, handled by Apple and RevenueCat. The count is kept with your account until you delete it</td></tr>
 </table>
 
+<h2>Saved conversations</h2>
+<p>Questions, answers, their source references and the text read from a photograph or health document
+are saved privately with your account in Supabase so you can return to a conversation on another
+signed-in device. This can include sensitive health information. We do not save the raw photograph,
+video, PDF or microphone recording in chat history. Temporary media links and reading tokens are
+excluded. Old answers are a record of what was said then, not a fresh check of your health or medicine.</p>
+<p>Open <strong>Saved chats</strong> from Home or a conversation to read, continue or delete a chat.
+Reading saved text does not call an AI model. A new follow-up question or newly generated speech can
+use your AI allowance. Only the relevant, bounded conversation context is sent with a follow-up;
+the full saved history is not sent automatically. Starting a new chat does not include other chats.
+Chats stay until you delete them or delete your account. Storage is limited to 1,000 chats and 50 MB per account, with a 2 MB limit per chat; the app shows a save error rather than silently deleting old chats. Signing out hides them on that device;
+it does not delete them.</p>
 <h2>What we do not keep</h2>
 <h3>The photographs you scan</h3>
 <p>When you photograph a medicine, a pharmacy label or a health document, the picture is sent to our
@@ -91,7 +103,7 @@ store an upload is not a promise of immediate deletion by them.</p>
 <tr><td>Anthropic, in the United States. Our server calls its Claude AI models</td><td>The photographs you scan and the PDF files you choose, with everything printed on them. The questions you type, the text of the questions you say, and what was said earlier in the same conversation. The saved health details and cabinet medicines that bear on your question. For a pharmacy stock search, the medicine name and the names and suburbs of nearby pharmacies</td><td>To read what you sent, write the answer, and search the web when a question or a stock check needs it</td></tr>
 <tr><td>OpenAI, in the United States</td><td>The recording, when you ask a question by voice. The words of an answer, when the app reads it aloud</td><td>To turn your speech into text, and the answer into speech</td></tr>
 <tr><td>Microsoft Azure</td><td>The same recordings and answer words, but only in a version of the app that has been switched to our backup voice service. In the live conversation mode, where it is switched on for an account, the sound from your microphone, streamed from your phone for as long as the conversation is open</td><td>Backup speech, and the live conversation mode</td></tr>
-<tr><td>Supabase, which hosts our server, database and sign-in</td><td>Your email address and account identifier, and your password if you sign in by email. Your cabinet, dose records, My health entries, kept photographs, settings and usage records. Your location passes through for a nearby-pharmacy search and is not saved. Photographs, files, questions and recordings pass through this server on their way to Anthropic and OpenAI. Supabase also sends the account confirmation and password-reset emails, itself or through an email delivery service</td><td>To run the app and keep your account</td></tr>
+<tr><td>Supabase, which hosts our server, database and sign-in</td><td>Your email address and account identifier, and your password if you sign in by email. Your cabinet, dose records, My health entries, saved chat text and source references, kept photographs, settings and usage records. Your location passes through for a nearby-pharmacy search and is not saved. Photographs, files, questions and recordings pass through this server on their way to Anthropic and OpenAI. Supabase also sends the account confirmation and password-reset emails, itself or through an email delivery service</td><td>To run the app and keep your account</td></tr>
 <tr><td>Apple</td><td>Your sign-in, if you use Sign in with Apple. Your subscription purchase and payment</td><td>To sign you in and take payment. We never see your card</td></tr>
 <tr><td>RevenueCat</td><td>Your account identifier and your purchase status</td><td>To tell our server whether your subscription is active</td></tr>
 <tr><td>Public medicine registers: openFDA and RxNav in the United States, and the TGA in Australia</td><td>A medicine identifier only, such as an ingredient name, a product code or a register number. Nothing about you is sent. Most of these lookups are made by our server. When you scan a barcode, your phone asks openFDA about that product code itself. A source link you tap, such as a TGA leaflet page, opens that website from your own phone like any other web link</td><td>To fetch the official documents an answer is built from</td></tr>
