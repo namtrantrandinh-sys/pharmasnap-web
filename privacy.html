@@ -34,7 +34,7 @@ sponsored.</p></div>
 <tr><td>What you add to My health: allergies and reactions, conditions, symptoms, test results, notes, and readings such as blood pressure, blood glucose, weight, heart rate and temperature</td><td>So an answer can take your own health into account. You add these yourself, or the app offers to save something you told it and saves it only if you say yes</td><td>Yes, until you remove the entry or delete your account</td></tr>
 <tr><td>A photograph you choose to save with a cabinet medicine</td><td>So your cabinet shows your box, not a stock photo</td><td>Only if you tick "keep this photo". It is deleted when you delete that medicine or your account</td></tr>
 <tr><td>Photographs you scan, and a PDF file you choose</td><td>To read them and answer your questions about them</td><td>Not saved in our storage. See "What we do not keep"</td></tr>
-<tr><td>Questions you type or say</td><td>To answer them, and to count them against your free allowance</td><td>The words are not saved to your account. A count is kept, and the answer can be kept for a short time. See "Answers we keep for a short time"</td></tr>
+<tr><td>Questions you type or say</td><td>To answer them, and to count them against your free allowance</td><td>The words and answers are saved privately in your chat history until you delete the chat or account. Usage counts and separate short-lived answer caches are also kept. See "Saved conversations" and "Answers we keep for a short time"</td></tr>
 <tr><td>A note of each scan: what kind of thing it was, the medicine's register number or product code, the language, and when</td><td>To count your free reports</td><td>Yes, until you delete your account</td></tr>
 <tr><td>Usage records. For each request: the time, which part of the service handled it, how long it took and what it cost us to run. For some answers, the general topic, such as warnings or pregnancy. For a stock check, a scrambled code for the product. For the live conversation mode, how long it was open</td><td>To apply your allowance and our spending limits, and to see what the service costs. They hold no question text</td><td>Yes, until you delete your account</td></tr>
 <tr><td>Your app settings: language, country, and whether answers are read aloud automatically</td><td>So the app is set up the same way on your next phone</td><td>Yes, until you delete your account</td></tr>
@@ -181,19 +181,21 @@ conclusions about your health as facts about you: only what you added, or agreed
 <p>When the app writes an answer it can keep it, so the same question does not have to be worked out
 twice.</p>
 <ul>
-<li>An answer that used your saved health details, or that belongs to a conversation you are having,
-is kept against your account only, for up to 48 hours. Only your account can be given it again.</li>
+<li>An eligible answer that used your saved health details can be cached against your account only,
+for up to 48 hours. Only your account can be given it again.</li>
 <li>A first answer that used nothing about you (no photograph, no health details, no cabinet and no
 earlier conversation) is kept with no account attached for up to 7 days. Somebody else who asks the
 same question about the same medicine in the same language can be given it.</li>
 <li>A complete answer about a single medicine-pack photograph can be cached for your account only,
-never shared with another account. It expires after one hour and can be reused only within a
-five-minute window when the photograph, question, context and source information still match.
+never shared with another account. This cache expires five minutes after the answer completes,
+and reuse requires the photograph, question, context and source information to match.
 The photograph itself is not saved for this cache. Answers about other photographs are not cached
 this way.</li>
+<li>Eligible exact conversation retries and questions without a linked source can also use a
+five-minute cache for the same account only. They are never shared between users.</li>
 </ul>
-<p>What is kept is the answer. Your question is not stored in words: it is turned into a code that is
-used only to find the answer again. Reports built only from a medicine's public documents, and the
+<p>These caches are separate from saved chat history. A question is converted to a code for cache
+lookup; saved chats separately retain the readable question and answer until you delete them. Reports built only from a medicine's public documents, and the
 spoken audio of sentences read from those documents, are also kept with no account attached, because
 they say nothing about anybody.</p>
 
@@ -205,7 +207,7 @@ paid placement in the app, it is labelled as one, and it is described above.</p>
 <h2>Deleting everything</h2>
 <p>You can delete your account from inside the app: <strong>Profile → Delete my account</strong>. That
 permanently removes your sign-in, your cabinet, your dose records, everything in My health, the
-photographs you kept, your settings, your usage records and any answer kept against your account. You
+photographs you kept, saved chats, your settings, your usage records and any answer cached against your account. You
 can also remove a single medicine or a single My health entry at any time, and removing a medicine
 deletes its dose records and any photograph you kept with it.</p>
 <p>You do not have to give the AI permission to delete your account. If you have not given it, or you
