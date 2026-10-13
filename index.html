@@ -21,7 +21,7 @@
 <link rel="preload" as="image" href="/img/bottle-2k.webp" type="image/webp" media="(min-width: 735px)" fetchpriority="high">
 <link rel="stylesheet" href="/_home.css">
 <link rel="stylesheet" href="/_preview.css">
-<script src="/pharmacy-finder.js" defer></script>
+
 </head><body>
 
 <a class="skip" href="#main">Skip to content</a>
@@ -55,6 +55,7 @@
           </span>
           <a class="more" href="#photograph">See how it works</a>
         </div>
+        <nav class="hero-features" aria-label="Explore app features"><a href="#ingredients">Allergens, gluten &amp; vegan checks</a><a href="#pharmacies">Find nearby pharmacy stock</a></nav>
       </div>
       <div class="hero-media">
         <picture class="hero-shot">
@@ -280,15 +281,15 @@
 
   <section class="ingredients band" id="ingredients" aria-labelledby="h-ingredients">
     <div class="wrap">
-      <p class="ingredient-kicker">Ingredient checker</p>
-      <h2 class="head" id="h-ingredients">Know what’s inside.</h2>
-      <p class="ingredient-intro">Start with a medicine pack or a supplement’s ingredient panel. PharmaSNAP AI helps you understand the ingredients, then ask a clearer question.</p>
+      <p class="ingredient-kicker">Ingredient checker · allergens &amp; dietary needs</p>
+      <h2 class="head" id="h-ingredients">Allergens. Gluten. Vegan.</h2>
+      <p class="ingredient-intro">Photograph the ingredient panel on a food, drink, medicine or supplement. Tell PharmaSNAP what matters to you, and it checks the label and looks up the exact brand and product.</p>
       <div class="ingredient-grid">
-        <article><span class="ingredient-step" aria-hidden="true">01</span><h3>Read the label.</h3><p>See the medicine’s active ingredient and strength, or the ingredients and amounts declared on a supplement panel. Useful when the small print is hard to read.</p></article>
-        <article><span class="ingredient-step" aria-hidden="true">02</span><h3>Spot the overlap.</h3><p>Your medicine cabinet can flag the same active ingredient in more than one medicine, even when the brand names differ. Take that question to your pharmacist.</p></article>
-        <article><span class="ingredient-step" aria-hidden="true">03</span><h3>Ask about an ingredient.</h3><p>Talk through the ingredient names and ask about what is listed. For allergies, sensitivities or ingredients such as gelatine, check the exact product with a pharmacist.</p></article>
+        <article><span class="ingredient-step" aria-hidden="true">01</span><h3>Read the whole panel.</h3><p>See the ingredients, allergen declarations and “may contain” statements together. Small print should not hide what you need to know.</p></article>
+        <article><span class="ingredient-step" aria-hidden="true">02</span><h3>Check what matters to you.</h3><ul class="ingredient-checks"><li><strong>Gluten &amp; coeliac needs</strong> — ingredients such as wheat, barley and rye.</li><li><strong>Allergies</strong> — declared ingredients such as milk, soy, eggs, peanuts and tree nuts.</li><li><strong>Vegan preferences</strong> — animal-derived ingredients such as gelatine or milk.</li></ul></article>
+        <article><span class="ingredient-step" aria-hidden="true">03</span><h3>Look up the brand.</h3><p>The exact brand, product and formulation matter. Check available manufacturer information for details the panel does not explain. If an ingredient’s source or cross-contact information is missing, that stays unclear.</p></article>
       </div>
-      <div class="ingredient-bottom"><a class="ingredient-link" href="/preview.html#ingredients">Try an ingredient sample <span aria-hidden="true">↗</span></a><p>Labels may not list every ingredient. A reading of the label is not a guarantee that a product is suitable for you.</p></div>
+      <div class="ingredient-bottom"><a class="ingredient-link" href="/preview.html#ingredients">Try the ingredient checker <span aria-hidden="true">↗</span></a><p>A label reading cannot certify that a product is allergen-free, gluten-free or vegan. Check the current pack and manufacturer’s information; ask a pharmacist about medicines.</p></div>
     </div>
   </section>
 
@@ -537,9 +538,9 @@
              585 of the 720 viewBox is visible: keep every pin inside that. -->
         <div class="tile t-map s7" id="pharmacies">
           <div class="cap">
-            <h3>Find a pharmacy for the product you need.</h3>
-            <p>Look for a medicine or health product near you. Check the exact product and stock with the pharmacy before you travel.</p>
-            <a class="map-finder-link" href="#pharmacy-finder">Search for a product and pharmacy <span aria-hidden="true">↗</span></a>
+            <h3>Snap it. Find nearby stock.</h3>
+            <p>Take a photo of the pack or type its name. See nearby pharmacy availability together, with the source and any stock that is still unconfirmed.</p>
+            <a class="map-finder-link" href="/preview.html#pharmacies">Try the stock finder sample <span aria-hidden="true">↗</span></a>
           </div>
           <div class="map-box">
             <svg class="map" viewBox="0 0 720 420" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
@@ -579,21 +580,15 @@
 
   <section class="pharmacy-finder band" id="pharmacy-finder" aria-labelledby="h-finder">
     <div class="wrap">
-      <p class="ingredient-kicker">Pharmacy finder</p>
-      <h2 class="head" id="h-finder">Find what you’re looking for.</h2>
-      <p class="ingredient-intro">Looking for a medicine, supplement or other pharmacy product? Enter its name and your suburb to search nearby pharmacies and product listings.</p>
-      <form id="pharmacy-search" class="pharmacy-search">
-        <label for="pharmacy-product">Product or medicine name<input id="pharmacy-product" name="product" type="text" maxlength="120" required placeholder="e.g. paracetamol 500 mg tablets" autocomplete="off"></label>
-        <label for="pharmacy-place">Australian suburb or postcode<input id="pharmacy-place" name="place" type="text" maxlength="120" required placeholder="e.g. Ballarat VIC or 3350" autocomplete="off"></label>
-        <button type="submit">Prepare pharmacy search</button>
-      </form>
-      <p class="finder-note">Include the brand, strength and pack size if you know them. Your search opens in Google only when you choose a link below.</p>
-      <div id="pharmacy-results" class="pharmacy-results" hidden>
-        <p id="pharmacy-summary" role="status" aria-live="polite"></p>
-        <div class="finder-links"><a id="pharmacy-maps" target="_blank" rel="noopener noreferrer">Nearby pharmacies in Maps <span aria-hidden="true">↗</span></a><a id="pharmacy-products" target="_blank" rel="noopener noreferrer">Search product listings <span aria-hidden="true">↗</span></a></div>
-        <p class="finder-note">Search results are not confirmed stock. Contact the pharmacy to check the exact product, availability and any prescription requirements before travelling.</p>
+      <p class="ingredient-kicker">Find a product · nearby pharmacy availability</p>
+      <h2 class="head" id="h-finder">One product. Nearby stock.</h2>
+      <p class="ingredient-intro">Looking for a particular medicine or pharmacy product? Take a photo or type the exact name. PharmaSNAP brings nearby pharmacy availability into one view, so you can stop repeating the same search.</p>
+      <div class="ingredient-grid">
+        <article><span class="ingredient-step" aria-hidden="true">01</span><h3>Photo or product name.</h3><p>Start with the pack you have, or type the name, strength and size of the product you are looking for.</p></article>
+        <article><span class="ingredient-step" aria-hidden="true">02</span><h3>Check nearby pharmacies.</h3><p>The app checks available stock information for nearby pharmacies and keeps the results together.</p></article>
+        <article><span class="ingredient-step" aria-hidden="true">03</span><h3>See what is available.</h3><p>View reported availability, out-of-stock results and places where availability is unknown. A product listing is distinguished from confirmed stock.</p></article>
       </div>
-      <noscript><p>Turn on JavaScript to prepare a product search, or <a href="https://www.google.com/maps/search/?api=1&amp;query=pharmacies+Australia" target="_blank" rel="noopener noreferrer">search for pharmacies in Google Maps</a>.</p></noscript>
+      <div class="ingredient-bottom"><a class="ingredient-link" href="/preview.html#pharmacies">Try photo or typed-product samples <span aria-hidden="true">↗</span></a><p>Stock information can change. The app shows when availability has not been confirmed. The website walkthrough uses clearly labelled example data.</p></div>
     </div>
   </section>
 
@@ -605,7 +600,7 @@
         <article class="pfs-preview-card">
           <img class="pfs-preview-orb" src="/img/orb-idle.png" width="160" height="160" loading="lazy" alt="">
           <h3>Talk it through.</h3>
-          <p>Try a translated sample answer in English or Vietnamese, and hear it in your chosen spoken language.</p>
+          <p>Hear a more natural sample answer in 11 languages. Choose the written and spoken language separately.</p>
           <a href="/preview.html#conversation">Try conversation <span aria-hidden="true">↗</span></a>
         </article>
         <article class="pfs-preview-card">
@@ -615,16 +610,16 @@
           <a href="/preview.html#documents">Try documents <span aria-hidden="true">↗</span></a>
         </article>
         <article class="pfs-preview-card">
-          <div class="pfs-preview-documents" aria-hidden="true"><span>Sample pack A</span><span>Sample pack B</span><span>Same active ingredient</span></div>
+          <div class="pfs-preview-documents" aria-hidden="true"><span>Gluten &amp; coeliac needs</span><span>Declared allergens</span><span>Vegan ingredients</span></div>
           <h3>Check the ingredients.</h3>
-          <p>Compare two fictional medicine labels and see a shared ingredient highlighted, with a translated explanation.</p>
+          <p>Read an example ingredient panel, see gluten, milk and gelatine flagged, then explore a brand lookup.</p>
           <a href="/preview.html#ingredients">Try ingredients <span aria-hidden="true">↗</span></a>
         </article>
         <article class="pfs-preview-card">
-          <div class="pfs-preview-documents" aria-hidden="true"><span>Your product</span><span>Your suburb</span><span>Nearby pharmacies</span></div>
-          <h3>Find a pharmacy.</h3>
-          <p>Search for nearby pharmacies and product listings, then confirm stock before you visit.</p>
-          <a href="#pharmacy-finder">Find a product <span aria-hidden="true">↗</span></a>
+          <div class="pfs-preview-documents" aria-hidden="true"><span>Photo or product name</span><span>Nearby stock information</span><span>Availability in one view</span></div>
+          <h3>Find nearby stock.</h3>
+          <p>Take a photo or type a product once. Explore nearby pharmacy availability together in the sample.</p>
+          <a href="/preview.html#pharmacies">Try the stock finder <span aria-hidden="true">↗</span></a>
         </article>
       </div>
       <p class="pfs-preview-disclaimer">Sample screens only. These previews do not use your microphone, camera or health records. Some proposed controls are not yet available in the app.</p>
