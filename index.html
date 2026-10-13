@@ -1,11 +1,11 @@
 <!doctype html><html lang="en-AU"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>PharmaSNAP AI · Your health, explained</title>
-<meta name="description" content="Photograph a medicine, a label, a result or a rash, then talk it through in 29 languages. Your medicines and your health in one place. Every number has a source. Made in Australia.">
+<meta name="description" content="Photograph a medicine, a label, a result or a skin condition, then talk it through in 29 languages. Your medicines and your health in one place. Every number has a source. Made in Australia.">
 <meta name="theme-color" content="#FFFFFF">
 <meta name="color-scheme" content="light">
 <meta property="og:title" content="PharmaSNAP AI · Your health, explained">
-<meta property="og:description" content="Photograph a medicine, a label, a result or a rash, then talk it through in 29 languages. Your medicines and your health in one place. Every number has a source. Made in Australia.">
+<meta property="og:description" content="Photograph a medicine, a label, a result or a skin condition, then talk it through in 29 languages. Your medicines and your health in one place. Every number has a source. Made in Australia.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://pharmasnap.app/">
 <meta property="og:image" content="https://pharmasnap.app/img/og.jpg">
@@ -21,6 +21,7 @@
 <link rel="preload" as="image" href="/img/bottle-2k.webp" type="image/webp" media="(min-width: 735px)" fetchpriority="high">
 <link rel="stylesheet" href="/_home.css">
 <link rel="stylesheet" href="/_preview.css">
+<script src="/pharmacy-finder.js" defer></script>
 </head><body>
 
 <a class="skip" href="#main">Skip to content</a>
@@ -42,14 +43,13 @@
 
 <main id="main">
 
-  <!-- HERO. Existing copy and the medicine render are retained. The clean
-       white field keeps the orange capsules as the single dominant visual. -->
+  <!-- HERO. The original capsule photograph shares the row with the copy. -->
   <section class="hero" aria-labelledby="hero-title">
     <div class="wrap">
       <div class="hero-copy">
         <h1 id="hero-title">Point. Listen.</h1>
         <!-- "29 languages", not "your language": Samoan is shown but has no voice. -->
-        <p class="lede">Photograph a medicine, a <span class="nw">pharmacy label</span>, a <span class="nw">blood test</span> or a rash. Then talk it through, in <span class="nw">29 languages</span>.</p>
+        <p class="lede">Photograph a medicine, a <span class="nw">pharmacy label</span>, a <span class="nw">blood test</span> or a skin condition. Then talk it through, in <span class="nw">29 languages</span>.</p>
         <div class="ctas">
           <span class="soon">Coming to the App Store
           </span>
@@ -60,7 +60,7 @@
         <picture class="hero-shot">
           <img src="/img/bottle-2k.webp"
                srcset="/img/bottle-1k.webp 768w, /img/bottle-2k.webp 1536w"
-               sizes="(max-width: 734px) 92vw, (max-width: 1068px) 84vw, 840px"
+               sizes="(max-width: 734px) 72vw, (max-width: 1532px) 45vw, 690px"
                width="1536" height="2048" fetchpriority="high" decoding="async"
                alt="A clear bottle filled with orange capsules, with more capsules floating around it.">
         </picture>
@@ -275,6 +275,20 @@
         </div>
 
       </div>
+    </div>
+  </section>
+
+  <section class="ingredients band" id="ingredients" aria-labelledby="h-ingredients">
+    <div class="wrap">
+      <p class="ingredient-kicker">Ingredient checker</p>
+      <h2 class="head" id="h-ingredients">Know what’s inside.</h2>
+      <p class="ingredient-intro">Start with a medicine pack or a supplement’s ingredient panel. PharmaSNAP AI helps you understand the ingredients, then ask a clearer question.</p>
+      <div class="ingredient-grid">
+        <article><span class="ingredient-step" aria-hidden="true">01</span><h3>Read the label.</h3><p>See the medicine’s active ingredient and strength, or the ingredients and amounts declared on a supplement panel. Useful when the small print is hard to read.</p></article>
+        <article><span class="ingredient-step" aria-hidden="true">02</span><h3>Spot the overlap.</h3><p>Your medicine cabinet can flag the same active ingredient in more than one medicine, even when the brand names differ. Take that question to your pharmacist.</p></article>
+        <article><span class="ingredient-step" aria-hidden="true">03</span><h3>Ask about an ingredient.</h3><p>Talk through the ingredient names and ask about what is listed. For allergies, sensitivities or ingredients such as gelatine, check the exact product with a pharmacist.</p></article>
+      </div>
+      <div class="ingredient-bottom"><a class="ingredient-link" href="/preview.html#ingredients">Try an ingredient sample <span aria-hidden="true">↗</span></a><p>Labels may not list every ingredient. A reading of the label is not a guarantee that a product is suitable for you.</p></div>
     </div>
   </section>
 
@@ -523,8 +537,9 @@
              585 of the 720 viewBox is visible: keep every pin inside that. -->
         <div class="tile t-map s7" id="pharmacies">
           <div class="cap">
-            <h3>Find the nearest pharmacy.</h3>
-            <p>Across Australia. Opens in Maps.</p>
+            <h3>Find a pharmacy for the product you need.</h3>
+            <p>Look for a medicine or health product near you. Check the exact product and stock with the pharmacy before you travel.</p>
+            <a class="map-finder-link" href="#pharmacy-finder">Search for a product and pharmacy <span aria-hidden="true">↗</span></a>
           </div>
           <div class="map-box">
             <svg class="map" viewBox="0 0 720 420" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
@@ -562,22 +577,54 @@
     </div>
   </section>
 
+  <section class="pharmacy-finder band" id="pharmacy-finder" aria-labelledby="h-finder">
+    <div class="wrap">
+      <p class="ingredient-kicker">Pharmacy finder</p>
+      <h2 class="head" id="h-finder">Find what you’re looking for.</h2>
+      <p class="ingredient-intro">Looking for a medicine, supplement or other pharmacy product? Enter its name and your suburb to search nearby pharmacies and product listings.</p>
+      <form id="pharmacy-search" class="pharmacy-search">
+        <label for="pharmacy-product">Product or medicine name<input id="pharmacy-product" name="product" type="text" maxlength="120" required placeholder="e.g. paracetamol 500 mg tablets" autocomplete="off"></label>
+        <label for="pharmacy-place">Australian suburb or postcode<input id="pharmacy-place" name="place" type="text" maxlength="120" required placeholder="e.g. Ballarat VIC or 3350" autocomplete="off"></label>
+        <button type="submit">Prepare pharmacy search</button>
+      </form>
+      <p class="finder-note">Include the brand, strength and pack size if you know them. Your search opens in Google only when you choose a link below.</p>
+      <div id="pharmacy-results" class="pharmacy-results" hidden>
+        <p id="pharmacy-summary" role="status" aria-live="polite"></p>
+        <div class="finder-links"><a id="pharmacy-maps" target="_blank" rel="noopener noreferrer">Nearby pharmacies in Maps <span aria-hidden="true">↗</span></a><a id="pharmacy-products" target="_blank" rel="noopener noreferrer">Search product listings <span aria-hidden="true">↗</span></a></div>
+        <p class="finder-note">Search results are not confirmed stock. Contact the pharmacy to check the exact product, availability and any prescription requirements before travelling.</p>
+      </div>
+      <noscript><p>Turn on JavaScript to prepare a product search, or <a href="https://www.google.com/maps/search/?api=1&amp;query=pharmacies+Australia" target="_blank" rel="noopener noreferrer">search for pharmacies in Google Maps</a>.</p></noscript>
+    </div>
+  </section>
+
   <section class="pfs-preview" aria-labelledby="pfs-preview-title">
     <div class="wrap">
-      <p class="pfs-preview-label">Interactive design previews</p>
+      <p class="pfs-preview-label">Interactive samples</p>
       <h2 id="pfs-preview-title">Explore the app.</h2>
       <div class="pfs-preview-grid">
         <article class="pfs-preview-card">
           <img class="pfs-preview-orb" src="/img/orb-idle.png" width="160" height="160" loading="lazy" alt="">
           <h3>Talk it through.</h3>
-          <p>Explore the sphere-led conversation, language choices and spoken-answer controls.</p>
-          <a href="/preview.html#conversation">Preview conversation <span aria-hidden="true">↗</span></a>
+          <p>Try a translated sample answer in English or Vietnamese, and hear it in your chosen spoken language.</p>
+          <a href="/preview.html#conversation">Try conversation <span aria-hidden="true">↗</span></a>
         </article>
         <article class="pfs-preview-card">
           <div class="pfs-preview-documents" aria-hidden="true"><span>Medicine</span><span>Blood test</span><span>Hospital report</span></div>
           <h3>Your health, together.</h3>
           <p>Explore adding medicines, prescriptions and health reports to the same question.</p>
-          <a href="/preview.html#documents">Preview documents <span aria-hidden="true">↗</span></a>
+          <a href="/preview.html#documents">Try documents <span aria-hidden="true">↗</span></a>
+        </article>
+        <article class="pfs-preview-card">
+          <div class="pfs-preview-documents" aria-hidden="true"><span>Sample pack A</span><span>Sample pack B</span><span>Same active ingredient</span></div>
+          <h3>Check the ingredients.</h3>
+          <p>Compare two fictional medicine labels and see a shared ingredient highlighted, with a translated explanation.</p>
+          <a href="/preview.html#ingredients">Try ingredients <span aria-hidden="true">↗</span></a>
+        </article>
+        <article class="pfs-preview-card">
+          <div class="pfs-preview-documents" aria-hidden="true"><span>Your product</span><span>Your suburb</span><span>Nearby pharmacies</span></div>
+          <h3>Find a pharmacy.</h3>
+          <p>Search for nearby pharmacies and product listings, then confirm stock before you visit.</p>
+          <a href="#pharmacy-finder">Find a product <span aria-hidden="true">↗</span></a>
         </article>
       </div>
       <p class="pfs-preview-disclaimer">Sample screens only. These previews do not use your microphone, camera or health records. Some proposed controls are not yet available in the app.</p>
