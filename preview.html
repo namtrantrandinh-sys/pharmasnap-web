@@ -1,34 +1,48 @@
 <!doctype html><html lang="en-AU"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Explore PharmaSNAP AI · Design previews</title><meta name="description" content="Explore sample conversation and document screens for PharmaSNAP AI. No microphone, camera or personal health information is used.">
-<meta name="theme-color" content="#fffaf5"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="/_preview.css"><script src="/preview.js" defer></script></head>
+<title>Explore PharmaSNAP AI · Interactive samples</title><meta name="description" content="Try translated English and Vietnamese sample answers, hear the spoken translation, and explore document and ingredient examples. No personal health records are used.">
+<meta name="theme-color" content="#fffaf5"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="/_preview.css"><script src="/demo-samples.js" defer></script><script src="/preview.js" defer></script></head>
 <body class="pfs-demo">
 <header class="demo-header"><a class="demo-brand" href="/"><img src="/img/pharmasnap-logo.png" width="42" height="42" alt=""><span>Pharma<strong>SNAP</strong> AI</span></a><a href="/">Back to the website</a></header>
 <main class="demo-layout">
-  <section class="demo-intro"><span class="demo-kicker">Interactive design preview</span><h1>A little less uncertainty.<br>A clearer conversation.</h1>
-    <p>Try the proposed sphere-led conversation and choose the documents you want to ask about together.</p>
+  <section class="demo-intro"><span class="demo-kicker">Interactive samples</span><h1>A little less uncertainty.<br>A clearer conversation.</h1>
+    <p>Read and hear a sample answer in English or Vietnamese. Try a conversation, select documents, or compare ingredients on two sample labels.</p>
     <p>Sample screens only. No microphone, camera or health records are used.</p>
-    <details><summary>About this design preview</summary><p>These are not medical answers. Separate answer/voice language choices and the saved-document tray shown here are proposed features, not yet available in the app. No location is accessed.</p></details>
-    <nav class="demo-tabs" aria-label="Preview screens"><a href="#conversation">Conversation</a><a href="#documents">Documents</a></nav>
-    <noscript><p>Turn on JavaScript to try the sample interactions. The preview screens remain available below.</p></noscript>
+    <details><summary>About these samples</summary><p>These fixed examples are not personalised medical answers. The website demonstrates two languages; the app supports more. Separate answer/voice language choices and the saved-document tray shown here are proposed controls, not yet available in the app. No location is accessed.</p></details>
+    <nav class="demo-tabs" aria-label="Sample screens"><a href="#conversation">Conversation</a><a href="#documents">Documents</a><a href="#ingredients">Ingredients</a></nav>
+    <noscript><p>Turn on JavaScript to try the translations and audio. The sample screens remain available below.</p></noscript>
   </section>
   <div class="demo-phone">
     <div class="demo-top"><span>Pharma<strong>SNAP</strong> AI</span><span>SAMPLE ONLY</span></div>
+    <div class="demo-language"><label>Answer language<select id="answer-language"><option value="en">English</option><option value="vi">Tiếng Việt</option></select></label><label>Spoken language<select id="voice-language"><option value="en">English</option><option value="vi">Tiếng Việt</option></select></label></div>
     <section id="conversation" aria-labelledby="conversation-title">
       <div class="demo-orbit"><img src="/img/orb-idle.png" width="196" height="196" alt="The PharmaSNAP AI sphere"></div>
-      <h2 class="demo-status" id="conversation-title">What’s on your mind?</h2>
-      <div class="demo-transcript" aria-live="polite">Try a sample conversation to see the listening, thinking and speaking states. No microphone or audio is used.</div>
-      <div class="demo-language"><label>Answer language<select id="answer-language"><option value="en">English</option><option value="vi">Tiếng Việt</option></select></label><label>Spoken language<select id="voice-language"><option value="en">English</option><option value="vi">Tiếng Việt</option></select></label></div>
-      <button class="demo-primary" id="play-conversation">Try sample conversation</button><button class="demo-secondary" id="stop-conversation" hidden>Stop preview</button>
-      <p class="demo-note" id="language-note">Language controls are a design preview. No speech is generated.</p>
+      <h2 class="demo-status" id="conversation-title">Ready when you are.</h2>
+      <div class="demo-transcript" id="conversation-answer" aria-live="polite">Try a sample conversation to read and hear a translated answer.</div>
+      <button class="demo-primary" id="play-conversation">Try sample conversation</button>
     </section>
     <section id="documents" aria-labelledby="documents-title">
       <h2 class="demo-doc-title" id="documents-title">Your health.<br>The whole picture.</h2>
       <div class="demo-doc-hero"><div class="demo-doc-art" aria-hidden="true"></div><strong>You choose what to include.</strong><p class="demo-note">Select sample items for one question. Nothing is uploaded or saved.</p></div>
-      <label class="demo-document"><input type="checkbox" name="document" value="Medicine pack" checked><span><strong>Medicine pack</strong><small>Sample item · exact product to verify</small></span></label>
-      <label class="demo-document"><input type="checkbox" name="document" value="Blood test" checked><span><strong>Blood test</strong><small>Sample document · pathology</small></span></label>
-      <label class="demo-document"><input type="checkbox" name="document" value="Hospital report"><span><strong>Hospital report</strong><small>Sample document · discharge summary</small></span></label>
+      <label class="demo-document"><input type="checkbox" name="document" value="medicine" checked><span><strong data-document="medicine">Medicine pack</strong><small>Sample item · exact product to verify</small></span></label>
+      <label class="demo-document"><input type="checkbox" name="document" value="blood" checked><span><strong data-document="blood">Blood test</strong><small>Sample document · pathology</small></span></label>
+      <label class="demo-document"><input type="checkbox" name="document" value="hospital"><span><strong data-document="hospital">Hospital report</strong><small>Sample document · discharge summary</small></span></label>
       <p class="demo-note" id="document-count" aria-live="polite">2 sample items selected</p>
       <button class="demo-primary" id="ask-documents">Ask about selected items</button>
+      <div class="demo-transcript demo-answer" id="documents-answer" aria-live="polite" hidden></div>
     </section>
+    <section id="ingredients" aria-labelledby="ingredients-title">
+      <h2 class="demo-doc-title" id="ingredients-title">What’s inside?<br>Look past the name.</h2>
+      <p class="demo-note">Two fictional medicine labels. This sample compares the printed ingredient names only.</p>
+      <div class="demo-sample-label"><h3 id="pack-a-title">Sample pack A</h3><p><span class="active-label">Active ingredient</span>: <span data-ingredient="paracetamol">paracetamol</span></p></div>
+      <div class="demo-sample-label"><h3 id="pack-b-title">Sample pack B</h3><p><span class="active-label">Active ingredient</span>: <span data-ingredient="paracetamol">paracetamol</span></p></div>
+      <p class="demo-note" id="ingredient-match" hidden></p>
+      <button class="demo-primary" id="check-ingredients">Check sample labels</button>
+      <div class="demo-transcript demo-answer" id="ingredients-answer" aria-live="polite" hidden></div>
+      <a class="demo-source" href="https://www.healthdirect.gov.au/paracetamol" target="_blank" rel="noopener noreferrer">About shared paracetamol ingredients · healthdirect ↗</a>
+    </section>
+    <button class="demo-secondary" id="stop-conversation" hidden>Stop audio</button>
+    <p class="demo-playback" id="playback-status" role="status" aria-live="polite"></p>
+    <p class="demo-note" id="language-note">Choose English or Vietnamese for the written answer and spoken answer. These samples use recorded audio; no microphone is accessed.</p>
+    <audio id="sample-audio" preload="none"></audio>
   </div>
 </main></body></html>

@@ -2,7 +2,7 @@
 .pfs-preview { padding:88px 0 20px; background:#fff; }
 .pfs-preview-label { color:#9b3100; font-size:13px; margin:0 0 14px; }
 .pfs-preview h2 { color:#1d1d1f; font-size:clamp(36px,5vw,64px); line-height:1.05; letter-spacing:-.04em; margin:0 0 36px; }
-.pfs-preview-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px; }
+.pfs-preview-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:20px; }
 .pfs-preview-card { display:flex; flex-direction:column; align-items:flex-start; padding:32px; border-radius:32px; background:#fff7f0; }
 .pfs-preview-card h3 { font-size:28px; line-height:1.15; letter-spacing:-.03em; margin:0 0 12px; }
 .pfs-preview-card p { color:#636366; font-size:17px; line-height:1.5; margin:0 0 24px; }
@@ -61,3 +61,17 @@
 @media(max-width:800px) { .demo-layout { grid-template-columns:1fr; gap:24px; margin-top:0; } .demo-intro { max-width:560px; } .demo-intro h1 { font-size:32px; margin:12px 0; } .demo-intro p { font-size:15px; } .demo-tabs { margin-top:12px; } .demo-phone { width:100%; max-width:440px; margin:auto; } }
 @media(max-width:360px) { .demo-layout { padding:0 12px; } .demo-phone { padding:20px; } .demo-language { grid-template-columns:1fr; } }
 @media(prefers-reduced-motion:reduce) { .demo-orbit.is-active { animation:none; } }
+
+@media (min-width:735px) and (max-width:1068px) { .pfs-preview-grid { grid-template-columns:1fr 1fr; } }
+.demo-answer { margin-top:12px; }
+.demo-question { font-weight:600; margin:0 0 12px; }
+.demo-response { margin:0; }
+.demo-spoken { border-top:1px solid #eee1d6; margin-top:14px; padding-top:12px; }
+.demo-spoken-label { color:#963d08; font-size:12px; font-weight:600; margin:0 0 6px; }
+.demo-spoken-text { margin:0; }
+.demo-sample-label { padding:18px; border:1px solid #e7d9cc; background:#fff; border-radius:18px; margin:12px 0; }
+.demo-sample-label h3 { font-size:16px; margin:0 0 8px; }
+.demo-sample-label p { font-size:14px; line-height:1.5; margin:0; }
+.demo-sample-label mark { background:#ffe3cc; color:#612a0a; border-radius:4px; padding:2px 4px; }
+.demo-playback { text-align:center; font-size:13px; line-height:1.5; }
+.demo-source { color:#963d08; font-size:12px; display:inline-flex; min-height:44px; align-items:center; }
