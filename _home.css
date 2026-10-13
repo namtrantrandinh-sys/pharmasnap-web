@@ -761,3 +761,19 @@ p { text-wrap: pretty; }
 .ingredient-link { display: inline-flex; gap: 16px; align-items: center; min-height: 48px; padding: 14px 22px; border-radius: 28px; color: #fff; background: var(--ink); font-size: 16px; font-weight: 650; }
 .ingredient-bottom p { flex: 1 1 300px; max-width: 650px; font-size: 14px; line-height: 1.5; color: var(--ink2); margin: 0; }
 @media (max-width: 900px) { .ingredient-grid { grid-template-columns: 1fr; } .ingredient-grid article { padding: 28px; } .ingredient-step { margin-bottom: 18px; } }
+
+/* Product-aware pharmacy searches; no invented stock or pharmacy results. */
+.map-finder-link { display:inline-flex; align-items:center; gap:12px; min-height:44px; margin-top:16px; color:#fff; font-size:16px; text-decoration:underline; text-underline-offset:4px; }
+.pharmacy-finder { padding-bottom:0; }
+.pharmacy-finder .head { margin-bottom:24px; }
+.pharmacy-search { display:grid; grid-template-columns:1fr 1fr auto; gap:20px; align-items:end; padding:32px; background:#fff7f0; border-radius:32px; }
+.pharmacy-search label { font-size:16px; font-weight:600; min-width:0; }
+.pharmacy-search input { display:block; width:100%; min-height:52px; padding:12px 16px; margin-top:10px; font:inherit; font-size:16px; font-weight:400; color:var(--ink); border:1px solid #c4b4a8; border-radius:14px; background:#fff; }
+.pharmacy-search button { min-height:52px; padding:12px 22px; border:0; border-radius:28px; font:inherit; font-size:16px; font-weight:600; color:#fff; background:var(--ink); cursor:pointer; }
+.finder-note { color:var(--ink2); font-size:14px; line-height:1.6; margin:16px 0 0; }
+.pharmacy-results { margin-top:24px; padding:28px 32px; border:1px solid #eedccc; border-radius:28px; }
+#pharmacy-summary { font-size:21px; line-height:1.4; margin:0 0 20px; overflow-wrap:anywhere; }
+.finder-links { display:flex; gap:16px; flex-wrap:wrap; }
+.finder-links a { display:inline-flex; align-items:center; gap:16px; min-height:48px; padding:12px 20px; color:#fff; background:var(--brand-ink); border-radius:28px; font-size:16px; font-weight:600; }
+@media (max-width:1068px) { .pharmacy-search { grid-template-columns:1fr 1fr; } .pharmacy-search button { grid-column:1/-1; justify-self:start; } }
+@media (max-width:734px) { .pharmacy-search { grid-template-columns:1fr; padding:24px; } .pharmacy-search button { justify-self:stretch; } .pharmacy-results { padding:24px; } }

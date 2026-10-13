@@ -41,6 +41,38 @@ const server = http.createServer((req,res) => {
       }
       if (output) await page.screenshot({path:path.join(output,`homepage-${size.width}.png`),fullPage: size.width===390});
     }
+    // Product/location search builds safe external links without sending inputs.
+    await page.goto(base);
+    await page.locator('#pharmacy-finder').scrollIntoViewIfNeeded();
+    await page.fill('#pharmacy-product','   ');
+    await page.fill('#pharmacy-place','Ballarat VIC');
+    await page.locator('#pharmacy-search button').click();
+    assert(await page.locator('#pharmacy-results').isHidden());
+    assert.equal(await page.locator('#pharmacy-product').evaluate(input=>input.validity.valid),false);
+    const product = 'Vitamin C & zinc 500 mg';
+    const place = 'Ballarat VIC 3350';
+    await page.fill('#pharmacy-product',product);
+    await page.fill('#pharmacy-place',place);
+    await page.locator('#pharmacy-place').press('Enter');
+    const maps=new URL(await page.locator('#pharmacy-maps').getAttribute('href'));
+    const listings=new URL(await page.locator('#pharmacy-products').getAttribute('href'));
+    assert.equal(maps.origin,'https://www.google.com');
+    assert.equal(maps.searchParams.get('api'),'1');
+    assert.equal(maps.searchParams.get('query'),`pharmacies near ${place}, Australia`);
+    assert.equal(listings.searchParams.get('q'),`${product} pharmacy ${place} Australia`);
+    assert((await page.locator('#pharmacy-summary').textContent()).includes(product));
+    for (const width of [1440,390]) {
+      await page.setViewportSize({width,height:1000});
+      assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
+      if(output) await page.locator('#pharmacy-finder').screenshot({path:path.join(output,`pharmacy-finder-${width}.png`)});
+    }
+    await page.fill('#pharmacy-product','<img src=x onerror=alert(1)>');
+    assert(await page.locator('#pharmacy-results').isHidden());
+    await page.locator('#pharmacy-search button').click();
+    assert.equal(await page.locator('#pharmacy-summary img').count(),0);
+    assert((await page.locator('#pharmacy-summary').textContent()).includes('<img'));
+    await page.fill('#pharmacy-place','Melbourne VIC');
+    assert(await page.locator('#pharmacy-results').isHidden());
     await page.setViewportSize({width:1000,height:1000});
     for(const mode of Object.keys(samples)) {
       for (const written of ['en','vi']) for (const spoken of ['en','vi']) {
@@ -113,6 +145,6 @@ const server = http.createServer((req,res) => {
       assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false,`Demo no overflow: ${mode}`);
     }
     assert.deepEqual(errors,[],'No page script errors');
-    console.log('PASS: four viewport layouts; all 12 mode/language combinations play real audio; translation, selection, cancellation, replay, completion and error fallback.');
+    console.log('PASS: product/suburb pharmacy links and validation; four viewport layouts; all 12 mode/language combinations play real audio; translation, selection, cancellation, replay, completion and error fallback.');
   } finally {await browser.close();server.close();}
 })().catch(error=>{console.error(error);server.close();process.exitCode=1;});

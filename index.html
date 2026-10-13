@@ -21,6 +21,7 @@
 <link rel="preload" as="image" href="/img/bottle-2k.webp" type="image/webp" media="(min-width: 735px)" fetchpriority="high">
 <link rel="stylesheet" href="/_home.css">
 <link rel="stylesheet" href="/_preview.css">
+<script src="/pharmacy-finder.js" defer></script>
 </head><body>
 
 <a class="skip" href="#main">Skip to content</a>
@@ -536,8 +537,9 @@
              585 of the 720 viewBox is visible: keep every pin inside that. -->
         <div class="tile t-map s7" id="pharmacies">
           <div class="cap">
-            <h3>Find the nearest pharmacy.</h3>
-            <p>Across Australia. Opens in Maps.</p>
+            <h3>Find a pharmacy for the product you need.</h3>
+            <p>Look for a medicine or health product near you. Check the exact product and stock with the pharmacy before you travel.</p>
+            <a class="map-finder-link" href="#pharmacy-finder">Search for a product and pharmacy <span aria-hidden="true">↗</span></a>
           </div>
           <div class="map-box">
             <svg class="map" viewBox="0 0 720 420" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
@@ -575,6 +577,26 @@
     </div>
   </section>
 
+  <section class="pharmacy-finder band" id="pharmacy-finder" aria-labelledby="h-finder">
+    <div class="wrap">
+      <p class="ingredient-kicker">Pharmacy finder</p>
+      <h2 class="head" id="h-finder">Find what you’re looking for.</h2>
+      <p class="ingredient-intro">Looking for a medicine, supplement or other pharmacy product? Enter its name and your suburb to search nearby pharmacies and product listings.</p>
+      <form id="pharmacy-search" class="pharmacy-search">
+        <label for="pharmacy-product">Product or medicine name<input id="pharmacy-product" name="product" type="text" maxlength="120" required placeholder="e.g. paracetamol 500 mg tablets" autocomplete="off"></label>
+        <label for="pharmacy-place">Australian suburb or postcode<input id="pharmacy-place" name="place" type="text" maxlength="120" required placeholder="e.g. Ballarat VIC or 3350" autocomplete="off"></label>
+        <button type="submit">Prepare pharmacy search</button>
+      </form>
+      <p class="finder-note">Include the brand, strength and pack size if you know them. Your search opens in Google only when you choose a link below.</p>
+      <div id="pharmacy-results" class="pharmacy-results" hidden>
+        <p id="pharmacy-summary" role="status" aria-live="polite"></p>
+        <div class="finder-links"><a id="pharmacy-maps" target="_blank" rel="noopener noreferrer">Nearby pharmacies in Maps <span aria-hidden="true">↗</span></a><a id="pharmacy-products" target="_blank" rel="noopener noreferrer">Search product listings <span aria-hidden="true">↗</span></a></div>
+        <p class="finder-note">Search results are not confirmed stock. Contact the pharmacy to check the exact product, availability and any prescription requirements before travelling.</p>
+      </div>
+      <noscript><p>Turn on JavaScript to prepare a product search, or <a href="https://www.google.com/maps/search/?api=1&amp;query=pharmacies+Australia" target="_blank" rel="noopener noreferrer">search for pharmacies in Google Maps</a>.</p></noscript>
+    </div>
+  </section>
+
   <section class="pfs-preview" aria-labelledby="pfs-preview-title">
     <div class="wrap">
       <p class="pfs-preview-label">Interactive samples</p>
@@ -597,6 +619,12 @@
           <h3>Check the ingredients.</h3>
           <p>Compare two fictional medicine labels and see a shared ingredient highlighted, with a translated explanation.</p>
           <a href="/preview.html#ingredients">Try ingredients <span aria-hidden="true">↗</span></a>
+        </article>
+        <article class="pfs-preview-card">
+          <div class="pfs-preview-documents" aria-hidden="true"><span>Your product</span><span>Your suburb</span><span>Nearby pharmacies</span></div>
+          <h3>Find a pharmacy.</h3>
+          <p>Search for nearby pharmacies and product listings, then confirm stock before you visit.</p>
+          <a href="#pharmacy-finder">Find a product <span aria-hidden="true">↗</span></a>
         </article>
       </div>
       <p class="pfs-preview-disclaimer">Sample screens only. These previews do not use your microphone, camera or health records. Some proposed controls are not yet available in the app.</p>

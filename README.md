@@ -53,3 +53,13 @@ all sample and language combinations with actual audio playback, translated
 answers, selected documents, stopping/replaying, navigation, visibility changes,
 completion and audio-error recovery. Set `PHARMASNAP_SCREENSHOTS_DIR` to save
 optional screenshots.
+
+
+## Product and pharmacy search
+
+The homepage finder accepts a product name and an Australian suburb/postcode.
+It prepares Google Maps links for nearby pharmacies and a Google search link
+containing the product and location. Nothing is transmitted until the visitor
+chooses one of those links. Inputs are not stored and no location permission is
+requested. Results are external search results, not verified pharmacy inventory;
+visitors are asked to confirm the exact product and stock before travelling.
