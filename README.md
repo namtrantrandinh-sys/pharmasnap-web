@@ -7,36 +7,42 @@ Plain static files, no build step. Served by GitHub Pages at https://pharmasnap.
 
 - `/privacy` and `/terms` must keep returning 200 with a body — App Review fetches them.
 - `.nojekyll` is load-bearing: without it Jekyll drops `_style.css` and `_home.css`.
-- Source of truth is `web/` in the private app repo; copy changes across from there.
+- The homepage and interactive samples live in this repository. Legal copy
+  originated in `web/` in the private app repo; keep its promises consistent with
+  the app’s current behaviour.
 
 Deployed via GitHub Pages; DNS at GoDaddy (four A records + www CNAME).
 
 
 ## Interactive website samples
 
-`preview.html` demonstrates conversation, document selection and ingredient
-comparison using fixed examples. `demo-samples.js` contains matching English and
-Vietnamese text. The answer language controls the visible response; the spoken
-language chooses its translated recording in `audio/`. Audio starts only after a
-click. Switching screens, changing languages/selections, hiding the page or
-pressing Stop cancels playback. These examples do not call a translation/AI API
-or access a microphone, camera or health records.
+`preview.html` demonstrates conversation, selected documents, ingredient-panel
+checks and pharmacy availability. There are 11 written/spoken sample languages:
+English, Vietnamese, Mandarin Chinese, Arabic, Hindi, Greek, Italian, Filipino,
+Nepali, Korean and Spanish. The homepage’s 29-language claim refers to the app.
 
-The website samples cover two languages; the homepage's 29-language claim refers
-to the app. Separate answer/voice controls and the saved-document tray remain
-identified as design proposals.
+`demo-samples.js` contains conversational, native-script sample wording and its
+language-specific neural voice. The 44 recordings read the matching responses;
+`audio/manifest.json` records script and audio hashes so the browser checks catch
+stale or mismatched recordings. Written and spoken languages can differ. Arabic
+answers use right-to-left text. Audio starts only on a click and is cancelled on
+screen/language/selection changes or when the page is hidden.
 
-The six AAC/M4A files were generated from the exact `response` strings using
-macOS Karen (English) and Linh (Vietnamese), at 165 words per minute. To regenerate
-a file on a Mac with those voices installed, save its response as UTF-8, then run:
+No microphone, camera, health records or live AI service are used in the website
+walkthroughs. Separate written/spoken controls and the saved-document tray remain
+identified as proposed controls. The stock example uses fictional pharmacies,
+distances and availability. Unknown product inputs never receive invented stock.
 
-```sh
-say -v Linh -r 165 -f response.txt -o response.aiff
-afconvert -f m4af -d aac -b 64000 response.aiff audio/conversation-vi.m4a
-```
+### Regenerating sample speech
 
-Use Karen and the appropriate filename for English. Regenerate the matching audio
-whenever a response changes; written and spoken examples must agree.
+Development-only dependency: `edge-tts==7.2.8`. Run
+`python3 scripts/generate-samples.py` from the repository root, with Node.js and
+that Python package available. The generator uses Microsoft Edge neural speech
+at a natural pace (rate -3%), saves MP3s, and records the exact text/audio hashes.
+It retries failed clips, saves progress and reuses only recordings whose voice,
+script and audio hashes still match. Regenerate affected recordings whenever a
+response changes. The deployed website plays bundled files and never connects
+visitors to the speech-generation service.
 
 ## Browser checks
 
@@ -55,11 +61,20 @@ completion and audio-error recovery. Set `PHARMASNAP_SCREENSHOTS_DIR` to save
 optional screenshots.
 
 
-## Product and pharmacy search
+## Ingredient and stock workflows
 
-The homepage finder accepts a product name and an Australian suburb/postcode.
-It prepares Google Maps links for nearby pharmacies and a Google search link
-containing the product and location. Nothing is transmitted until the visitor
-chooses one of those links. Inputs are not stored and no location permission is
-requested. Results are external search results, not verified pharmacy inventory;
-visitors are asked to confirm the exact product and stock before travelling.
+The homepage makes ingredient checks for gluten/coeliac needs, declared allergens
+and vegan preferences prominent, and explains exact-brand/product lookup. The
+illustrative ingredient panel deliberately lists wheat flour, milk powder and
+gelatine plus a “may contain peanuts” statement. The walkthrough highlights
+these and distinguishes declared ingredients from cross-contact uncertainty;
+it does not certify allergen-free, gluten-free or vegan suitability. Its optional
+brand lookup prepares an external manufacturer-information search and clears
+that link when the visitor edits the product.
+
+The pharmacy story is photo-or-text identification followed by nearby availability
+in one app view. The former Google pharmacy-search form has been removed. The
+website walkthrough offers two prepared products (paracetamol and vitamin D),
+with clearly labelled fictional pharmacies and confirmed/listed/out/unknown
+availability states. The prepared-photo button illustrates the app entry point;
+it does not access a camera, recognise uploaded photos, or query real inventory.

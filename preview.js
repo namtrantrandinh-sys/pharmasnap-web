@@ -7,14 +7,33 @@
   let active = 'conversation';
   let playing = false;
   let playRequest = 0;
+  let stockProduct = null;
   const shown = new Set();
   const answerLanguage = () => $('#answer-language').value;
   const voiceLanguage = () => $('#voice-language').value;
   const copy = () => locales[answerLanguage()];
   const selected = () => [...document.querySelectorAll('input[name="document"]:checked')].map(input => input.value);
+  // Fictional walkthrough data. Never presented as actual nearby pharmacies.
+  const stockExamples = {
+    paracetamol: {name: 'Paracetamol 500 mg tablets', states: ['confirmed', 'listed', 'unknown']},
+    vitamin: {name: 'Vitamin D3 1000 IU capsules', states: ['listed', 'out', 'unknown']}
+  };
+  const stockLabels = {
+    en: ['Confirmed in stock · example', 'Listed by pharmacy · example', 'Out of stock · example', 'Availability unknown · example'],
+    vi: ['Đã xác nhận còn hàng · ví dụ', 'Nhà thuốc có thông tin sản phẩm · ví dụ', 'Hết hàng · ví dụ', 'Chưa rõ tình trạng hàng · ví dụ'],
+    zh: ['已确认有货 · 示例', '药房列有此产品 · 示例', '缺货 · 示例', '供货情况未知 · 示例'],
+    ar: ['متوفر ومؤكد · مثال', 'مدرج لدى الصيدلية · مثال', 'نفد المخزون · مثال', 'التوفر غير معروف · مثال'],
+    hi: ['स्टॉक की पुष्टि हुई · उदाहरण', 'फ़ार्मेसी की सूची में है · उदाहरण', 'स्टॉक खत्म · उदाहरण', 'उपलब्धता अज्ञात · उदाहरण'],
+    el: ['Επιβεβαιωμένο απόθεμα · παράδειγμα', 'Αναφέρεται από το φαρμακείο · παράδειγμα', 'Εξαντλήθηκε · παράδειγμα', 'Άγνωστη διαθεσιμότητα · παράδειγμα'],
+    it: ['Disponibilità confermata · esempio', 'Presente sul sito della farmacia · esempio', 'Esaurito · esempio', 'Disponibilità sconosciuta · esempio'],
+    fil: ['Kumpirmadong may stock · halimbawa', 'Nakalista sa botika · halimbawa', 'Ubos ang stock · halimbawa', 'Hindi alam ang availability · halimbawa'],
+    ne: ['स्टक पुष्टि भएको · नमुना', 'फार्मेसीको सूचीमा छ · नमुना', 'स्टक सकिएको · नमुना', 'उपलब्धता अज्ञात · नमुना'],
+    ko: ['재고 확인됨 · 예시', '약국에 등록된 제품 · 예시', '품절 · 예시', '재고 정보 없음 · 예시'],
+    es: ['Stock confirmado · ejemplo', 'Listado por la farmacia · ejemplo', 'Agotado · ejemplo', 'Disponibilidad desconocida · ejemplo']
+  };
 
   function stop() {
-    ++playRequest; // Ignore an old play promise after a route/language change.
+    ++playRequest;
     audio.pause();
     audio.removeAttribute('src');
     audio.load();
@@ -27,8 +46,26 @@
     const element = document.createElement(tag);
     element.className = className;
     element.textContent = text;
-    if (language) element.lang = locales[language].tag;
+    if (language) { element.lang = locales[language].tag; element.dir = locales[language].direction; }
     return element;
+  }
+
+  function renderStock() {
+    const container = $('#stock-results');
+    container.replaceChildren();
+    if (!stockProduct) { container.hidden = true; return; }
+    container.hidden = false;
+    const example = stockExamples[stockProduct];
+    container.append(textElement('p', 'demo-note', `${example.name} · FICTIONAL PHARMACY RESULTS`, 'en'));
+    const stateOrder = ['confirmed', 'listed', 'out', 'unknown'];
+    example.states.forEach((state,index) => {
+      const card = textElement('article', 'demo-stock-card', '');
+      card.dataset.stockState = state;
+      card.append(textElement('h3', '', `Example pharmacy ${['A','B','C'][index]} · ${['0.6','1.2','2.1'][index]} km (example)`, 'en'));
+      card.append(textElement('p', 'demo-stock-status', stockLabels[answerLanguage()][stateOrder.indexOf(state)], answerLanguage()));
+      card.append(textElement('p', 'demo-note', 'Illustrative result only. No live pharmacy, location or inventory has been checked.', 'en'));
+      container.append(card);
+    });
   }
 
   function renderAnswer(mode) {
@@ -38,10 +75,17 @@
     const container = $('#' + mode + '-answer');
     container.replaceChildren();
     container.lang = copy().tag;
+    container.dir = copy().direction;
     container.hidden = false;
     container.append(textElement('p', 'demo-question', `${copy().question}: “${sample.question}”`));
     if (mode === 'documents') {
       container.append(textElement('p', 'demo-note', `${copy().included}: ${selected().map(key => copy().documents[key]).join(', ')}.`));
+    }
+    if (mode === 'ingredients') {
+      container.append(textElement('p', 'demo-question', copy().findingsTitle));
+      const findings = textElement('ul', 'demo-findings', '');
+      copy().findings.forEach(finding => findings.append(textElement('li', '', finding)));
+      container.append(findings, textElement('p', 'demo-note', copy().ingredientCaution));
     }
     container.append(textElement('p', 'demo-response', sample.response, language));
     if (spokenLanguage !== language) {
@@ -54,7 +98,7 @@
 
   function updateDocuments() {
     const count = selected().length;
-    $('#document-count').textContent = copy().count(count);
+    $('#document-count').textContent = `${copy().included}: ${count}`;
     $('#document-count').lang = copy().tag;
     $('#ask-documents').disabled = count === 0;
   }
@@ -63,26 +107,21 @@
     stop();
     $('#playback-status').textContent = '';
     $('#playback-status').lang = copy().tag;
+    $('#playback-status').dir = copy().direction;
     $('#conversation-title').textContent = shown.has('conversation') ? copy().ready : copy().idle;
     $('#conversation-title').lang = copy().tag;
-    $('#language-note').textContent = copy().hint;
-    $('#language-note').lang = copy().tag;
+    $('#conversation-title').dir = copy().direction;
     document.querySelectorAll('[data-document]').forEach(element => {
       element.textContent = copy().documents[element.dataset.document];
       element.lang = copy().tag;
+      element.dir = copy().direction;
     });
-    $('#pack-a-title').textContent = copy().packA;
-    $('#pack-b-title').textContent = copy().packB;
-    document.querySelectorAll('.active-label').forEach(element => {
-      element.textContent = copy().active;
-      element.lang = copy().tag;
-    });
-    $('#ingredient-match').textContent = copy().same;
-    $('#ingredient-match').lang = copy().tag;
     updateDocuments();
     shown.forEach(renderAnswer);
+    renderStock();
     if (!shown.has('conversation')) {
       $('#conversation-answer').lang = copy().tag;
+      $('#conversation-answer').dir = copy().direction;
       $('#conversation-answer').textContent = samples.conversation[answerLanguage()].question;
     }
   }
@@ -94,26 +133,24 @@
     renderAnswer(mode);
     if (mode === 'ingredients') {
       document.querySelectorAll('[data-ingredient]').forEach(element => {
-        // Compare the actual names on these fixed labels, rather than a timed animation.
-        const name = element.dataset.ingredient;
-        const matches = [...document.querySelectorAll('[data-ingredient]')].filter(other => other.dataset.ingredient === name);
-        element.replaceChildren(textElement(matches.length > 1 ? 'mark' : 'span', '', name));
+        const printedName = element.textContent;
+        if (!element.querySelector('mark')) element.replaceChildren(textElement('mark', '', printedName));
       });
-      $('#ingredient-match').hidden = false;
     }
     $('#conversation-title').textContent = copy().ready;
     const request = playRequest;
-    audio.src = `/audio/${mode}-${voiceLanguage()}.m4a`;
+    audio.src = `/audio/${mode}-${voiceLanguage()}.mp3`;
     playing = true;
     $('#stop-conversation').hidden = false;
     try {
-      await audio.play(); // Runs directly from the click, including on mobile Safari.
+      await audio.play();
       if (request !== playRequest) return;
     } catch (error) {
       if (request !== playRequest) return;
       stop();
       $('#playback-status').textContent = copy().failed;
       $('#playback-status').lang = copy().tag;
+      $('#playback-status').dir = copy().direction;
     }
   }
 
@@ -129,6 +166,47 @@
     $('#playback-status').textContent = '';
   }
 
+  function showStock(key) {
+    stockProduct = key;
+    $('#stock-message').textContent = 'Sample nearby results are ready. These are fictional pharmacies and availability.';
+    renderStock();
+    play('pharmacies');
+  }
+  function resetStock() {
+    stop();
+    stockProduct = null;
+    shown.delete('pharmacies');
+    renderStock();
+    $('#pharmacies-answer').hidden = true;
+    $('#stock-photo').hidden = true;
+    $('#stock-message').textContent = '';
+  }
+  $('#stock-sample-form').addEventListener('submit', event => {
+    event.preventDefault();
+    resetStock();
+    const name = $('#stock-product').value.trim().toLowerCase().replace(/\s+/g, ' ');
+    if (['paracetamol', 'paracetamol 500 mg', 'paracetamol 500 mg tablets'].includes(name)) showStock('paracetamol');
+    else if (['vitamin d', 'vitamin d3', 'vitamin d3 1000 iu', 'vitamin d3 1000 iu capsules'].includes(name)) showStock('vitamin');
+    else $('#stock-message').textContent = 'This walkthrough has two prepared examples: paracetamol and vitamin D. No live stock search was made for your entry.';
+  });
+  $('#stock-product').addEventListener('input', resetStock);
+  $('#stock-photo-button').addEventListener('click', () => {
+    $('#stock-photo').hidden = false;
+    $('#stock-product').value = 'Vitamin D3 1000 IU capsules';
+    showStock('vitamin');
+  });
+  $('#brand-lookup').addEventListener('submit', event => {
+    event.preventDefault();
+    const input = $('#brand-query');
+    const query = input.value.trim().replace(/\s+/g, ' ');
+    input.setCustomValidity(query ? '' : 'Enter the brand and exact product name.');
+    if (!input.reportValidity()) return;
+    const url = new URL('https://www.google.com/search');
+    url.searchParams.set('q', `${query} official manufacturer ingredients allergens gluten vegan`);
+    $('#brand-result').href = url.href;
+    $('#brand-result').hidden = false;
+  });
+  $('#brand-query').addEventListener('input', () => { $('#brand-query').setCustomValidity(''); $('#brand-result').hidden = true; });
   $('#play-conversation').addEventListener('click', () => play('conversation'));
   $('#ask-documents').addEventListener('click', () => play('documents'));
   $('#check-ingredients').addEventListener('click', () => play('ingredients'));
@@ -136,6 +214,7 @@
     stop();
     $('#playback-status').textContent = copy().stopped;
     $('#playback-status').lang = copy().tag;
+    $('#playback-status').dir = copy().direction;
   });
   $('#answer-language').addEventListener('change', updateLanguage);
   $('#voice-language').addEventListener('change', updateLanguage);
@@ -143,7 +222,6 @@
     stop();
     $('#playback-status').textContent = '';
     updateDocuments();
-    // A changed selection needs a fresh click; never leave an answer about old items.
     shown.delete('documents');
     $('#documents-answer').hidden = true;
   }));
@@ -151,6 +229,7 @@
     if (!playing) return;
     $('#playback-status').textContent = locales[voiceLanguage()].playing;
     $('#playback-status').lang = locales[voiceLanguage()].tag;
+    $('#playback-status').dir = locales[voiceLanguage()].direction;
     if (active === 'conversation') $('.demo-orbit').classList.add('is-active');
   });
   audio.addEventListener('ended', () => {
@@ -158,12 +237,14 @@
     stop();
     $('#playback-status').textContent = copy().complete;
     $('#playback-status').lang = copy().tag;
+    $('#playback-status').dir = copy().direction;
   });
   audio.addEventListener('error', () => {
     if (!playing) return;
     stop();
     $('#playback-status').textContent = copy().failed;
     $('#playback-status').lang = copy().tag;
+    $('#playback-status').dir = copy().direction;
   });
   addEventListener('hashchange', route);
   addEventListener('pagehide', stop);
@@ -172,6 +253,7 @@
       stop();
       $('#playback-status').textContent = copy().stopped;
       $('#playback-status').lang = copy().tag;
+      $('#playback-status').dir = copy().direction;
     }
   });
   updateLanguage();

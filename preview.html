@@ -1,23 +1,23 @@
 <!doctype html><html lang="en-AU"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Explore PharmaSNAP AI · Interactive samples</title><meta name="description" content="Try translated English and Vietnamese sample answers, hear the spoken translation, and explore document and ingredient examples. No personal health records are used.">
-<meta name="theme-color" content="#fffaf5"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="/_preview.css"><script src="/demo-samples.js" defer></script><script src="/preview.js" defer></script></head>
+<title>Explore PharmaSNAP AI · Interactive samples</title><meta name="description" content="Hear conversational samples in 11 languages. Explore ingredient checks for allergens, gluten and vegan preferences, brand lookups, and photo-or-text pharmacy availability.">
+<meta name="theme-color" content="#ffffff"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="/_preview.css?v=20261013b"><script src="/demo-samples.js?v=20261013b" defer></script><script src="/preview.js?v=20261013b" defer></script></head>
 <body class="pfs-demo">
 <header class="demo-header"><a class="demo-brand" href="/"><img src="/img/pharmasnap-logo.png" width="42" height="42" alt=""><span>Pharma<strong>SNAP</strong> AI</span></a><a href="/">Back to the website</a></header>
 <main class="demo-layout">
-  <section class="demo-intro"><span class="demo-kicker">Interactive samples</span><h1>A little less uncertainty.<br>A clearer conversation.</h1>
-    <p>Read and hear a sample answer in English or Vietnamese. Try a conversation, select documents, or compare ingredients on two sample labels.</p>
-    <p>Sample screens only. No microphone, camera or health records are used.</p>
-    <details><summary>About these samples</summary><p>These fixed examples are not personalised medical answers. The website demonstrates two languages; the app supports more. Separate answer/voice language choices and the saved-document tray shown here are proposed controls, not yet available in the app. No location is accessed.</p></details>
-    <nav class="demo-tabs" aria-label="Sample screens"><a href="#conversation">Conversation</a><a href="#documents">Documents</a><a href="#ingredients">Ingredients</a></nav>
-    <noscript><p>Turn on JavaScript to try the translations and audio. The sample screens remain available below.</p></noscript>
+  <section class="demo-intro"><span class="demo-kicker">Interactive samples · 11 languages</span><h1>Clear words.<br>A warmer conversation.</h1>
+    <p>Hear a conversational sample in your chosen language. Explore ingredient panels, brand information and a photo-or-text stock-finder walkthrough.</p>
+    <p>No microphone, camera or health records are used. These are fixed examples, with fictional pharmacy results.</p>
+    <details><summary>About these samples</summary><p>The website demonstrates 11 languages with generated neural voices. These fixed examples are not personalised medical answers. Separate written/spoken language choices and the saved-document tray are proposed controls. The pharmacy walkthrough uses fictional pharmacies and availability, not live stock. Brand-search links leave this site only when you choose them.</p></details>
+    <nav class="demo-tabs" aria-label="Sample screens"><a href="#conversation">Conversation</a><a href="#documents">Documents</a><a href="#ingredients">Ingredients</a><a href="#pharmacies">Nearby stock</a></nav>
+    <noscript><p>Turn on JavaScript to try the translations, audio and walkthroughs. The sample information remains available below.</p></noscript>
   </section>
   <div class="demo-phone">
     <div class="demo-top"><span>Pharma<strong>SNAP</strong> AI</span><span>SAMPLE ONLY</span></div>
-    <div class="demo-language"><label>Answer language<select id="answer-language"><option value="en">English</option><option value="vi">Tiếng Việt</option></select></label><label>Spoken language<select id="voice-language"><option value="en">English</option><option value="vi">Tiếng Việt</option></select></label></div>
+    <div class="demo-language"><label for="answer-language">Written answer language</label><select id="answer-language"><option value="en">English</option><option value="vi">Tiếng Việt</option><option value="zh">简体中文</option><option value="ar">العربية</option><option value="hi">हिन्दी</option><option value="el">Ελληνικά</option><option value="it">Italiano</option><option value="fil">Filipino</option><option value="ne">नेपाली</option><option value="ko">한국어</option><option value="es">Español</option></select><label for="voice-language">Spoken answer language</label><select id="voice-language"><option value="en">English</option><option value="vi">Tiếng Việt</option><option value="zh">简体中文</option><option value="ar">العربية</option><option value="hi">हिन्दी</option><option value="el">Ελληνικά</option><option value="it">Italiano</option><option value="fil">Filipino</option><option value="ne">नेपाली</option><option value="ko">한국어</option><option value="es">Español</option></select></div>
     <section id="conversation" aria-labelledby="conversation-title">
       <div class="demo-orbit"><img src="/img/orb-idle.png" width="196" height="196" alt="The PharmaSNAP AI sphere"></div>
       <h2 class="demo-status" id="conversation-title">Ready when you are.</h2>
-      <div class="demo-transcript" id="conversation-answer" aria-live="polite">Try a sample conversation to read and hear a translated answer.</div>
+      <div class="demo-transcript" id="conversation-answer" aria-live="polite">What would you like to understand first?</div>
       <button class="demo-primary" id="play-conversation">Try sample conversation</button>
     </section>
     <section id="documents" aria-labelledby="documents-title">
@@ -31,18 +31,27 @@
       <div class="demo-transcript demo-answer" id="documents-answer" aria-live="polite" hidden></div>
     </section>
     <section id="ingredients" aria-labelledby="ingredients-title">
-      <h2 class="demo-doc-title" id="ingredients-title">What’s inside?<br>Look past the name.</h2>
-      <p class="demo-note">Two fictional medicine labels. This sample compares the printed ingredient names only.</p>
-      <div class="demo-sample-label"><h3 id="pack-a-title">Sample pack A</h3><p><span class="active-label">Active ingredient</span>: <span data-ingredient="paracetamol">paracetamol</span></p></div>
-      <div class="demo-sample-label"><h3 id="pack-b-title">Sample pack B</h3><p><span class="active-label">Active ingredient</span>: <span data-ingredient="paracetamol">paracetamol</span></p></div>
-      <p class="demo-note" id="ingredient-match" hidden></p>
-      <button class="demo-primary" id="check-ingredients">Check sample labels</button>
+      <h2 class="demo-doc-title" id="ingredients-title">Allergens, gluten<br>and vegan ingredients.</h2>
+      <p class="demo-note">Illustrative snack-bar panel. Check what is declared, then investigate the exact brand and product.</p>
+      <div class="demo-sample-label" id="ingredient-panel" lang="en"><h3>Example ingredient panel</h3><p>Ingredients: <span data-ingredient="wheat">wheat flour</span>, sugar, <span data-ingredient="milk">milk powder</span>, <span data-ingredient="gelatine">gelatine</span>, cocoa powder.</p><p>Contains wheat and milk. May contain peanuts.</p></div>
+      <button class="demo-primary" id="check-ingredients">Check the ingredient panel</button>
       <div class="demo-transcript demo-answer" id="ingredients-answer" aria-live="polite" hidden></div>
-      <a class="demo-source" href="https://www.healthdirect.gov.au/paracetamol" target="_blank" rel="noopener noreferrer">About shared paracetamol ingredients · healthdirect ↗</a>
+      <form class="demo-lookup" id="brand-lookup"><label for="brand-query">Brand and exact product</label><input id="brand-query" class="demo-finder-input" type="text" maxlength="160" required placeholder="e.g. brand + product + flavour or strength" autocomplete="off"><button class="demo-primary" type="submit">Prepare brand lookup</button><p class="demo-note">This website sample prepares a manufacturer-information search. In the app, brand lookup is part of the ingredient check.</p><a id="brand-result" class="demo-source" target="_blank" rel="noopener noreferrer" hidden>Look up the brand’s ingredient information ↗</a></form>
+      <a class="demo-source" href="https://www.foodstandards.gov.au/consumer/labelling/allergen-labelling" target="_blank" rel="noopener noreferrer">About allergen labels · Food Standards Australia New Zealand ↗</a>
+    </section>
+    <section id="pharmacies" aria-labelledby="pharmacies-title">
+      <h2 class="demo-doc-title" id="pharmacies-title">Photo or name.<br>Nearby availability.</h2>
+      <p class="demo-note">A walkthrough of the app’s stock finder. These example pharmacies, distances and stock results are fictional.</p>
+      <button class="demo-secondary" id="stock-photo-button">Use an example product photo</button>
+      <div id="stock-photo" hidden><img class="demo-sample-photo" src="/img/lineup-1k.webp" width="1024" height="573" alt="Existing medicine and supplement product illustration"><p class="demo-note">Prepared photo example for this walkthrough: vitamin D3 1000 IU capsules. No camera or image recognition is used here.</p></div>
+      <form id="stock-sample-form"><label for="stock-product">Or type an example product</label><input class="demo-finder-input" id="stock-product" type="text" maxlength="120" required placeholder="Try paracetamol or vitamin D" autocomplete="off"><button class="demo-primary" type="submit">Show sample nearby availability</button></form>
+      <p class="demo-note" id="stock-message" role="status" aria-live="polite"></p>
+      <div id="stock-results" hidden></div>
+      <div class="demo-transcript demo-answer" id="pharmacies-answer" aria-live="polite" hidden></div>
     </section>
     <button class="demo-secondary" id="stop-conversation" hidden>Stop audio</button>
     <p class="demo-playback" id="playback-status" role="status" aria-live="polite"></p>
-    <p class="demo-note" id="language-note">Choose English or Vietnamese for the written answer and spoken answer. These samples use recorded audio; no microphone is accessed.</p>
+    <p class="demo-note" id="language-note">Choose from 11 languages for the written and spoken answers. These samples use neural voice recordings. No microphone is accessed.</p>
     <audio id="sample-audio" preload="none"></audio>
   </div>
 </main></body></html>
