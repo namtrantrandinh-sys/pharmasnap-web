@@ -7,8 +7,8 @@
 .pfs-preview-card h3 { font-size:28px; line-height:1.15; letter-spacing:-.03em; margin:0 0 12px; }
 .pfs-preview-card p { color:#636366; font-size:17px; line-height:1.5; margin:0 0 24px; }
 .pfs-preview-orb { width:160px; height:160px; object-fit:contain; align-self:center; margin:0 auto 24px; }
-.pfs-preview-documents { height:160px; display:flex; flex-direction:column; justify-content:center; gap:10px; align-self:center; margin-bottom:24px; transform:rotate(-5deg); }
-.pfs-preview-documents span { background:#fff; color:#47342a; border:1px solid #eedccc; border-radius:12px; padding:10px 18px; font-size:14px; box-shadow:0 5px 12px #804a2709; }
+.pfs-preview-documents { width:min(100%,220px); height:160px; display:flex; flex-direction:column; justify-content:center; gap:10px; align-self:center; margin-bottom:24px; }
+.pfs-preview-documents span { text-align:center; background:#fff; color:#47342a; border:1px solid #eedccc; border-radius:12px; padding:10px 18px; font-size:14px; box-shadow:0 5px 12px #804a2709; }
 .pfs-preview-card a { display:inline-flex; align-items:center; gap:14px; min-height:48px; padding:12px 18px; border-radius:24px; background:#1d1d1f; color:white; font-size:15px; font-weight:600; margin-top:auto; text-decoration:none; }
 .pfs-preview-card a:hover { background:#9b3100; }
 .pfs-preview-disclaimer { margin-top:20px; font-size:13px; line-height:1.6; color:#636366; }
