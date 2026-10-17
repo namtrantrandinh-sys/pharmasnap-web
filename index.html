@@ -1,27 +1,25 @@
 <!doctype html><html lang="en-AU"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>PharmaSNAP AI · Your health, explained</title>
-<meta name="description" content="Photograph a medicine, a label, a result or a skin condition, then talk it through in 29 languages. Your medicines and your health in one place. Every number has a source. Made in Australia.">
+<meta name="description" content="Your AI medicine assistant: answers in 24 languages, medication ingredient and allergen checks, medicine reminders and pharmacy product and vitamin listings from nearby pharmacies.">
 <meta name="theme-color" content="#FFFFFF">
 <meta name="color-scheme" content="light">
 <meta property="og:title" content="PharmaSNAP AI · Your health, explained">
-<meta property="og:description" content="Photograph a medicine, a label, a result or a skin condition, then talk it through in 29 languages. Your medicines and your health in one place. Every number has a source. Made in Australia.">
+<meta property="og:description" content="Your AI medicine assistant: answers in 24 languages, medication ingredient and allergen checks, medicine reminders and pharmacy product and vitamin listings from nearby pharmacies.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://pharmasnap.app/">
 <meta property="og:image" content="https://pharmasnap.app/img/og.jpg">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Point. Listen. A clear bottle of orange capsules on a light grey background.">
+<meta property="og:image:alt" content="PharmaSNAP AI: photograph a medicine, a label or a result, then ask about it.">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="preload" as="image" href="/img/bottle-1k.webp" type="image/webp" media="(max-width: 734px)" fetchpriority="high">
-<link rel="preload" as="image" href="/img/bottle-2k.webp" type="image/webp" media="(min-width: 735px)" fetchpriority="high">
-<link rel="stylesheet" href="/_home.css?v=20261013b">
-<link rel="stylesheet" href="/_preview.css?v=20261013b">
-
+<link rel="stylesheet" href="/_home.css">
+<link rel="stylesheet" href="/_preview.css">
+<link rel="stylesheet" href="/_illustrations.css">
 </head><body>
 
 <a class="skip" href="#main">Skip to content</a>
@@ -33,7 +31,7 @@
       <span class="wordmark">Pharma<span class="wordmark-snap">SNAP</span> <span class="wordmark-ai">AI</span></span>
     </a>
     <nav aria-label="Sections">
-      <a class="hide-sm" href="#photograph">What to photograph</a>
+      <a class="hide-sm" href="#features">Features</a>
       <a class="hide-xs" href="#languages">Languages</a>
       <a class="hide-sm" href="#pharmacies">Pharmacies</a>
       <a href="/privacy">Privacy</a>
@@ -43,29 +41,81 @@
 
 <main id="main">
 
-  <!-- HERO. The original capsule photograph shares the row with the copy. -->
-  <section class="hero" aria-labelledby="hero-title">
+  <!-- Original service illustrations, not app screenshots. All copy remains
+       native HTML, so it scales and can be read by assistive technology. -->
+  <section class="hero hero--illustrated" aria-labelledby="hero-title">
     <div class="wrap">
       <div class="hero-copy">
-        <h1 id="hero-title">Point. Listen.</h1>
-        <!-- "29 languages", not "your language": Samoan is shown but has no voice. -->
-        <p class="lede">Photograph a medicine, a <span class="nw">pharmacy label</span>, a <span class="nw">blood test</span> or a skin condition. Then talk it through, in <span class="nw">29 languages</span>.</p>
+        <p class="hero-kicker"><span aria-hidden="true"></span>Everyday support, all in one place</p>
+        <h1 id="hero-title"><span class="hero-headline">Your medicine<br>assistant.</span><span class="hero-answer">Simplify your routine.</span></h1>
+        <!-- "24 languages", not "your language": the count is the languages the app
+             READS ALOUD (openaiVoice.OPENAI_SPEECH_LANGUAGES). Punjabi, Bengali,
+             Khmer, Burmese, Sinhala and Samoan are shown on screen and have no
+             voice. src/lib/__tests__/spokenLanguageClaim.test.ts holds this number
+             to the code. -->
+        <p class="lede">Get clear answers about medicines and health documents. Check medication ingredients and allergens, set medicine reminders, and check availability of pharmacy products and vitamins at nearby pharmacies.</p>
+        <p class="hero-methods">Talk, type or share a photo. Hear answers in <span class="nw">24 languages</span>.</p>
         <div class="ctas">
-          <span class="soon">Coming to the App Store
-          </span>
-          <a class="more" href="#photograph">See how it works</a>
+          <a class="hero-explore" href="#features">See how PharmaSNAP helps <span aria-hidden="true">↗</span></a>
+          <span class="hero-availability">Coming to the App Store</span>
         </div>
-        <nav class="hero-features" aria-label="Explore app features"><a href="#ingredients">Allergens, gluten &amp; vegan checks</a><a href="#pharmacies">Find nearby pharmacy stock</a></nav>
       </div>
-      <div class="hero-media">
+    </div>
+    <div class="hero-media">
         <picture class="hero-shot">
-          <img src="/img/bottle-2k.webp"
-               srcset="/img/bottle-1k.webp 768w, /img/bottle-2k.webp 1536w"
-               sizes="(max-width: 734px) 72vw, (max-width: 1532px) 45vw, 690px"
-               width="1536" height="2048" fetchpriority="high" decoding="async"
-               alt="A clear bottle filled with orange capsules, with more capsules floating around it.">
+          <source media="(min-width: 1069px)" srcset="/img/features/hero-medicine-world-960.webp 960w, /img/features/hero-medicine-world-1672.webp 1672w" sizes="100vw">
+          <img src="/img/features/hero-medicine-world-mobile-960.webp"
+               srcset="/img/features/hero-medicine-world-mobile-480.webp 480w, /img/features/hero-medicine-world-mobile-960.webp 960w"
+               sizes="100vw"
+               width="1122" height="941" fetchpriority="high" decoding="async"
+               alt="Illustration of the PharmaSNAP sphere beside a phone with speech waves, medicine packaging and a leaflet under a magnifier, a reminder clock, vitamins and a nearby pharmacy. The screen and neighbourhood are illustrative.">
         </picture>
+    </div>
+    <div class="hero-highlights" aria-label="PharmaSNAP features">
+      <div><span class="hero-highlight-number">01</span><span>Medication ingredient and allergen checks</span></div>
+      <div><span class="hero-highlight-number">02</span><span>Reminders to take your medicine</span></div>
+      <div><span class="hero-highlight-number">03</span><span>Pharmacy product and vitamin availability nearby<small>Browse listings. Ask the pharmacy about stock.</small></span></div>
+    </div>
+  </section>
+
+  <section class="service-stories" id="features" aria-labelledby="features-title">
+    <div class="wrap">
+      <div class="service-intro">
+        <p class="service-kicker">Inside PharmaSNAP</p>
+        <h2 id="features-title">Medicine questions, reminders and nearby pharmacies.</h2>
+        <p>Ask in your own words. Keep your medicines organised. Find a pharmacy to contact.</p>
       </div>
+      <div class="service-grid">
+        <article class="service-card" id="voice-questions">
+          <img src="/img/features/02-talk-960.webp" srcset="/img/features/02-talk-480.webp 480w, /img/features/02-talk-960.webp 960w" sizes="(max-width: 734px) calc(100vw - 32px), (max-width: 1068px) 44vw, 620px" width="1448" height="1086" loading="lazy" decoding="async" alt="Illustration of the listening PharmaSNAP sphere with flowing sound ribbons and speech bubbles.">
+          <div class="service-copy"><h3>Talk to AI about your medicines.</h3><p>Ask a follow-up in your own words. Hear answers aloud in the app's supported spoken languages.</p><a href="#languages">Explore spoken languages</a></div>
+        </article>
+        <article class="service-card" id="ingredients">
+          <img src="/img/features/03-ingredients-960.webp" srcset="/img/features/03-ingredients-480.webp 480w, /img/features/03-ingredients-960.webp 960w" sizes="(max-width: 734px) calc(100vw - 32px), (max-width: 1068px) 44vw, 620px" width="1448" height="1086" loading="lazy" decoding="async" alt="Illustration of a magnifying glass over a medicine leaflet, watched by the curious PharmaSNAP sphere.">
+          <div class="service-copy"><h3>Check medicine ingredients and allergens.</h3><p>Ask about ingredients using information from the pack or leaflet. Missing information does not mean an ingredient is absent or that a medicine is suitable for your allergy. Ask a pharmacist when the evidence is incomplete.</p></div>
+        </article>
+        <article class="service-card" id="nearby-products">
+          <img src="/img/features/04-nearby-960.webp" srcset="/img/features/04-nearby-480.webp 480w, /img/features/04-nearby-960.webp 960w" sizes="(max-width: 734px) calc(100vw - 32px), (max-width: 1068px) 44vw, 620px" width="1448" height="1086" loading="lazy" decoding="async" alt="Illustrated neighbourhood with a pharmacy and the PharmaSNAP sphere inside a location pin. This is not a live map.">
+          <div class="service-copy"><h3>Check availability of pharmacy products and vitamins at nearby pharmacies.</h3><p>Find nearby pharmacies in Australia. For eligible non-prescription medicines and supplements, look for pharmacy website listings. Listings do not guarantee stock. Ask the pharmacy about availability.</p><a href="#pharmacies">See the pharmacy finder</a></div>
+        </article>
+        <article class="service-card" id="medicine-reminders">
+          <img src="/img/features/05-reminders-960.webp" srcset="/img/features/05-reminders-480.webp 480w, /img/features/05-reminders-960.webp 960w" sizes="(max-width: 734px) calc(100vw - 32px), (max-width: 1068px) 44vw, 620px" width="1448" height="1086" loading="lazy" decoding="async" alt="Illustration of an ivory alarm clock, medicine packaging and the cheeky PharmaSNAP sphere winking above a bell.">
+          <div class="service-copy"><h3>Set reminders to take your medicine.</h3><p>Choose your times and a calm voice, a cheeky voice or a chime. Built-in reminder sounds work offline. A chime may play when a spoken recording is unavailable.</p></div>
+        </article>
+        <article class="service-card service-card--wide" id="save-medicines">
+          <img src="/img/features/06-cabinet-960.webp" srcset="/img/features/06-cabinet-480.webp 480w, /img/features/06-cabinet-960.webp 960w" sizes="(max-width: 734px) calc(100vw - 32px), (max-width: 1068px) 44vw, 620px" width="1448" height="1086" loading="lazy" decoding="async" alt="Illustration of an organised medicine cabinet, a dose-record checklist and the PharmaSNAP sphere peeking from a shelf.">
+          <div class="service-copy"><h3>Save your medicines.<br>Keep track of doses.</h3><p>Keep your medicine cabinet and dose records together, and choose which medicines have reminders.</p></div>
+        </article>
+        <article class="service-card" id="saved-chats">
+          <img src="/img/features/08-saved-chats-960.webp" srcset="/img/features/08-saved-chats-480.webp 480w, /img/features/08-saved-chats-960.webp 960w" sizes="(max-width: 734px) calc(100vw - 32px), 44vw" width="1448" height="1086" loading="lazy" decoding="async" alt="Illustration of conversation shapes organised in an ivory archive tray, with the PharmaSNAP sphere looking on.">
+          <div class="service-copy"><h3>Return to your saved chats.</h3><p>Search chat titles and reopen earlier questions and answers. Reading saved text creates no new AI answer. Saving and loading need a connection.</p></div>
+        </article>
+        <article class="service-card" id="health-details">
+          <img src="/img/features/10-health-details-960.webp" srcset="/img/features/10-health-details-480.webp 480w, /img/features/10-health-details-960.webp 960w" sizes="(max-width: 734px) calc(100vw - 32px), 44vw" width="1448" height="1086" loading="lazy" decoding="async" alt="Illustration of an ivory health organiser with turquoise dividers, abstract cards, a medicine bottle and the attentive PharmaSNAP sphere. No personal records are shown.">
+          <div class="service-copy"><h3>Keep your health details together.</h3><p>Save allergies, conditions and readings you choose to share, alongside your medicine information. Use these details when asking questions in the app.</p></div>
+        </article>
+      </div>
+      <p class="service-limit">PharmaSNAP provides information, not medical advice. AI can make mistakes. Ask a pharmacist or doctor about a treatment decision.</p>
     </div>
   </section>
 
@@ -85,9 +135,16 @@
              placeholder so the render is not fetched twice (the crops load it);
              the <img> stays for its alt text. -->
         <div class="tile t-lineup s12">
-          <!-- TRUE: packs are matched to the Australian register and a name match
-               no longer vouches for the wrong strength (sibling-strength gate). -->
-          <p class="lead">The exact medicine, down to the strength.</p>
+          <!-- TRUE, AND NO MORE THAN TRUE (2026-10-11). This said "The exact
+               medicine, down to the strength.", which promises a match the terms
+               page calls "not proof". What the app does is read the words printed
+               on the pack and look that name and strength up in the Australian
+               register. Never claim it tells you what a medicine is. A rash was
+               also dropped from the hero and the two descriptions above: the app
+               describes a skin photo and names nothing, and a list of things to
+               photograph does not say that.
+               consentTruthWeb.test.ts fails if either sentence comes back. -->
+          <p class="lead">It reads the name and strength printed on your pack.</p>
           <picture>
             <source media="(max-width: 734px)" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">
             <img class="ph" src="/img/lineup-2k.webp"
@@ -104,87 +161,13 @@
           </ul>
         </div>
 
-        <!-- Health documents. Drawn, not photographed: blank printed pages, no
-             handwriting, no signature, no logo, no legible text, no phone.
-             True claim: photograph the page and ask about it. It does not read
-             handwriting or turn a letter into a report. -->
-        <div class="tile t-docs s12">
+        <!-- Supported document inputs only; illustration has no clinical values. -->
+        <div class="tile t-docs t-docs--illustrated s12">
           <div class="docs-cap">
-            <h3>Prescriptions and hospital letters.</h3>
-            <p>Photograph the page, then ask about it.</p>
+            <h3>Pharmacy labels and blood-test results.</h3>
+            <p>Photograph the label or results page, then ask about it.</p>
           </div>
-          <svg class="docs" viewBox="0 0 640 440" aria-hidden="true" focusable="false">
-            <defs>
-              <filter id="paper" x="-30%" y="-30%" width="160%" height="160%">
-                <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000" flood-opacity=".06"/>
-                <feDropShadow dx="0" dy="14" stdDeviation="16" flood-color="#000" flood-opacity=".09"/>
-              </filter>
-            </defs>
-            <!-- A letter: letterhead block, address, body lines. -->
-            <g transform="translate(262 252) rotate(-8)">
-              <g class="sheet-back">
-                <rect x="-128" y="-180" width="256" height="362" rx="7" fill="#fff" filter="url(#paper)"/>
-                <rect x="-102" y="-154" width="30" height="30" rx="8" fill="#E2E2E7"/>
-                <rect x="-62" y="-151" width="88" height="9" rx="4.5" fill="#D6D6DB"/>
-                <rect x="-62" y="-135" width="58" height="7" rx="3.5" fill="#E6E6EA"/>
-                <rect x="54" y="-151" width="48" height="7" rx="3.5" fill="#E6E6EA"/>
-                <rect x="-102" y="-106" width="204" height="1.5" fill="#EDEDF0"/>
-                <g fill="#E6E6EA">
-                  <rect x="-102" y="-90" width="94" height="7" rx="3.5"/>
-                  <rect x="-102" y="-76" width="122" height="7" rx="3.5"/>
-                  <rect x="-102" y="-62" width="72" height="7" rx="3.5"/>
-                </g>
-                <g fill="#E3E3E8">
-                  <rect x="-102" y="-34" width="204" height="7" rx="3.5"/>
-                  <rect x="-102" y="-20" width="190" height="7" rx="3.5"/>
-                  <rect x="-102" y="-6" width="198" height="7" rx="3.5"/>
-                  <rect x="-102" y="8" width="150" height="7" rx="3.5"/>
-                  <rect x="-102" y="36" width="204" height="7" rx="3.5"/>
-                  <rect x="-102" y="50" width="178" height="7" rx="3.5"/>
-                  <rect x="-102" y="64" width="196" height="7" rx="3.5"/>
-                  <rect x="-102" y="78" width="122" height="7" rx="3.5"/>
-                  <rect x="-102" y="106" width="204" height="7" rx="3.5"/>
-                  <rect x="-102" y="120" width="160" height="7" rx="3.5"/>
-                </g>
-              </g>
-            </g>
-            <!-- A prescription: header strip, two detail rows, three items. -->
-            <g transform="translate(440 268) rotate(6)">
-              <g class="sheet-front">
-                <rect x="-106" y="-148" width="212" height="296" rx="7" fill="#fff" filter="url(#paper)"/>
-                <rect x="-92" y="-134" width="184" height="32" rx="7" fill="#F2F2F5"/>
-                <rect x="-80" y="-122" width="66" height="8" rx="4" fill="#D3D3D8"/>
-                <g fill="#E3E3E8">
-                  <rect x="-92" y="-86" width="38" height="6" rx="3"/>
-                  <rect x="-92" y="-72" width="32" height="6" rx="3"/>
-                </g>
-                <g fill="#D9D9DE">
-                  <rect x="-46" y="-86" width="96" height="6" rx="3"/>
-                  <rect x="-46" y="-72" width="118" height="6" rx="3"/>
-                </g>
-                <rect x="-92" y="-54" width="184" height="1.5" fill="#EDEDF0"/>
-                <rect x="-92" y="-38" width="150" height="8" rx="4" fill="#D6D6DB"/>
-                <rect x="-92" y="-24" width="100" height="6" rx="3" fill="#E6E6EA"/>
-                <rect x="-92" y="8" width="134" height="8" rx="4" fill="#D6D6DB"/>
-                <rect x="-92" y="22" width="92" height="6" rx="3" fill="#E6E6EA"/>
-                <rect x="-92" y="54" width="142" height="8" rx="4" fill="#D6D6DB"/>
-                <rect x="-92" y="68" width="84" height="6" rx="3" fill="#E6E6EA"/>
-                <rect x="-92" y="110" width="64" height="6" rx="3" fill="#E6E6EA"/>
-                <rect x="32" y="110" width="60" height="6" rx="3" fill="#E6E6EA"/>
-                <!-- the line you are asking about -->
-                <path class="mark" d="M-91 -3H45a12 12 0 0 1 12 12V27a12 12 0 0 1-12 12H-91a12 12 0 0 1-12-12V9a12 12 0 0 1 12-12Z" fill="rgba(242,107,29,.07)" stroke="#F26B1D" stroke-width="2.5" pathLength="1"/>
-              </g>
-            </g>
-            <!-- The question: an orange bubble with a drawn question mark. -->
-            <g class="ask-bubble" transform="translate(560 214)">
-              <g class="ask-pop">
-                <path d="M-24 18 L-46 42 L-12 27 Z" fill="#F26B1D"/>
-                <circle r="30" fill="#F26B1D"/>
-                <path d="M-8.5 -8.5a8.5 8.5 0 1 1 12.2 7.7c-2.8 1.3-3.7 3-3.7 6" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
-                <circle cx="0" cy="14.5" r="3.3" fill="#fff"/>
-              </g>
-            </g>
-          </svg>
+          <img class="docs-art" src="/img/features/07-health-documents-960.webp" srcset="/img/features/07-health-documents-480.webp 480w, /img/features/07-health-documents-960.webp 960w" sizes="(max-width: 734px) calc(100vw - 32px), 48vw" width="1448" height="1086" loading="lazy" decoding="async" alt="Illustration of results pages, a magnifier and a sample vial, with the curious PharmaSNAP sphere. The paper has no real health results.">
         </div>
 
         <!-- Put it all together. Drawn, no legible text, no phone screen.
@@ -279,29 +262,15 @@
     </div>
   </section>
 
-  <section class="ingredients band" id="ingredients" aria-labelledby="h-ingredients">
-    <div class="wrap">
-      <p class="ingredient-kicker">Ingredient checker · allergens &amp; dietary needs</p>
-      <h2 class="head" id="h-ingredients">Allergens. Gluten. Vegan.</h2>
-      <p class="ingredient-intro">Photograph the ingredient panel on a food, drink, medicine or supplement. Tell PharmaSNAP what matters to you, and it checks the label and looks up the exact brand and product.</p>
-      <div class="ingredient-grid">
-        <article><span class="ingredient-step" aria-hidden="true">01</span><h3>Read the whole panel.</h3><p>See the ingredients, allergen declarations and “may contain” statements together. Small print should not hide what you need to know.</p></article>
-        <article><span class="ingredient-step" aria-hidden="true">02</span><h3>Check what matters to you.</h3><ul class="ingredient-checks"><li><strong>Gluten &amp; coeliac needs</strong> — ingredients such as wheat, barley and rye.</li><li><strong>Allergies</strong> — declared ingredients such as milk, soy, eggs, peanuts and tree nuts.</li><li><strong>Vegan preferences</strong> — animal-derived ingredients such as gelatine or milk.</li></ul></article>
-        <article><span class="ingredient-step" aria-hidden="true">03</span><h3>Look up the brand.</h3><p>The exact brand, product and formulation matter. Check available manufacturer information for details the panel does not explain. If an ingredient’s source or cross-contact information is missing, that stays unclear.</p></article>
-      </div>
-      <div class="ingredient-bottom"><a class="ingredient-link" href="/preview.html#ingredients">Try the ingredient checker <span aria-hidden="true">↗</span></a><p>A label reading cannot certify that a product is allergen-free, gluten-free or vegan. Check the current pack and manufacturer’s information; ask a pharmacist about medicines.</p></div>
-    </div>
-  </section>
-
   <!-- THE REST OF THE LIGHT BENTO. Each tile names itself with its own h2.
        Photo tiles sit on their render's own ground colour, so no edge shows. -->
   <div class="band light-cont">
     <div class="wrap">
       <div class="bento">
 
-        <!-- The numeral. 29 voices; Samoan is text only, so never 30. -->
+        <!-- The numeral. 24 voices: six of the thirty languages are text only. -->
         <div class="tile t-num s5" id="languages">
-          <h2><span class="n">29</span> <span class="w">languages, out loud.</span></h2>
+          <h2><span class="n">24</span> <span class="w">languages, out loud.</span></h2>
           <svg class="voice-line" viewBox="0 0 666 120" preserveAspectRatio="xMinYMid meet" aria-hidden="true" focusable="false">
             <defs><linearGradient id="vg" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#D2D2D7"/><stop offset=".3" stop-color="#F26B1D"/><stop offset=".7" stop-color="#F26B1D"/><stop offset="1" stop-color="#D2D2D7"/></linearGradient></defs>
             <path fill="none" stroke="url(#vg)" stroke-width="6" stroke-linecap="round" d="M3 59v2M15 59v2M27 57.5v5M39 55.5v9M51 54v12M63 53.5v13M75 54.5v11M87 53.5v13M99 49.5v21M111 46.5v27M123 46v28M135 47.5v25M147 49.5v21M159 44.5v31M171 41.5v37M183 42v36M195 45.5v29M207 36v48M219 26v68M231 17.5v85M243 14v92M255 17v86M267 25.5v69M279 38v44M291 33v54M303 22.5v75M315 18v84M327 20v80M339 27v66M351 36v48M363 38.5v43M375 34.5v51M387 36v48M399 42v36M411 33.5v53M423 25.5v69M435 20.5v79M447 21v78M459 26.5v67M471 36v48M483 47v26M495 39.5v41M507 35v50M519 35v50M531 38v44M543 43.5v33M555 49.5v21M567 54v12M579 53.5v13M591 54.5v11M603 56.5v7M615 57v6M627 57v6M639 58v4M651 59v2M663 59v2"/>
@@ -310,19 +279,20 @@
         </div>
 
         <!-- Native scripts, each tagged with its language and direction.
-             "and 17 more" = 29 voiced minus the 12 shown; recount if this changes. -->
-        <div class="tile t-wave s7">
-          <img class="ph" src="/img/wave-1k.webp"
-               srcset="/img/wave-1k.webp 1024w, /img/wave-2k.webp 2048w"
+             "and 12 more" = 24 voiced minus the 12 shown; recount if this changes.
+             Every language shown here must be one the app reads aloud. -->
+        <div class="tile t-wave t-wave--illustrated s7">
+          <img class="ph" src="/img/features/09-languages-960.webp"
+               srcset="/img/features/09-languages-480.webp 480w, /img/features/09-languages-960.webp 960w"
                sizes="(max-width: 734px) calc(100vw - 32px), (max-width: 1068px) 52vw, 730px"
                width="2048" height="1536" loading="lazy" decoding="async"
-               alt="Orange and white capsules laid out in one flowing wave, like the shape of a spoken voice.">
+               alt="Illustration of a globe, speech shapes and flowing sound ribbons, with the listening PharmaSNAP sphere.">
           <ul class="chips" role="list" aria-label="Some of the languages the app speaks">
             <li lang="en">English</li>
             <li lang="zh-Hans">简体中文</li>
             <li lang="ar" dir="rtl">العربية</li>
             <li lang="vi">Tiếng Việt</li>
-            <li lang="pa">ਪੰਜਾਬੀ</li>
+            <li lang="ta">தமிழ்</li>
             <li lang="el">Ελληνικά</li>
             <li lang="it">Italiano</li>
             <li lang="hi">हिन्दी</li>
@@ -330,7 +300,7 @@
             <li lang="ne">नेपाली</li>
             <li lang="ko">한국어</li>
             <li lang="es">Español</li>
-            <li class="and">and 17 more</li>
+            <li class="and">and 12 more</li>
           </ul>
         </div>
 
@@ -393,7 +363,7 @@
             <h2>What it will not do.</h2>
             <ul class="nots" role="list">
               <li><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.2"/><path d="M5.5 5.5l13 13"/></svg>Name a loose tablet.</li>
-              <li><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.2"/><path d="M5.5 5.5l13 13"/></svg>Diagnose you.</li>
+              <li><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.2"/><path d="M5.5 5.5l13 13"/></svg>Tell you what illness you have.</li>
               <li><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.2"/><path d="M5.5 5.5l13 13"/></svg>Promise a pharmacy has stock.</li>
               <li><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.2"/><path d="M5.5 5.5l13 13"/></svg>Track you across other apps.</li>
             </ul>
@@ -538,9 +508,8 @@
              585 of the 720 viewBox is visible: keep every pin inside that. -->
         <div class="tile t-map s7" id="pharmacies">
           <div class="cap">
-            <h3>Snap it. Find nearby stock.</h3>
-            <p>Take a photo of the pack or type its name. See nearby pharmacy availability together, with the source and any stock that is still unconfirmed.</p>
-            <a class="map-finder-link" href="/preview.html#pharmacies">Try the stock finder sample <span aria-hidden="true">↗</span></a>
+            <h3>Find the nearest pharmacy.</h3>
+            <p>Across Australia. Opens in Maps.</p>
           </div>
           <div class="map-box">
             <svg class="map" viewBox="0 0 720 420" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
@@ -578,48 +547,22 @@
     </div>
   </section>
 
-  <section class="pharmacy-finder band" id="pharmacy-finder" aria-labelledby="h-finder">
-    <div class="wrap">
-      <p class="ingredient-kicker">Find a product · nearby pharmacy availability</p>
-      <h2 class="head" id="h-finder">One product. Nearby stock.</h2>
-      <p class="ingredient-intro">Looking for a particular medicine or pharmacy product? Take a photo or type the exact name. PharmaSNAP brings nearby pharmacy availability into one view, so you can stop repeating the same search.</p>
-      <div class="ingredient-grid">
-        <article><span class="ingredient-step" aria-hidden="true">01</span><h3>Photo or product name.</h3><p>Start with the pack you have, or type the name, strength and size of the product you are looking for.</p></article>
-        <article><span class="ingredient-step" aria-hidden="true">02</span><h3>Check nearby pharmacies.</h3><p>The app checks available stock information for nearby pharmacies and keeps the results together.</p></article>
-        <article><span class="ingredient-step" aria-hidden="true">03</span><h3>See what is available.</h3><p>View reported availability, out-of-stock results and places where availability is unknown. A product listing is distinguished from confirmed stock.</p></article>
-      </div>
-      <div class="ingredient-bottom"><a class="ingredient-link" href="/preview.html#pharmacies">Try photo or typed-product samples <span aria-hidden="true">↗</span></a><p>Stock information can change. The app shows when availability has not been confirmed. The website walkthrough uses clearly labelled example data.</p></div>
-    </div>
-  </section>
-
   <section class="pfs-preview" aria-labelledby="pfs-preview-title">
     <div class="wrap">
-      <p class="pfs-preview-label">Interactive samples</p>
+      <p class="pfs-preview-label">Interactive design previews</p>
       <h2 id="pfs-preview-title">Explore the app.</h2>
       <div class="pfs-preview-grid">
         <article class="pfs-preview-card">
           <img class="pfs-preview-orb" src="/img/orb-idle.png" width="160" height="160" loading="lazy" alt="">
           <h3>Talk it through.</h3>
-          <p>Hear a more natural sample answer in 11 languages. Choose the written and spoken language separately.</p>
-          <a href="/preview.html#conversation">Try conversation <span aria-hidden="true">↗</span></a>
+          <p>Explore the sphere-led conversation, language choices and spoken-answer controls.</p>
+          <a href="/preview.html#conversation">Preview conversation <span aria-hidden="true">↗</span></a>
         </article>
         <article class="pfs-preview-card">
           <div class="pfs-preview-documents" aria-hidden="true"><span>Medicine</span><span>Blood test</span><span>Hospital report</span></div>
           <h3>Your health, together.</h3>
           <p>Explore adding medicines, prescriptions and health reports to the same question.</p>
-          <a href="/preview.html#documents">Try documents <span aria-hidden="true">↗</span></a>
-        </article>
-        <article class="pfs-preview-card">
-          <div class="pfs-preview-documents" aria-hidden="true"><span>Gluten &amp; coeliac needs</span><span>Declared allergens</span><span>Vegan ingredients</span></div>
-          <h3>Check the ingredients.</h3>
-          <p>Read an example ingredient panel, see gluten, milk and gelatine flagged, then explore a brand lookup.</p>
-          <a href="/preview.html#ingredients">Try ingredients <span aria-hidden="true">↗</span></a>
-        </article>
-        <article class="pfs-preview-card">
-          <div class="pfs-preview-documents" aria-hidden="true"><span>Photo or product name</span><span>Nearby stock information</span><span>Availability in one view</span></div>
-          <h3>Find nearby stock.</h3>
-          <p>Take a photo or type a product once. Explore nearby pharmacy availability together in the sample.</p>
-          <a href="/preview.html#pharmacies">Try the stock finder <span aria-hidden="true">↗</span></a>
+          <a href="/preview.html#documents">Preview documents <span aria-hidden="true">↗</span></a>
         </article>
       </div>
       <p class="pfs-preview-disclaimer">Sample screens only. These previews do not use your microphone, camera or health records. Some proposed controls are not yet available in the app.</p>
