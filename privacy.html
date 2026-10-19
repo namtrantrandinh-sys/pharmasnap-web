@@ -1,9 +1,9 @@
 <!doctype html>
-<!-- Prepared Plus policy draft, 16 October 2026. Publication remains on the Sunday 18 October release hold. --><html lang="en-AU"><head><meta charset="utf-8">
+<!-- Clinical document policy draft, 18 October 2026. Publish with the clinical rollout only after the reviewed release checks. --><html lang="en-AU"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Privacy Policy · PharmaSNAP AI</title><link rel="stylesheet" href="/_style.css"></head><body><div class="wrap">
 <h1>Privacy Policy</h1>
-<p class="updated">PharmaSNAP AI · Last updated 16 October 2026</p>
+<p class="updated">PharmaSNAP AI · Last updated 18 October 2026</p>
 
 <p>PharmaSNAP AI is an app that reads medicines and health documents from a photograph and explains
 them, out loud, in your language. It is made by LORDLY PTY LTD in Australia.</p>
@@ -39,6 +39,7 @@ sponsored.</p></div>
 <tr><td>Questions you type or say</td><td>To answer them and apply usage limits</td><td>The words and answers are saved privately in your chat history until you delete the chat or account. Usage counts and separate short-lived answer caches are also kept. See "Saved conversations" and "Answers we keep for a short time"</td></tr>
 <tr><td>A note of each scan: what kind of thing it was, the medicine's register number or product code, the language, and when</td><td>To count your free reports</td><td>Yes, until you delete your account</td></tr>
 <tr><td>Usage records. For each request: the time, which part of the service handled it, how long it took and what it cost us to run. For some answers, the general topic, such as warnings or pregnancy. For a stock check, a scrambled code for the product. For the live conversation mode, how long it was open</td><td>To apply your allowance and our spending limits, and to see what the service costs. They hold no question text</td><td>Yes, until you delete your account. After that the amounts alone are kept for 12 months with nothing that names you. See "Deleting everything"</td></tr>
+<tr><td>Document readings you choose to save: original passages, document type, source details, dates where shown, language and a protected matching code</td><td>So you can use a saved reading alongside new documents and keep different people's documents separate. These readings are not added to the shared medicine library or used for stored-question meaning matching</td><td>Yes, against your account until you remove the reading or delete your account. Saved chats may also contain the passages used in them</td></tr>
 <tr><td>Your app settings: language, country, and whether answers are read aloud automatically</td><td>So the app is set up the same way on your next phone</td><td>Yes, until you delete your account</td></tr>
 <tr><td>Your location</td><td>To find pharmacies near you, when you ask for them</td><td>Not saved. See "What we do not keep"</td></tr>
 <tr><td>Purchases: your account identifier and whether you have a subscription. Also a count of how many times your account has asked us to check your subscription in the current minute and the current hour</td><td>To know whether you have a subscription. The count stops one account using up the checks all customers share</td><td>Yes, handled by Apple and RevenueCat. The count is kept with your account until you delete it</td></tr>
@@ -98,12 +99,26 @@ processing credits and refresh periods. A video answer can miss things
 that happen quickly. It does not tell you which medicine a loose tablet is, it does not tell you what
 is wrong with you, and it does not tell you whether the way you use a medicine or a device is
 safe.</p>
-<h3>A PDF of blood-test results you choose</h3>
-<p>You can also choose a PDF file of blood-test results, up to six pages, with "Choose a file". It is
-sent to our server and on to Anthropic to be read in the same way as a photograph, including every
-name, date of birth, Medicare number and other detail printed in it. We do <strong>not save the file in
-our application storage</strong>, and it is not kept with your account. Provider retention is described
-below. If the file is not a pathology report, the app says so and reports nothing from it.</p>
+<h3>Medicine and health documents you choose</h3>
+<p>You can choose a supported PDF of up to six pages, including blood-test results, hospital letters,
+referrals or discharge summaries. Supported documents can also be photographed. The file or photo
+is sent to our server and on to Anthropic to be read, including any name, date of birth, Medicare
+number and other detail printed in it. We do <strong>not save the original PDF upload in our application
+storage</strong>. Photos are handled as described above, including a photo you choose to keep with a
+cabinet medicine. Provider retention is described below. An unsupported or unclear document is refused.</p>
+
+<h3>Private document readings</h3>
+<p>The app returns accepted original passages with source details and dates where shown. You can
+choose to save a reading in My health and use it alongside new documents. The saved reading is
+extracted text and source details, not the original file. Access through the app is limited to your
+account. A protected matching code made from a printed name and date of birth helps keep different
+people's documents separate; those two values are not kept as separate fields in the saved reading.</p>
+<p>Temporary permission to reuse a reading lasts for two hours after it is returned. A follow-up can
+refresh that period. A saved chat may still show passages used in that conversation. Removing a saved reading does not erase those passages from an
+existing saved chat; delete that chat to remove its copy. Private readings and answers based on them
+are excluded from the shared medicine knowledge library, stored-question embeddings and shared
+speech storage. When AI is used to answer a question with a private reading, we may send its accepted text and your
+question to Anthropic. Private readings are health information linked to your account.</p>
 
 <h3>Your location</h3>
 <p>When you ask for a pharmacy near you, your location is sent to our server so we can work out which
@@ -233,7 +248,7 @@ the question is about taking one of your own medicines, it can also include the 
 take, because that kind of question has to be looked at against all of them. What it picks is sent
 with your question to Anthropic, whose AI model writes the answer. The app does not save its own
 conclusions about your health as facts about you: only what you added, or agreed to save.</p>
-<p>You can see, change or remove anything in My health at any time, from inside the app.</p>
+<p>You can see or remove anything in My health from inside the app. Entries with an edit option can also be changed.</p>
 
 <h2>Answers we keep for a short time</h2>
 <p>When the app writes an answer it can keep it, so the same question does not have to be worked out
@@ -265,7 +280,7 @@ paid placement in the app, it is labelled as one, and it is described above.</p>
 <h2>Deleting everything</h2>
 <p>You can delete your account from inside the app: <strong>Profile → Delete my account</strong>. That
 permanently removes your sign-in, your cabinet, your dose records, everything in My health, the
-photographs you kept, saved chats, your settings, your usage records and any answer cached against your account. You
+photographs you kept, private saved document readings, saved chats, your settings, your usage records and any answer cached against your account. You
 can also remove a single medicine or a single My health entry at any time, and removing a medicine
 deletes its dose records and any photograph you kept with it.</p>
 <p>You do not have to give the AI permission to delete your account. If you have not given it, or you
