@@ -1,17 +1,24 @@
 <!doctype html>
 <!-- Clinical document policy draft, 18 October 2026. Publish with the clinical rollout only after the reviewed release checks. --><html lang="en-AU"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Privacy Policy · PharmaSNAP AI</title><link rel="stylesheet" href="/_style.css"></head><body><div class="wrap">
+<title>Privacy Policy · PharmaSNAP AI</title><link rel="stylesheet" href="/_style.css"><style>
+.privacy-section{border:1px solid var(--rule);border-radius:18px;margin:14px 0;background:var(--panel)}
+.privacy-section>summary{min-height:48px;padding:16px 20px;cursor:pointer;color:var(--ink)}
+.privacy-section>summary h2{display:inline;font:inherit;font-size:1.1rem;font-weight:700;line-height:1.5}
+.privacy-section>summary:focus-visible{outline:3px solid var(--brand);outline-offset:3px;border-radius:16px}
+.privacy-body{padding:0 20px 18px;overflow-wrap:anywhere}
+.privacy-body table{display:block;overflow-x:auto;max-width:100%}
+.privacy-section[open]>summary{border-bottom:1px solid var(--rule)}
+.privacy-intro{font-size:1.1rem;line-height:1.65}
+.privacy-section>summary::marker{color:var(--brand)}
+</style></head><body><div class="wrap">
 <h1>Privacy Policy</h1>
-<p class="updated">PharmaSNAP AI · Last updated 18 October 2026</p>
+<p class="updated">PharmaSNAP AI · Last updated 21 October 2026</p>
 
-<p>PharmaSNAP AI is an app that reads medicines and health documents from a photograph and explains
-them, out loud, in your language. It is made by LORDLY PTY LTD in Australia.</p>
-
-<p>This policy explains what the app collects, which companies receive it, what it does not keep, and
-how to get rid of it. It is written to be read, not to be survived.</p>
-
-<div class="callout"><p><strong>The short version.</strong> The app needs an account. To answer you, it
+<p class="privacy-intro">PharmaSNAP uses AI to help answer your questions. Photos, files, questions and relevant saved health details and cabinet medicines may go to Anthropic. Voice recordings and spoken-answer text may go to OpenAI, with Microsoft Azure for backup or enabled live voice. Processing can take place outside Australia, including the United States. Providers may retain information under their service terms.</p>
+<p>Photos and documents can include personal details. Choose a section below for storage, deletion, recipients and your choices. Screened general medicine knowledge is kept separately from your private health information.</p>
+<p><a href="/privacy-full.html">Read or print the full policy on one page</a></p>
+<details class="privacy-section"><summary><h2>AI and voice sharing at a glance</h2></summary><div class="privacy-body"><div class="callout"><p><strong>The short version.</strong> The app needs an account. To answer you, it
 sends what you give it to companies outside Australia, including in the United States. Photographs you
 scan, a PDF of blood-test results you choose, the questions you ask, and the saved health details and
 cabinet medicines that bear on a question go to Anthropic, whose AI models read them and write the
@@ -22,9 +29,9 @@ and the names of nearby pharmacies. We do not save scanned photographs, videos o
 own storage unless you choose to keep a cabinet photo. These companies can hold what they receive for a time under their own rules, as explained
 below. We keep your account, your cabinet, your dose records, saved chat text and what you add to My health until you
 delete them. We do not sell personal information. Paid pharmacy placements are labelled as
-sponsored.</p></div>
+sponsored.</p></div></div></details>
 
-<h2>What we collect, and why</h2>
+<details class="privacy-section"><summary><h2>What we collect, and why</h2></summary><div class="privacy-body">
 <table>
 <tr><th>What</th><th>Why</th><th>Kept?</th></tr>
 <tr><td>Your email address</td><td>To sign you in. The app needs an account. You can use Sign in with Apple, where a private relay address is fine, or sign in with your own email address and a password</td><td>Yes, until you delete your account</td></tr>
@@ -43,9 +50,12 @@ sponsored.</p></div>
 <tr><td>Your app settings: language, country, and whether answers are read aloud automatically</td><td>So the app is set up the same way on your next phone</td><td>Yes, until you delete your account</td></tr>
 <tr><td>Your location</td><td>To find pharmacies near you, when you ask for them</td><td>Not saved. See "What we do not keep"</td></tr>
 <tr><td>Purchases: your account identifier and whether you have a subscription. Also a count of how many times your account has asked us to check your subscription in the current minute and the current hour</td><td>To know whether you have a subscription. The count stops one account using up the checks all customers share</td><td>Yes, handled by Apple and RevenueCat. The count is kept with your account until you delete it</td></tr>
+<tr><td>An app problem you choose to report: category, optional message, account reference and the app details shown before sending</td><td>For PharmaSNAP support to investigate the app problem. It is not an AI question</td><td>Until account deletion, or scheduled cleanup twelve months after the ticket's latest update</td></tr>
+<tr><td>A daily app-open count, only if you turn on optional activity sharing</td><td>To understand how many consenting accounts use the app. It includes your account and UTC day, not screens, medicines, questions, photos or location</td><td>The dashboard uses thirty UTC days; daily cleanup removes older days. Turning sharing off or deleting the account removes your own day records. Your sharing choice is kept until account deletion</td></tr>
 </table>
 
-<h2>Saved conversations</h2>
+</div></details>
+<details class="privacy-section"><summary><h2>Saved conversations</h2></summary><div class="privacy-body">
 <p>Questions, answers, their source references and the text read from a photograph or health document
 are saved privately with your account in Supabase so you can return to a conversation on another
 signed-in device. This can include sensitive health information. We do not save the raw photograph,
@@ -68,7 +78,8 @@ Reading a saved answer aloud uses the voice service like any other answer, unles
 These copies are kept in the app's own storage on that phone under your account. The app does not send them
 anywhere, another account on the same phone is never shown them, they stay on the phone when you sign out, and
 they are removed from the phone when you delete your account on it.</p>
-<h2>What we do not keep</h2>
+</div></details>
+<details class="privacy-section"><summary><h2>What we do not keep</h2></summary><div class="privacy-body">
 <h3>The photographs you scan</h3>
 <p>When you photograph a medicine, a pharmacy label or a health document, the picture is sent to our
 server, which passes it to Anthropic to be read. We do <strong>not save the upload in our application
@@ -148,7 +159,8 @@ retained for abuse monitoring for up to thirty days under its default policy. Sp
 can differ. We do not claim that our account has zero data retention. See
 <a href="https://developers.openai.com/api/docs/guides/your-data">OpenAI's API data controls</a>.</p>
 
-<h2>Shared medicine knowledge</h2>
+</div></details>
+<details class="privacy-section"><summary><h2>Shared medicine knowledge</h2></summary><div class="privacy-body">
 <p>When the shared knowledge feature is enabled, screened general medicine answers may be saved
 without account details to build PharmaSNAP's knowledge and improve future answers. This library
 excludes personal health information, personal questions, prescription directions and health documents.
@@ -163,7 +175,8 @@ This builds the app's reference library; it is not a statement that your persona
 train an AI model. Photographs, files, recordings or question text sent for an answer can still contain
 names and other personal details you include, so we do not describe every AI request as anonymous.</p>
 
-<h2>Who receives what</h2>
+</div></details>
+<details class="privacy-section"><summary><h2>Who receives what</h2></summary><div class="privacy-body">
 <p>These are the companies and public services the app sends information to, and what each one
 receives. They process it on our behalf under their own service terms and settings. Our choice not to
 store an upload is not a promise of immediate deletion by them.</p>
@@ -173,14 +186,15 @@ store an upload is not a promise of immediate deletion by them.</p>
 <tr><td>Anthropic, in the United States. Our server calls its Claude AI models</td><td>The photographs you scan and the PDF files you choose, with everything printed on them. The questions you type, the text of the questions you say, and what was said earlier in the same conversation. The saved health details and cabinet medicines that bear on your question. For a pharmacy stock search, the medicine name and the names and suburbs of nearby pharmacies</td><td>To read what you sent, write the answer, and search the web when a question or a stock check needs it</td></tr>
 <tr><td>OpenAI, in the United States</td><td>The recording, when you ask a question by voice. The words of an answer, when the app reads it aloud. An eligible general medicine question, without an account identifier, when meaning matching is enabled</td><td>To turn your speech into text, the answer into speech, and an eligible general question into an embedding for stored-answer matching</td></tr>
 <tr><td>Microsoft Azure</td><td>The same recordings and answer words, but only in a version of the app that has been switched to our backup voice service. In the live conversation mode, where it is switched on for an account, the sound from your microphone, streamed from your phone for as long as the conversation is open</td><td>Backup speech, and the live conversation mode</td></tr>
-<tr><td>Supabase, which hosts our server, database and sign-in</td><td>Your email address and account identifier, and your password if you sign in by email. Your cabinet, dose records, My health entries, saved chat text and source references, kept photographs, settings and usage records. Your location passes through for a nearby-pharmacy search and is not saved. Photographs, files, questions, recordings and a short video you choose to send pass through this server on their way to Anthropic, OpenAI and Google, and to Microsoft Azure where the backup voice service is switched on. Supabase also sends the account confirmation and password-reset emails, itself or through an email delivery service</td><td>To run the app and keep your account</td></tr>
+<tr><td>Supabase, which hosts our server, database and sign-in</td><td>Your email address and account identifier, and your password if you sign in by email. Your cabinet, dose records, My health entries, saved chat text and source references, kept photographs, settings and usage records. App support tickets, optional daily app-open counts and the sharing choices described below. Your location passes through for a nearby-pharmacy search and is not saved. Photographs, files, questions, recordings and a short video you choose to send pass through this server on their way to Anthropic, OpenAI and Google, and to Microsoft Azure where the backup voice service is switched on. Supabase also sends the account confirmation and password-reset emails, itself or through an email delivery service</td><td>To run the app and keep your account</td></tr>
 <tr><td>Apple</td><td>Your sign-in, if you use Sign in with Apple. Your subscription purchase and payment</td><td>To sign you in and take payment. We never see your card</td></tr>
 <tr><td>RevenueCat</td><td>Your account identifier and your purchase status</td><td>To tell our server whether your subscription is active</td></tr>
 <tr><td>Public medicine registers: openFDA and RxNav in the United States, and the TGA in Australia</td><td>A medicine identifier only, such as an ingredient name, a product code or a register number. Nothing about you is sent. Most of these lookups are made by our server. When you scan a barcode, your phone asks openFDA about that product code itself. A source link you tap, such as a TGA leaflet page, opens that website from your own phone like any other web link</td><td>To fetch the official documents an answer is built from</td></tr>
 <tr><td>Australian pharmacy chains' public websites</td><td>The medicine being checked and which of their branches to look at. Nothing about you</td><td>To read what their own site lists, for a stock check</td></tr>
 </table>
 
-<h2>Where your information goes</h2>
+</div></details>
+<details class="privacy-section"><summary><h2>Where your information goes</h2></summary><div class="privacy-body">
 <p>Most of what you send us is handled outside Australia, and you should know which parts before you
 send it.</p>
 <ul>
@@ -209,7 +223,8 @@ cannot read a photo or answer a question until you allow it again. Your account 
 in it are kept. Taking the permission back does not delete what these companies have already
 received.</p>
 
-<h2>Looking for a pharmacy, and looking for stock</h2>
+</div></details>
+<details class="privacy-section"><summary><h2>Looking for a pharmacy, and looking for stock</h2></summary><div class="privacy-body">
 <p>Two different things happen here, and only one of them touches the open web.</p>
 <p>Finding the pharmacies near you is a lookup in our own directory, using the location you just
 gave us.</p>
@@ -236,7 +251,8 @@ record holds nothing about you, and nothing about you is sent to that pharmacy.<
 <p>When the app shows a sponsor's logo, or a product picture from a pharmacy chain's website, your
 phone loads that picture from the website it is kept on, the way a web browser would.</p>
 
-<h2>Health information</h2>
+</div></details>
+<details class="privacy-section"><summary><h2>Health information</h2></summary><div class="privacy-body">
 <p>What medicines you take, and anything you add to My health, is health information about you, and
 Australian law treats it as sensitive. We treat it that way too. It is stored against your account,
 and access through the app is limited to your account. Service providers process information as
@@ -250,7 +266,8 @@ with your question to Anthropic, whose AI model writes the answer. The app does 
 conclusions about your health as facts about you: only what you added, or agreed to save.</p>
 <p>You can see or remove anything in My health from inside the app. Entries with an edit option can also be changed.</p>
 
-<h2>Answers we keep for a short time</h2>
+</div></details>
+<details class="privacy-section"><summary><h2>Answers we keep for a short time</h2></summary><div class="privacy-body">
 <p>When the app writes an answer it can keep it, so the same question does not have to be worked out
 twice.</p>
 <ul>
@@ -272,12 +289,20 @@ lookup; saved chats separately retain the readable question and answer until you
 spoken audio of sentences read from those documents, are also kept with no account attached, because
 they say nothing about anybody.</p>
 
-<h2>Sponsored placements and tracking</h2>
+</div></details>
+<details class="privacy-section"><summary><h2>Sponsored placements and tracking</h2></summary><div class="privacy-body">
 <p>There are no advertising identifiers, no analytics SDKs and no tracking of you across other apps
 or websites. Nothing in this app is sold to a data broker. A sponsored pharmacy slot is the one
 paid placement in the app, it is labelled as one, and it is described above.</p>
 
-<h2>Deleting everything</h2>
+<h3>App support and optional activity</h3>
+<p>When you choose <strong>Report an app problem</strong>, the form shows the app details that will be sent. Your selected category, optional message and account reference go to PharmaSNAP support only after you allow this and press send. Authorised support can read the private message to investigate the problem. Do not include names, health details or passwords. Photos, documents, recordings, answers and health-screen contents are not attached automatically. Support messages are not sent to AI to answer questions or added to the shared medicine library.</p>
+<p>Support messages and their app details are deleted with your account, or by scheduled cleanup twelve months after the ticket's latest update. Security audit records of owner access and support actions are kept for twelve months after the event. These can include an owner account reference, ticket reference, state changes and the owner's reason. They can remain after an account or ticket is deleted. The message body is not copied automatically into the audit.</p>
+<p>Daily app-open sharing is optional and off by default. Turning it on lets the app count your account once per UTC day when you open it. This does not include screens, medicines, questions, photos or location. The dashboard shows thirty UTC days and a daily cleanup removes older days. Turning sharing off removes your earlier shared days; account deletion removes the choice and day records. The choice and its date are otherwise kept so the app remembers your preference.</p>
+<p>Authorised owner tools also show aggregate sign-ups, sign-ins, service costs and operational problem counts. Sign-in counts are separate from optional app-open counts. General problem counts do not contain your question, answer or health documents. App support and optional activity do not use AI credits.</p>
+
+</div></details>
+<details class="privacy-section"><summary><h2>Deleting everything</h2></summary><div class="privacy-body">
 <p>You can delete your account from inside the app: <strong>Profile → Delete my account</strong>. That
 permanently removes your sign-in, your cabinet, your dose records, everything in My health, the
 photographs you kept, private saved document readings, saved chats, your settings, your usage records and any answer cached against your account. You
@@ -299,7 +324,7 @@ kept with no account attached, what a pharmacy's web page said in a stock check,
 sponsored slot was shown, and our log of purchase events, which is kept for 90 days with your account
 identifier taken off it. What a service provider already holds
 is deleted under that provider's own rules.</p>
-<p>Two things are kept for 12 months after you delete your account, and then deleted. They are there so
+<p>Separately from the support audit records described above, two allowance records are kept for 12 months after you delete your account, and then deleted. They are there so
 that deleting an account and making it again does not give out the free allowance twice, and so the
 spending limits all customers share stay correct. Neither holds your email address, your account
 identifier, a question, an answer or anything about your health.</p>
@@ -314,19 +339,23 @@ scrambled code.</li>
 where it was. It does not start again.</p>
 <p>If you would rather we did it, email <a href="mailto:privacy@lordly.com.au">privacy@lordly.com.au</a>.</p>
 
-<h2>Your rights</h2>
+</div></details>
+<details class="privacy-section"><summary><h2>Your rights</h2></summary><div class="privacy-body">
 <p>Under the Australian Privacy Act 1988 and the Australian Privacy Principles you can ask what we
 hold about you, ask us to correct it, and complain if you think we have mishandled it. Write to
 <a href="mailto:privacy@lordly.com.au">privacy@lordly.com.au</a>. If you are not satisfied with our
 response you can complain to the Office of the Australian Information Commissioner at oaic.gov.au.</p>
 
-<h2>Children</h2>
+</div></details>
+<details class="privacy-section"><summary><h2>Children</h2></summary><div class="privacy-body">
 <p>PharmaSNAP AI is not intended for children. We do not knowingly collect information from anyone
 under 16.</p>
 
-<h2>Changes</h2>
+</div></details>
+<details class="privacy-section"><summary><h2>Changes</h2></summary><div class="privacy-body">
 <p>If this policy changes in a way that matters, the app will ask you to read it again before you
 carry on using it.</p>
+</div></details>
 <footer>PharmaSNAP AI is made in Australia by LORDLY PTY LTD · ACN 697 848 132 · ABN 19 697 848 132.<br>
 Questions: <a href="mailto:privacy@lordly.com.au">privacy@lordly.com.au</a> · <a href="mailto:support@lordly.com.au">support@lordly.com.au</a><br>
 <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · <a href="/support">Support</a></footer>
