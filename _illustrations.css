@@ -113,3 +113,12 @@
   .t-docs--illustrated .docs-cap h3 { font-size: 28px; }
   .t-docs--illustrated .docs-cap p { font-size: 17px; }
 }
+
+/* Readable feature overview, alongside the illustrated service cards. */
+.feature-overview { margin: 0 0 36px; padding: 28px 32px; background: #fff; border: 1px solid #EAD9CC; border-radius: 24px; }
+.feature-overview h3 { margin: 0 0 20px; font-size: 25px; letter-spacing: -.025em; }
+.feature-overview ul { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 16px 36px; padding-left: 23px; margin: 0; }
+.feature-overview li { padding-left: 3px; color: #493B30; font-size: 17px; line-height: 1.6; }
+.feature-overview li::marker { color: #B5480C; }
+.feature-overview p { max-width: 960px; color: #62564D; font-size: 15px; line-height: 1.65; margin: 22px 0 0; }
+@media (max-width: 734px) { .feature-overview { padding: 24px 22px; } .feature-overview ul { grid-template-columns: minmax(0,1fr); } }

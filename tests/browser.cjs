@@ -41,73 +41,81 @@ const server=http.createServer((req,res)=>{
     page.on('pageerror',error=>errors.push(error.message));
     for(const size of [{width:1440,height:1000},{width:820,height:1000},{width:390,height:844},{width:320,height:750}]) {
       await page.setViewportSize(size);await page.goto(base);await page.locator('.hero-shot img').evaluate(img=>img.decode());
-      assert((await page.locator('.lede').textContent()).includes('skin condition'));
+      assert((await page.locator('.lede').textContent()).includes('medicines and health documents'));
       assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
-      assert.equal(await page.locator('.hero-shot img').getAttribute('src'),'/img/bottle-2k.webp');
-      if(size.width>734) {const image=await page.locator('.hero-shot').boundingBox(),copy=await page.locator('.hero-copy').boundingBox();assert(image.x>=copy.x+copy.width-1);assert(image.width<=size.width/2);}
-      assert((await page.locator('#ingredients').textContent()).includes('coeliac'));
-      assert((await page.locator('#ingredients').textContent()).includes('Look up the brand'));
+      assert.equal(await page.locator('.hero-shot img').getAttribute('src'),'/img/features/hero-medicine-world-mobile-960.webp');
+      const image=await page.locator('.hero-shot').boundingBox(),copy=await page.locator('.hero-copy').boundingBox();assert(image.width>=size.width-1);if(size.width<=1068) assert(image.y>=copy.y+copy.height-1);
+      assert((await page.locator('#ingredients').textContent()).includes('Choose several allergens'));
+      assert((await page.locator('#ingredients').textContent()).includes('enter your own name'));
+      assert.equal(await page.locator('.feature-overview li').count(),6);
+      assert((await page.locator('#health-details').textContent()).includes('current Cabinet medicines'));
+      assert((await page.locator('.feature-overview').textContent()).includes('not a complete check of every interaction'));
+      assert((await page.locator('#saved-chats').textContent()).includes('With your permission'));
+      assert((await page.locator('#save-medicines').textContent()).includes('custom medicine'));
       assert.equal(await page.locator('#pharmacy-search').count(),0,'Old Google pharmacy search is removed');
-      assert((await page.locator('#pharmacy-finder').textContent()).includes('Take a photo or type'));
+      assert((await page.locator('#pharmacies').textContent()).includes('Across Australia'));
+      assert((await page.locator('#nearby-products').textContent()).includes('Find nearby pharmacies in Australia'));
+      assert((await page.locator('#nearby-products').textContent()).includes('Listings do not guarantee stock'));
       assert.equal(await page.locator('.pfs-preview-documents').evaluateAll(nodes=>nodes.every(node=>getComputedStyle(node).transform==='none')),true);
       if(output) await page.screenshot({path:path.join(output,`homepage-v2-${size.width}.png`)});
     }
+    // The current public preview is intentionally silent and has two sample
+    // screens. Retired recordings above remain integrity-checked assets, not
+    // evidence of audio playback or features in the current preview.
     await page.setViewportSize({width:1050,height:1100});
-    const trigger=async mode=>{
-      if(mode==='pharmacies'){await page.fill('#stock-product','paracetamol');await page.locator('#stock-sample-form button').click();}
-      else await page.click({conversation:'#play-conversation',documents:'#ask-documents',ingredients:'#check-ingredients'}[mode]);
-    };
-    // Every written translation and every spoken recording, with cross-language pairs.
-    for(const mode of Object.keys(samples)) for(const [index,spoken] of languages.entries()) {
-      const written=languages[(index+1)%languages.length];
-      await page.goto(`${base}/preview.html#${mode}`);
-      assert.equal(await page.locator('#answer-language option').count(),languages.length);
-      await page.selectOption('#answer-language',written);await page.selectOption('#voice-language',spoken);
-      await trigger(mode);
-      await page.waitForFunction(()=>{const a=document.querySelector('#sample-audio');return !a.paused&&a.currentTime>0.08;});
-      await page.waitForFunction(()=>Number.isFinite(document.querySelector('#sample-audio').duration));
-      const media=await page.locator('#sample-audio').evaluate(a=>({src:a.getAttribute('src'),duration:a.duration}));
-      assert.equal(media.src,`/audio/${mode}-${spoken}.mp3`);assert(media.duration>4&&media.duration<65, `${mode}/${spoken}: ${media.duration}s`);
-      assert.equal(await page.locator(`#${mode}-answer .demo-response`).textContent(),samples[mode][written].response);
-      assert.equal(await page.locator(`#${mode}-answer .demo-spoken-text`).textContent(),samples[mode][spoken].response);
-      assert.equal(await page.locator(`#${mode}-answer`).getAttribute('dir'),locales[written].direction);
-      if(mode==='ingredients'){assert.equal(await page.locator('[data-ingredient] mark').count(),3);assert.equal(await page.locator('.demo-findings li').count(),3);}
-      if(mode==='pharmacies'){assert.equal(await page.locator('.demo-stock-card').count(),3);assert(await page.locator('[data-stock-state="unknown"]').isVisible());}
-      await page.click('#stop-conversation');assert(await page.locator('#sample-audio').evaluate(a=>a.paused));
+    const requests=[];
+    page.on('request',r=>requests.push(r.url()));
+    await page.goto(`${base}/preview.html#conversation`);
+    assert.equal(await page.locator('#answer-language option').count(),2);
+    assert.equal(await page.locator('#voice-language option').count(),2);
+    assert.equal(await page.locator('audio, video, input[type="file"]').count(),0);
+    assert((await page.locator('.demo-intro').textContent()).includes('Sample screens only'));
+    for(const language of ['en','vi']) {
+      await page.selectOption('#answer-language',language);
+      await page.click('#play-conversation');
+      assert(await page.locator('#play-conversation').isDisabled());
+      assert(await page.locator('#stop-conversation').isVisible());
+      await page.waitForFunction(expected=>document.querySelector('#conversation-title').textContent===expected,language==='vi'?'Đang nghe…':'Listening…');
+      await page.waitForFunction(expected=>document.querySelector('#conversation-title').textContent===expected,language==='vi'?'Đang suy nghĩ…':'Thinking…');
+      await page.waitForFunction(expected=>document.querySelector('#conversation-title').textContent===expected,language==='vi'?'Đang nói…':'Speaking…');
+      assert((await page.locator('.demo-orbit').getAttribute('class')).includes('is-active'));
+      await page.waitForFunction(()=>document.querySelector('#conversation-title').textContent==='Preview complete');
+      assert(await page.locator('#stop-conversation').isHidden());
+      assert(await page.locator('#play-conversation').isEnabled());
     }
-    await page.goto(`${base}/preview.html#ingredients`);await page.selectOption('#answer-language','en');await page.selectOption('#voice-language','en');await page.click('#check-ingredients');
-    assert.equal(await page.locator('#ingredients-answer .demo-spoken-text').count(),0,'No redundant same-language transcript');
-    await page.selectOption('#answer-language','ar');assert(await page.locator('#sample-audio').evaluate(a=>a.paused));
-    assert.equal(await page.locator('#ingredients-answer').getAttribute('dir'),'rtl');
-    await page.fill('#brand-query','   ');await page.locator('#brand-lookup button').click();assert(await page.locator('#brand-result').isHidden());
-    await page.fill('#brand-query','Example Brand vitamin D & calcium');await page.locator('#brand-lookup button').click();
-    const url=new URL(await page.locator('#brand-result').getAttribute('href'));
-    assert.equal(url.origin,'https://www.google.com');assert.equal(url.searchParams.get('q'),'Example Brand vitamin D & calcium official manufacturer ingredients allergens gluten vegan');
-    await page.fill('#brand-query','Another product');assert(await page.locator('#brand-result').isHidden());
-    if(output) await page.locator('.demo-phone').screenshot({path:path.join(output,'ingredient-v2-arabic.png')});
-    await page.goto(`${base}/preview.html#pharmacies`);await page.click('#stock-photo-button');
-    await page.waitForFunction(()=>document.querySelector('#sample-audio').currentTime>0.08);
-    assert(await page.locator('#stock-photo').isVisible());assert(await page.locator('[data-stock-state="out"]').isVisible());
-    assert((await page.locator('#stock-results').textContent()).includes('FICTIONAL'));
-    if(output) await page.locator('.demo-phone').screenshot({path:path.join(output,'stock-v2-photo.png')});
-    await page.fill('#stock-product','<img src=x onerror=alert(1)>');assert(await page.locator('#stock-results').isHidden());
-    await page.locator('#stock-sample-form button').click();assert.equal(await page.locator('.demo-stock-card').count(),0);assert((await page.locator('#stock-message').textContent()).includes('No live stock search'));
-    await page.fill('#stock-product','Paracetamol 500 mg tablets');await page.locator('#stock-product').press('Enter');assert.equal(await page.locator('.demo-stock-card').count(),3);
-    await page.locator('.demo-tabs a[href="#documents"]').click();await page.waitForFunction(()=>!document.querySelector('#documents').hidden);assert(await page.locator('#sample-audio').evaluate(a=>a.paused));
-    await page.uncheck('input[value="medicine"]');await page.uncheck('input[value="blood"]');assert(await page.locator('#ask-documents').isDisabled());
-    await page.check('input[value="hospital"]');await page.selectOption('#answer-language','vi');await page.click('#ask-documents');
-    assert((await page.locator('#documents-answer .demo-note').textContent()).includes('Báo cáo bệnh viện'));
-    await page.check('input[value="medicine"]');assert(await page.locator('#documents-answer').isHidden());assert(await page.locator('#sample-audio').evaluate(a=>a.paused));
+    await page.selectOption('#voice-language','vi');
+    assert((await page.locator('#language-note').textContent()).includes('No speech is generated'));
+    await page.click('#play-conversation');await page.click('#stop-conversation');
+    assert.equal(await page.locator('#conversation-title').textContent(),'Preview stopped');
+    await page.click('#play-conversation');await page.selectOption('#answer-language','en');
+    assert(await page.locator('#stop-conversation').isHidden());
+    await page.click('#play-conversation');await page.locator('.demo-tabs a[href="#documents"]').click();
+    await page.waitForFunction(()=>!document.querySelector('#documents').hidden);
+    assert(await page.locator('#documents').isVisible());
+    assert(await page.locator('#conversation').isHidden());
+    assert.equal(await page.locator('.demo-orbit.is-active').count(),0);
+    for(const name of ['Medicine pack','Blood test']) await page.uncheck(`input[value="${name}"]`);
+    assert(await page.locator('#ask-documents').isDisabled());
+    assert.equal(await page.locator('#document-count').textContent(),'0 sample items selected');
+    await page.check('input[value="Hospital report"]');
+    assert(await page.locator('#ask-documents').isEnabled());
+    assert.equal(await page.locator('#document-count').textContent(),'1 sample item selected');
+    await page.click('#ask-documents');
+    await page.waitForFunction(()=>!document.querySelector('#conversation').hidden);
+    assert((await page.locator('.demo-transcript').textContent()).includes('Hospital report'));
+    assert((await page.locator('.demo-transcript').textContent()).includes('not your health records'));
     await page.goto(`${base}/preview.html#unknown`);assert(await page.locator('#conversation').isVisible());
-    await page.click('#play-conversation');await page.click('#play-conversation');await page.waitForFunction(()=>document.querySelector('#sample-audio').currentTime>0.08);
-    await page.evaluate(()=>{Object.defineProperty(document,'hidden',{configurable:true,value:true});document.dispatchEvent(new Event('visibilitychange'));});assert(await page.locator('#sample-audio').evaluate(a=>a.paused));
-    await page.goto(`${base}/preview.html`);await page.route('**/audio/**',route=>route.abort());await page.click('#play-conversation');
-    await page.waitForFunction(message=>document.querySelector('#playback-status').textContent===message,locales.en.failed);assert(await page.locator('#stop-conversation').isHidden());assert(await page.locator('#conversation-answer .demo-response').isVisible());await page.unroute('**/audio/**');
-    await page.goto(`${base}/preview.html#ingredients`);await page.selectOption('#answer-language','vi');await page.selectOption('#voice-language','vi');await page.click('#check-ingredients');await page.waitForFunction(()=>document.querySelector('#sample-audio').currentTime>0.08);
-    if(output) await page.locator('.demo-phone').screenshot({path:path.join(output,'ingredient-v2-vietnamese.png')});
-    await page.locator('#sample-audio').evaluate(a=>{a.playbackRate=4;});await page.waitForFunction(message=>document.querySelector('#playback-status').textContent===message,locales.vi.complete,{timeout:25000});assert(await page.locator('#stop-conversation').isHidden());
-    for(const mode of Object.keys(samples)) {await page.setViewportSize({width:320,height:750});await page.goto(`${base}/preview.html#${mode}`);await page.selectOption('#answer-language','ar');await trigger(mode);assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false,`No mobile overflow: ${mode}`);await page.click('#stop-conversation');}
+    await page.click('#play-conversation');
+    await page.evaluate(()=>{Object.defineProperty(document,'hidden',{configurable:true,value:true});document.dispatchEvent(new Event('visibilitychange'));});
+    assert.equal(await page.locator('#conversation-title').textContent(),'Preview paused');
+    assert(await page.locator('#stop-conversation').isHidden());
+    for(const mode of ['conversation','documents']) for(const width of [1440,820,390,320]) {
+      await page.setViewportSize({width,height:844});await page.goto(`${base}/preview.html#${mode}`);
+      assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false,`No preview overflow: ${mode}/${width}`);
+    }
+    assert.equal(requests.some(url=>!url.startsWith(base)),false,'Preview uses no external AI or upload requests');
+    assert.equal(requests.some(url=>/\/audio\//.test(url)),false,'Silent design preview requests no speech asset');
     assert.deepEqual(errors,[]);
-    console.log(`PASS: ${languages.length} languages; ${Object.keys(manifest).length} neural recordings/script hashes; real playback in all four modes; translations/RTL; ingredient flags and brand lookup; typed/photo stock samples; cancellation, errors and four viewport layouts.`);
+    console.log(`PASS: ${Object.keys(manifest).length} retired recording/script hashes; current homepage claims and four viewports; silent EN/VI preview states, completion/cancellation, selected documents, privacy and routing.`);
   } finally {await browser.close();server.close();}
 })().catch(error=>{console.error(error);server.close();process.exitCode=1;});
