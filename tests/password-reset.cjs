@@ -35,7 +35,7 @@ const check = (name,fn)=>{fn();rows.push(name);};
       if(url.startsWith(base+'/'))return route.continue();
       assert(url.startsWith(api+'/auth/v1/'),'Only expected Auth origin may receive a request');
       requests.push({url,method:request.method(),body:request.postData(),headers:request.headers()});
-      const reply=(status,data)=>route.fulfill({status,contentType:'application/json',headers:{'Access-Control-Allow-Origin':'*','Access-Control-Allow-Headers':'*'},body:JSON.stringify(data)});
+      const reply=(status,data)=>route.fulfill({status,contentType:'application/json',headers:{'Access-Control-Allow-Origin':'*','Access-Control-Allow-Headers':'*','x-supabase-api-version':'2024-01-01','Access-Control-Expose-Headers':'x-supabase-api-version'},body:JSON.stringify(data)});
       if(request.method()==='OPTIONS')return reply(200,{});
       if(url.includes('/recover')){
         if(mode==='delayRecover')await new Promise(resolve=>releaseRecover=resolve);
@@ -45,6 +45,9 @@ const check = (name,fn)=>{fn();rows.push(name);};
       if(new URL(url).pathname==='/auth/v1/verify'){
         if(mode==='delayOtp')await new Promise(resolve=>releaseOtp=resolve);
         const body=JSON.parse(request.postData());
+        if(mode==='otpExpired')return reply(403,{code:'otp_expired',message:'SYNTHETIC_PRIVATE_ERROR_NOT_FOR_UI'});
+        if(mode==='otpUnknown')return reply(403,{code:'user_not_found',message:'SYNTHETIC_ACCOUNT_EXISTENCE_NOT_FOR_UI'});
+        if(mode==='otpNoSession')return reply(200,{user:responseUser});
         if(mode==='otpError'||body.email!==user.email)return reply(403,{message:'synthetic invalid recovery code'});
         assert.equal(body.type,'recovery');assert.equal(typeof body.token,'string');
         return reply(200,{access_token:jwt,refresh_token:'SYNTHETIC_REFRESH',token_type:'bearer',expires_in:3600,user:responseUser});
@@ -88,6 +91,15 @@ const check = (name,fn)=>{fn();rows.push(name);};
     const beforeWrong=requests.filter(r=>r.method==='PUT').length;
     await page.getByRole('button',{name:'Continue with code',exact:true}).click();await page.getByText('The code could not be used.',{exact:false}).waitFor();
     assert(await page.locator('#reset').isHidden());assert.equal(await page.locator('#emailResetCode').inputValue(),'');assert.equal(requests.filter(r=>r.method==='PUT').length,beforeWrong);rows.push('wrong or expired code fails without exposing password form');
+    for(const [testMode,helpCode]of [['otpExpired','OTP_EXPIRED (HTTP 403)'],['otpUnknown','RESET_REJECTED (HTTP 403)'],['otpNoSession','RESET_NO_SESSION']]){
+      mode=testMode;await page.locator('#codeEmail').fill(user.email);await page.locator('#emailResetCode').fill('123456');await page.getByRole('button',{name:'Continue with code',exact:true}).click();await page.getByText('Support reference: '+helpCode+'.',{exact:false}).waitFor();
+      const msg=await page.locator('#message').innerText();assert(!msg.includes('SYNTHETIC_'));assert(!msg.includes('user_not_found'));assert(await page.locator('#reset').isHidden());assert.equal(await page.locator('#emailResetCode').inputValue(),'');rows.push('safe actionable help code without private error data '+testMode);
+    }
+    const errorModule=await import('data:text/javascript;base64,'+fs.readFileSync(path.join(root,'admin/source/recovery-error.js')).toString('base64'));
+    const poisoned={code:'otp_expired',status:403,get message(){throw Error('Private message must never be read');},toJSON(){throw Error('Error serialization must never happen');}};
+    check('diagnostics never read or serialize private error messages',()=>assert(errorModule.recoveryProblem(poisoned).includes('OTP_EXPIRED (HTTP 403)')));
+    check('untrusted code and status cannot reach recovery UI',()=>{const x=errorModule.recoveryProblem({code:'<img src=x onerror=alert(1)>',status:999,message:'PRIVATE'});assert(!x.includes('<img'));assert(!x.includes('999'));assert(!x.includes('PRIVATE'));assert(x.includes('RESET_REJECTED'));});
+    for(const [code,status,help]of [['over_request_rate_limit',429,'RESET_TRY_LATER'],['over_email_send_rate_limit',429,'RESET_TRY_LATER'],['validation_failed',422,'RESET_FORMAT'],['captcha_failed',400,'RESET_SECURITY_CHECK']])check('allowlisted help mapping '+code,()=>assert(errorModule.recoveryProblem({code,status}).includes(help+' (HTTP '+status+')')));
     mode='normal';await page.locator('#codeEmail').fill('other@example.test');await page.locator('#emailResetCode').fill('123456');await page.getByRole('button',{name:'Continue with code',exact:true}).click();await page.getByText('The code could not be used.',{exact:false}).waitFor();assert(await page.locator('#reset').isHidden());rows.push('code for a different email cannot recover account');
     await page.getByRole('button',{name:'Send another code',exact:true}).click();assert(await page.locator('#requestSection').isVisible());assert.equal(await page.locator('#email').inputValue(),'other@example.test');assert.equal(await page.locator('#emailResetCode').inputValue(),'');rows.push('resend returns to clean request form with email only');
     for(const suffix of ['?code=SYNTHETIC_QUERY','?error=access_denied&error_description=SYNTHETIC_ERROR','?token_hash=SYNTHETIC_HASH&type=recovery']){

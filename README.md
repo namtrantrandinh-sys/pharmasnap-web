@@ -77,3 +77,5 @@ Run `npm run test:recovery` for real-SDK browser checks with synthetic Auth
 responses; no real emails, passwords or owner permissions are changed by tests.
 The exact live redirect allowlist entry is
 `https://pharmasnap.app/admin/reset.html`; existing native app entries remain.
+
+Recovery failures show a static help code and an allowlisted HTTP status. Account-existence errors use the same neutral fallback. Raw error messages, tokens, passwords and email values are never logged or included in diagnostics. A rejected code or HTTP403 does not establish an email mismatch.

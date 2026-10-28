@@ -1,4 +1,5 @@
 import {createClient} from '@supabase/supabase-js';
+import {recoveryProblem} from './recovery-error.js';
 
 const RESET_URL = 'https://pharmasnap.app/admin/reset.html';
 const $ = id => document.getElementById(id);
@@ -127,7 +128,7 @@ $('emailCodeForm').onsubmit = e => {
     const {data, error} = await client.auth.verifyOtp({email, token, type: 'recovery'});
     if (g !== generation) { await client.auth.signOut({scope: 'local'}); return; }
     if (error || !data.session) {
-      message('The code could not be used. Use the latest code from your email, or send a new one.');
+      message(recoveryProblem(error));
       return;
     }
     await openRecoveredAccount(g);
