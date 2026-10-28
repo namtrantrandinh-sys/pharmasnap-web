@@ -57,12 +57,20 @@ in the current public preview.
 
 ## Owner password recovery
 
-The owner sign-in links to `/admin/reset.html`. It requests a password-reset
-email for the existing PharmaSNAP account; it creates no new account or owner
-role. Recovery tokens are accepted only from a recovery fragment, immediately
-removed from the URL, and kept in memory. Enrolled accounts must complete their
-existing authenticator challenge before a password change. Owner tools continue
-to require the usual owner membership and MFA after signing in again.
+The owner sign-in links to `/admin/reset.html`. It requests an emailed reset
+code for an existing account and exchanges it with Auth's recovery-only OTP
+flow. The fresh page also offers “I already have a code” for another browser.
+Recovery is memory-only and never grants an owner role. Existing verified
+TOTP factors still require a successful challenge and AAL2 before changing a
+password. The previous recovery-fragment flow remains supported; callback URLs
+are immediately scrubbed, and unsuccessful query callbacks show the code route.
+Owner tools continue to enforce their independent owner-account and MFA checks.
+
+`admin/source/recovery-email-template.html` is the reviewed Reset password email
+body. Its exact website redirect branch displays the email code and a non-secret
+page link; its ELSE branch preserves the existing native app reset link. Keep
+the subject and native allowlist unchanged. Publish this template alongside the
+code form; do not replace native recovery with an OTP-only global template.
 
 Build the pinned public-client recovery asset with `npm run build:recovery`.
 Run `npm run test:recovery` for real-SDK browser checks with synthetic Auth

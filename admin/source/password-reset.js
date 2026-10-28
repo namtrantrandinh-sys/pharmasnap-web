@@ -1,6 +1,5 @@
 import {createClient} from '@supabase/supabase-js';
 
-// Recovery has its own memory-only session. It cannot open owner tools or set roles.
 const RESET_URL = 'https://pharmasnap.app/admin/reset.html';
 const $ = id => document.getElementById(id);
 const message = text => { $('message').textContent = text; };
@@ -8,8 +7,9 @@ if (window.top !== window.self) {
   document.body.textContent = 'Open password recovery directly in its own page.';
   throw new Error('Framed recovery refused');
 }
-// Only a one-time recovery fragment is accepted. Remove it before any network call.
 const fragment = new URLSearchParams(window.location.hash.slice(1));
+const query = new URLSearchParams(window.location.search);
+const queryCallback = ['code', 'error', 'error_code', 'error_description', 'token_hash', 'type'].some(key => query.has(key));
 window.history.replaceState(null, '', window.location.pathname);
 const config = __OWNER_PUBLIC_CONFIG__;
 const client = createClient(config.url, config.anon, {
@@ -29,8 +29,8 @@ function clear() {
   needsMfa = false;
   clearPasswords();
   $('recoveryCode').value = '';
-  $('mfaSection').hidden = true;
-  $('reset').hidden = true;
+  $('emailResetCode').value = '';
+  for (const id of ['emailCodeSection', 'mfaSection', 'reset']) $(id).hidden = true;
   $('requestSection').hidden = false;
 }
 async function run(fn) {
@@ -45,6 +45,47 @@ async function run(fn) {
     for (const b of document.querySelectorAll('button')) b.disabled = false;
   }
 }
+function openCodeForm(email) {
+  $('requestSection').hidden = true;
+  $('emailCodeSection').hidden = false;
+  $('codeEmail').value = email;
+  $('emailResetCode').value = '';
+  $('emailResetCode').focus();
+}
+// A verified email recovery session never grants an owner role or a new factor.
+async function openRecoveredAccount(g) {
+  const {data: userData, error: userError} = await client.auth.getUser();
+  if (g !== generation) return;
+  if (userError || !userData.user) {
+    await client.auth.signOut({scope: 'local'});
+    message('Recovery did not complete. Request a new code and try again.');
+    return;
+  }
+  const {data: factors, error: factorError} = await client.auth.mfa.listFactors();
+  if (g !== generation) return;
+  if (factorError) {
+    message('The account’s authenticator details could not be loaded. Try again with a fresh recovery code.');
+    return;
+  }
+  needsMfa = factors.all.some(f => f.status === 'verified');
+  recoveryFactor = factors.totp.find(f => f.status === 'verified')?.id ?? null;
+  $('requestSection').hidden = true;
+  $('emailCodeSection').hidden = true;
+  if (needsMfa) {
+    if (!recoveryFactor) {
+      message('This account needs its existing second sign-in method. Use PharmaSNAP’s sign-in recovery or contact support.');
+      return;
+    }
+    $('mfaSection').hidden = false;
+    message('Enter a code from your existing authenticator. Recovery keeps your second sign-in step.');
+    $('recoveryCode').focus();
+    return;
+  }
+  recoveryReady = true;
+  $('reset').hidden = false;
+  message('Choose your new PharmaSNAP password. Keep it out of chat.');
+  $('newPassword').focus();
+}
 $('request').onsubmit = e => {
   e.preventDefault();
   void run(async g => {
@@ -55,9 +96,41 @@ $('request').onsubmit = e => {
     }
     const {error} = await client.auth.resetPasswordForEmail(email, {redirectTo: RESET_URL});
     if (g !== generation) return;
-    message(error
-      ? 'The reset email could not be requested. Wait a moment and try again.'
-      : 'If this email belongs to a PharmaSNAP account, a reset link will arrive shortly. Check your inbox and spam folder, then open the link to choose a new password.');
+    if (error) { message('The reset email could not be requested. Wait a moment and try again.'); return; }
+    openCodeForm(email);
+    message('If this email belongs to a PharmaSNAP account, a reset code will arrive shortly. Enter the code from your latest email below. Keep it out of chat.');
+  });
+};
+$('alreadyCode').onclick = () => {
+  if (busy) return;
+  openCodeForm($('email').value.trim());
+  message('Enter the email and reset code from your latest PharmaSNAP reset email.');
+};
+$('sendAgain').onclick = () => {
+  if (busy) return;
+  const email = $('codeEmail').value.trim();
+  clear();
+  $('email').value = email;
+  void client.auth.signOut({scope: 'local'});
+  message('Request a new reset code. Use only the code in your latest email.');
+};
+$('emailCodeForm').onsubmit = e => {
+  e.preventDefault();
+  void run(async g => {
+    const email = $('codeEmail').value.trim();
+    const token = $('emailResetCode').value.trim();
+    $('emailResetCode').value = '';
+    if (!$('codeEmail').checkValidity() || !email || (!/^[0-9]+$/.test(token) || token.length > 128)) {
+      message('Enter your PharmaSNAP email and the reset code shown in the email.');
+      return;
+    }
+    const {data, error} = await client.auth.verifyOtp({email, token, type: 'recovery'});
+    if (g !== generation) { await client.auth.signOut({scope: 'local'}); return; }
+    if (error || !data.session) {
+      message('The code could not be used. Use the latest code from your email, or send a new one.');
+      return;
+    }
+    await openRecoveredAccount(g);
   });
 };
 $('reset').onsubmit = e => {
@@ -65,7 +138,7 @@ $('reset').onsubmit = e => {
   void run(async g => {
     if (!recoveryReady) {
       clearPasswords();
-      message('Open a fresh password-reset email before choosing a password.');
+      message('Use your email reset code before choosing a password.');
       return;
     }
     if (needsMfa) {
@@ -90,7 +163,7 @@ $('reset').onsubmit = e => {
     const {error} = await client.auth.updateUser({password});
     if (g !== generation) return;
     if (error) {
-      message('The password could not be saved. Use a different password or request a fresh reset link. If your account has an authenticator, keep it available.');
+      message('The password could not be saved. Use a different password or request a fresh reset code. If your account has an authenticator, keep it available.');
       return;
     }
     clear();
@@ -128,12 +201,12 @@ const allowed = new Set(['access_token', 'refresh_token', 'expires_in', 'expires
 const hasCallback = [...fragment.keys()].length > 0;
 if (hasCallback) {
   const keys = [...fragment.keys()];
-  const valid = keys.every(key => allowed.has(key) && fragment.getAll(key).length === 1)
+  const valid = !queryCallback && keys.every(key => allowed.has(key) && fragment.getAll(key).length === 1)
     && fragment.get('type') === 'recovery'
     && fragment.get('token_type') === 'bearer'
     && fragment.get('access_token')?.length > 0
     && fragment.get('refresh_token')?.length > 0;
-  if (!valid) message('This reset link is incomplete or has expired. Request a fresh link below.');
+  if (!valid) message('This reset link is incomplete or has expired. Request a fresh code below.');
   else void run(async g => {
     const access_token = fragment.get('access_token');
     const refresh_token = fragment.get('refresh_token');
@@ -142,45 +215,17 @@ if (hasCallback) {
     if (g !== generation) { await client.auth.signOut({scope: 'local'}); return; }
     if (error || !data.session) {
       await client.auth.signOut({scope: 'local'});
-      message('This reset link could not be opened. Request a fresh link below.');
+      message('This reset link could not be opened. Request a fresh code below.');
       return;
     }
-    const {data: userData, error: userError} = await client.auth.getUser();
-    if (g !== generation) return;
-    if (userError || !userData.user) {
-      await client.auth.signOut({scope: 'local'});
-      message('This reset link could not be opened. Request a fresh link below.');
-      return;
-    }
-    const {data: factors, error: factorError} = await client.auth.mfa.listFactors();
-    if (g !== generation) return;
-    if (factorError) {
-      message('The account’s authenticator details could not be loaded. Request a fresh link and try again.');
-      return;
-    }
-    const verified = factors.all.filter(f => f.status === 'verified');
-    needsMfa = verified.length > 0;
-    recoveryFactor = factors.totp.find(f => f.status === 'verified')?.id ?? null;
-    if (needsMfa) {
-      $('requestSection').hidden = true;
-      if (!recoveryFactor) {
-        message('This account needs its existing second sign-in method. Use PharmaSNAP’s sign-in recovery or contact support.');
-        return;
-      }
-      $('mfaSection').hidden = false;
-      message('Enter a code from your existing authenticator. Recovery keeps your second sign-in step.');
-      $('recoveryCode').focus();
-      return;
-    }
-    recoveryReady = true;
-    $('requestSection').hidden = true;
-    $('reset').hidden = false;
-    message('Choose your new PharmaSNAP password. Keep it out of chat.');
-    $('newPassword').focus();
+    await openRecoveredAccount(g);
   });
+} else if (queryCallback) {
+  message('This link did not complete recovery. Request a fresh code below, then enter the code from your latest email.');
 }
 window.addEventListener('pagehide', () => {
   clear();
   $('email').value = '';
+  $('codeEmail').value = '';
   void client.auth.signOut({scope: 'local'});
 });

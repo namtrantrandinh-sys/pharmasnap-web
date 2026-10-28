@@ -1,0 +1,11 @@
+<h2>Reset your password</h2>
+{{ if eq .RedirectTo "https://pharmasnap.app/admin/reset.html" }}
+<p>Enter this reset code on the PharmaSNAP recovery page:</p>
+<p style="font-size:28px;font-weight:bold;letter-spacing:4px">{{ .Token }}</p>
+<p><a href="https://pharmasnap.app/admin/reset.html">Open the recovery page</a>, choose “I already have a code”, then enter the email and code shown here.</p>
+<p>The code can be used once. Keep it and your password out of chat.</p>
+{{ else }}
+<p>We received a request to reset your password. Follow the link below to choose a new one.</p>
+<p><a href="{{ .ConfirmationURL }}">Reset password</a></p>
+{{ end }}
+<p>If you didn't request this, you can safely ignore this email.</p>
