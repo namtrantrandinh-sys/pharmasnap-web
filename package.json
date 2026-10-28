@@ -1,6 +1,14 @@
 {
   "name": "pharmasnap-web",
   "private": true,
-  "scripts": { "test": "node tests/browser.cjs" },
-  "devDependencies": { "playwright": "1.62.1" }
+  "scripts": {
+    "test": "node tests/browser.cjs",
+    "build:recovery": "node scripts/build-recovery.mjs",
+    "test:recovery": "node tests/password-reset.cjs"
+  },
+  "devDependencies": {
+    "playwright": "1.62.1",
+    "@supabase/supabase-js": "2.112.3",
+    "esbuild": "0.25.0"
+  }
 }

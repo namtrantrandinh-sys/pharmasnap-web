@@ -54,3 +54,18 @@ not establish a branch's current stock. Contact the pharmacy about availability.
 The website runs no live stock lookup. Older fictional ingredient and pharmacy
 samples remain in the retained data/audio assets; they are not interactive modes
 in the current public preview.
+
+## Owner password recovery
+
+The owner sign-in links to `/admin/reset.html`. It requests a password-reset
+email for the existing PharmaSNAP account; it creates no new account or owner
+role. Recovery tokens are accepted only from a recovery fragment, immediately
+removed from the URL, and kept in memory. Enrolled accounts must complete their
+existing authenticator challenge before a password change. Owner tools continue
+to require the usual owner membership and MFA after signing in again.
+
+Build the pinned public-client recovery asset with `npm run build:recovery`.
+Run `npm run test:recovery` for real-SDK browser checks with synthetic Auth
+responses; no real emails, passwords or owner permissions are changed by tests.
+The exact live redirect allowlist entry is
+`https://pharmasnap.app/admin/reset.html`; existing native app entries remain.
