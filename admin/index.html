@@ -1,5 +1,84 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport"content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow,noarchive"><meta http-equiv="Cache-Control" content="no-store"><meta name="referrer"content="no-referrer"><meta http-equiv="Content-Security-Policy"content="default-src 'none'; script-src 'self'; style-src 'self'; connect-src https://rcsuzwkivqejkxdjbhks.supabase.co; img-src 'self' data:; base-uri 'none'; form-action 'none'; frame-src 'none'; object-src 'none'"><title>Owner support | PharmaSNAP</title><link rel="stylesheet"href="admin.css"><script src="admin.js"defer></script></head><body><a href="#main"class="skip">Skip to content</a><header><p class="eyebrow">PHARMASNAP · OWNER</p><h1>App health &amp; support</h1><p>Private owner tools. No patient readings, photographs, answers or passwords appear here.</p></header><main id="main"><p id="message"role="status"aria-live="polite">Sign in with the appointed owner account.</p>
-<section id="login"><h2>Sign in</h2><form id="signin"><label>Email<input id="email"type="email"autocomplete="username"required></label><label>Password<input id="password"type="password"autocomplete="current-password"required></label><button>Sign in</button></form><p>Use your PharmaSNAP app password, which may differ from your Apple Account password.</p><a class="recovery-link" href="reset.html">Forgot password?</a></section>
-<section id="mfa"hidden><h2>Authenticator code</h2><p>Owner data requires a second sign-in step on every new session.</p><button id="enroll">Set up an authenticator</button><p id="enrollInfo"></p><img id="qr"alt="Authenticator setup QR code"hidden><form id="challenge"><label>Six-digit authenticator code<input id="code"inputmode="numeric"pattern="[0-9]{6}"autocomplete="one-time-code"required></label><button>Continue</button></form></section>
-<section id="tools"hidden><div class="toolbar"><h2>Overview</h2><button id="refresh">Refresh</button></div><p id="asof"></p><div id="metrics"class="metrics"></div><h3>Last 30 UTC days</h3><p>Signups count accounts created. Sign-ins count authentication activity. App-open days count only accounts that chose to share; no session duration or screen tracking.</p><p id="coverage"></p><p id="spendScope"></p><p>Stored/paid counts are existing knowledge-delivery counters, not every question; that table has no environment column. Stored share is stored ÷ (stored + paid), with no share shown for no recorded deliveries.</p><div class="table-scroll"><table><thead><tr><th>UTC day</th><th>Accounts created</th><th>Opted-in app-open accounts</th><th>Stored knowledge</th><th>Paid knowledge</th><th>Stored share</th><th>Production ledger USD</th><th>Staging ledger USD</th></tr></thead><tbody id="days"></tbody></table></div><h3>Operational problems, last 24 hours</h3><p>Counts from the server's closed error codes. No request bodies, medical answers or patient information.</p><ul id="problems"></ul><h3>Notifications</h3><p>In-portal notifications only. Email alerts have not been enabled.</p><ul id="notifications"></ul><h3>Recent support tickets</h3><p>Up to 50 newest tickets. Opening a private message is recorded in the owner audit.</p><ul id="tickets"></ul></section>
-<section id="ticket"hidden><h2>Private support message</h2><p id="ticketRef"></p><p id="ticketDetails"class="private"></p><p id="ticketMeta"></p><h3>Recent state changes</h3><ul id="ticketHistory"></ul><form id="changeState"><label>Ticket state<select id="nextState"><option value="open">Open</option><option value="in_progress">In progress</option><option value="resolved">Resolved</option></select></label><label>Reason for this change (required, no health details)<input id="reason"maxlength="200"required></label><button>Save state</button></form><p>State changes are reversible and record the actor, reason and time. No account access, billing or clinical data can be changed here.</p></section><button id="signout"hidden>Sign out and clear this page</button></main><footer>Access is checked by the database on every request. This public HTML contains no owner data or service credentials.</footer></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta http-equiv="Cache-Control" content="no-store">
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; connect-src https://rcsuzwkivqejkxdjbhks.supabase.co; img-src 'self' data:; base-uri 'none'; form-action 'none'; frame-src 'none'; object-src 'none'">
+  <title>Owner workspace | PharmaSNAP</title>
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="admin.css?v=20261028-owner1">
+  <script src="admin.js" defer></script>
+</head>
+<body>
+  <a href="#main" class="skip">Skip to content</a>
+  <header class="topbar">
+    <a class="wordmark" href="../" aria-label="PharmaSNAP website"><img src="../favicon.svg" width="38" height="38" alt=""><span>PharmaSNAP <b>AI</b></span></a>
+    <div class="topbar-actions"><span class="workspace-label">Owner workspace</span><button id="signout" class="quiet-button" hidden>Sign out and clear this page</button></div>
+  </header>
+  <div class="portal-layout">
+    <aside class="sidebar" aria-label="Workspace navigation">
+      <p class="eyebrow">YOUR WORKSPACE</p>
+      <nav>
+        <a href="#overview"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Overview</a>
+        <a href="#activity"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg>Activity &amp; usage</a>
+        <a href="#alerts"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></svg>Alerts</a>
+        <a href="#support"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5H4l-2 2v-10A8.5 8.5 0 0 1 10.5 3h2A8.5 8.5 0 0 1 21 11.5Z"/><path d="M7 9h9M7 13h6"/></svg>Support inbox</a>
+      </nav>
+      <div class="sidebar-note"><span class="small-label">PRIVATE BY DESIGN</span><p>App activity and support, with owner access checked on every request.</p><a href="../">View the website <span aria-hidden="true">↗</span></a></div>
+    </aside>
+    <main id="main">
+      <p id="message" class="status-message" role="status" aria-live="polite">Sign in with the appointed owner account.</p>
+      <div class="auth-shell">
+        <div class="auth-intro">
+          <span class="pill">THE PHARMASNAP OWNER SPACE</span>
+          <h1>A clearer view.<br>A little more control.</h1>
+          <p>Keep up with the people, activity and support behind PharmaSNAP.</p>
+          <div class="auth-illustration" aria-hidden="true"><img src="../img/orb-idle.png" width="220" height="220" alt=""><span class="mascot-eyes"><i></i><i></i></span></div>
+          <div class="intro-foot"><span>Built around your app.</span><strong>Made for you.</strong></div>
+        </div>
+        <div class="auth-stack">
+          <section id="login" class="auth-card" aria-labelledby="signin-heading">
+            <span class="small-label">WELCOME BACK</span><h2 id="signin-heading">Your owner sign-in.</h2>
+            <p class="muted">Use the same account you use in PharmaSNAP.</p>
+            <form id="signin">
+              <label for="email">Email address<input id="email" type="email" autocomplete="username" placeholder="you@example.com" required></label>
+              <label for="password">Password<input id="password" type="password" autocomplete="current-password" required></label>
+              <button class="primary-button">Sign in to your workspace <span aria-hidden="true">→</span></button>
+            </form>
+            <a class="recovery-link" href="reset.html">Forgot password?</a>
+            <p class="form-note">Your PharmaSNAP password may differ from your Apple Account password. Only the appointed owner account can open this workspace.</p>
+          </section>
+          <section id="mfa" class="auth-card" hidden aria-labelledby="mfa-heading">
+            <span class="small-label">ONE MORE STEP</span><h2 id="mfa-heading">Authenticator code</h2>
+            <p class="muted">Owner data requires a second sign-in step on every new session.</p>
+            <button id="enroll">Set up an authenticator</button><p id="enrollInfo"></p><img id="qr" alt="Authenticator setup QR code" hidden>
+            <form id="challenge"><label for="code">Six-digit authenticator code<input id="code" inputmode="numeric" pattern="[0-9]{6}" autocomplete="one-time-code" required></label><button class="primary-button">Continue <span aria-hidden="true">→</span></button></form>
+          </section>
+        </div>
+      </div>
+      <section id="tools" class="dashboard" hidden aria-labelledby="overview-heading">
+        <div id="overview" class="dashboard-heading">
+          <div><span class="small-label">YOUR APP, AT A GLANCE</span><h1 id="overview-heading">Workspace overview.</h1><p class="muted">The latest on your people, activity and support.</p></div>
+          <div class="refresh-controls"><p id="asof"></p><button id="refresh" class="quiet-button"><span aria-hidden="true">↻</span> Refresh data</button></div>
+        </div>
+        <div id="metrics" class="metrics"></div>
+        <section id="activity" class="panel" aria-labelledby="activity-heading">
+          <div class="section-heading"><div><span class="small-label">THE BIGGER PICTURE</span><h3 id="activity-heading">Activity &amp; usage</h3></div><span class="period-label">Last 30 UTC days</span></div>
+          <details class="measurement-notes"><summary>What these numbers mean</summary><p>Signups count accounts created. Sign-ins count authentication activity. App-open days count only accounts that chose to share; no session duration or screen tracking.</p><p id="coverage"></p><p id="spendScope"></p><p>Stored/paid counts are existing knowledge-delivery counters, not every question; that table has no environment column. Stored share is stored ÷ (stored + paid), with no share shown for no recorded deliveries.</p></details>
+          <div class="table-scroll" tabindex="0" role="region" aria-label="Daily activity and usage table"><table><thead><tr><th scope="col">UTC day</th><th scope="col">Accounts created</th><th scope="col">Opted-in app-open accounts</th><th scope="col">Stored knowledge</th><th scope="col">Paid knowledge</th><th scope="col">Stored share</th><th scope="col">Production ledger USD</th><th scope="col">Staging ledger USD</th></tr></thead><tbody id="days"></tbody></table></div>
+        </section>
+        <div id="alerts" class="alert-grid">
+          <section class="panel" aria-labelledby="problems-heading"><div class="section-heading"><div><span class="small-label">KEEP THINGS RUNNING</span><h3 id="problems-heading">Operational problems</h3></div><span class="period-label">Last 24 hours</span></div><p class="muted compact-copy">Counts from the server's closed error codes. No request bodies, medical answers or patient information.</p><ul id="problems" class="event-list"></ul></section>
+          <section class="panel" aria-labelledby="notifications-heading"><div class="section-heading"><div><span class="small-label">YOUR UPDATES</span><h3 id="notifications-heading">Notifications</h3></div></div><p class="muted compact-copy">In-portal notifications only. Email alerts have not been enabled.</p><ul id="notifications" class="event-list"></ul></section>
+        </div>
+        <section id="support" class="panel" aria-labelledby="support-heading"><div class="section-heading"><div><span class="small-label">HERE TO HELP</span><h3 id="support-heading">Support inbox</h3></div><span class="period-label">50 newest tickets</span></div><p class="muted compact-copy">Opening a private message is recorded in the owner audit.</p><ul id="tickets" class="event-list"></ul></section>
+      </section>
+      <section id="ticket" class="panel ticket-panel" hidden aria-labelledby="ticket-heading"><span class="small-label">SUPPORT DETAIL</span><h2 id="ticket-heading">Private support message</h2><p id="ticketRef" class="ticket-reference"></p><p id="ticketDetails" class="private"></p><p id="ticketMeta" class="muted"></p><h3>Recent state changes</h3><ul id="ticketHistory" class="event-list"></ul><form id="changeState"><label for="nextState">Ticket state<select id="nextState"><option value="open">Open</option><option value="in_progress">In progress</option><option value="resolved">Resolved</option></select></label><label for="reason">Reason for this change (required, no health details)<input id="reason" maxlength="200" required></label><button class="primary-button">Save state</button></form><p class="form-note">State changes are reversible and record the actor, reason and time. No account access, billing or clinical data can be changed here.</p></section>
+    </main>
+  </div>
+  <footer class="portal-footer">Private owner tools. No patient readings, photographs, answers or passwords appear in the overview. Access is checked by the database on every request.</footer>
+</body>
+</html>

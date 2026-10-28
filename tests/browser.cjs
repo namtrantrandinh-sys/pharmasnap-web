@@ -59,6 +59,27 @@ const server=http.createServer((req,res)=>{
       assert.equal(await page.locator('.pfs-preview-documents').evaluateAll(nodes=>nodes.every(node=>getComputedStyle(node).transform==='none')),true);
       if(output) await page.screenshot({path:path.join(output,`homepage-v2-${size.width}.png`)});
     }
+    // Regression from the owner UI review: decorative artwork must never cover
+    // sign-in copy on a small screen. No account request is allowed in this check.
+    await page.route('https://rcsuzwkivqejkxdjbhks.supabase.co/**', route=>route.abort());
+    for(const colorScheme of ['light','dark']) for(const width of [375,768,1440]) {
+      await page.emulateMedia({colorScheme});
+      await page.setViewportSize({width,height:1000});
+      await page.goto(`${base}/admin/index.html`);
+      assert(await page.locator('#login').isVisible());
+      assert(await page.locator('#tools').isHidden());
+      assert(await page.locator('.sidebar').evaluate(el=>getComputedStyle(el).display==='none'));
+      assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
+      assert(await page.locator('.auth-intro').evaluate(el=>{
+        const art=el.querySelector('.auth-illustration').getBoundingClientRect();
+        return !art.width||!art.height||Array.from(el.querySelectorAll('h1,p')).every(t=>{
+          const r=t.getBoundingClientRect();
+          return !(art.left<r.right&&art.right>r.left&&art.top<r.bottom&&art.bottom>r.top);
+        });
+      }),`Owner sign-in artwork must not cover copy: ${width}/${colorScheme}`);
+      assert(await page.locator('#password').evaluate(el=>el.getBoundingClientRect().height>=48));
+    }
+    await page.emulateMedia({colorScheme:'light'});
     // The current public preview is intentionally silent and has two sample
     // screens. Retired recordings above remain integrity-checked assets, not
     // evidence of audio playback or features in the current preview.
@@ -116,6 +137,6 @@ const server=http.createServer((req,res)=>{
     assert.equal(requests.some(url=>!url.startsWith(base)),false,'Preview uses no external AI or upload requests');
     assert.equal(requests.some(url=>/\/audio\//.test(url)),false,'Silent design preview requests no speech asset');
     assert.deepEqual(errors,[]);
-    console.log(`PASS: ${Object.keys(manifest).length} retired recording/script hashes; current homepage claims and four viewports; silent EN/VI preview states, completion/cancellation, selected documents, privacy and routing.`);
+    console.log(`PASS: ${Object.keys(manifest).length} retired recording/script hashes; current homepage claims and four viewports; owner sign-in geometry/light/dark; silent EN/VI preview states, completion/cancellation, selected documents, privacy and routing.`);
   } finally {await browser.close();server.close();}
 })().catch(error=>{console.error(error);server.close();process.exitCode=1;});
