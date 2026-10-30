@@ -22,12 +22,17 @@ let recoveryFactor = null;
 let needsMfa = false;
 let generation = 0;
 let busy = false;
+let needsSecurityCode = false;
+let securityAfter = 0;
 const clearPasswords = () => { $('newPassword').value = ''; $('repeatPassword').value = ''; };
 function clear() {
   generation++;
   recoveryReady = false;
   recoveryFactor = null;
   needsMfa = false;
+  needsSecurityCode = false;
+  $('securityCode').value = '';
+  $('securitySection').hidden = true;
   clearPasswords();
   $('recoveryCode').value = '';
   $('emailResetCode').value = '';
@@ -44,6 +49,7 @@ async function run(fn) {
   finally {
     busy = false;
     for (const b of document.querySelectorAll('button')) b.disabled = false;
+    $('sendSecurityCode').disabled = Date.now() < securityAfter;
   }
 }
 function openCodeForm(email) {
@@ -134,6 +140,17 @@ $('emailCodeForm').onsubmit = e => {
     await openRecoveredAccount(g);
   });
 };
+$('sendSecurityCode').onclick = () => {
+  if (busy || !recoveryReady || !needsSecurityCode || Date.now() < securityAfter) return;
+  void run(async g => {
+    $('securityCode').value = '';
+    securityAfter = Date.now() + 60000;
+    const {error} = await client.auth.reauthenticate();
+    if (g !== generation) return;
+    message(error ? 'The security code could not be requested. Wait a minute and try again.' : 'A security code was requested for your account email. Enter the latest code below. Keep it out of chat.');
+    setTimeout(() => { if (g === generation && !busy) $('sendSecurityCode').disabled = Date.now() < securityAfter; }, 60100);
+  });
+};
 $('reset').onsubmit = e => {
   e.preventDefault();
   void run(async g => {
@@ -156,14 +173,23 @@ $('reset').onsubmit = e => {
     }
     const password = $('newPassword').value;
     const repeated = $('repeatPassword').value;
+    const nonce = $('securityCode').value;
     clearPasswords();
-    if (password.length < 8 || password !== repeated) {
-      message('Use at least 8 characters and enter the same new password twice.');
+    $('securityCode').value = '';
+    if (password.length < 15 || password !== repeated) {
+      message('Use at least 15 characters and enter the same new password twice.');
       return;
     }
-    const {error} = await client.auth.updateUser({password});
+    if (needsSecurityCode && (!/^[0-9]+$/.test(nonce) || nonce.length > 128)) {
+      message('Enter the security code from your latest email.'); return;
+    }
+    const {error} = await client.auth.updateUser({password, ...(needsSecurityCode ? {nonce} : {})});
     if (g !== generation) return;
     if (error) {
+      if (error.code === 'reauthentication_needed' || error.code === 'reauthentication_not_valid') {
+        needsSecurityCode = true; $('securitySection').hidden = false;
+        message('Request a fresh security code, then enter it with your new password.'); return;
+      }
       message('The password could not be saved. Use a different password or request a fresh reset code. If your account has an authenticator, keep it available.');
       return;
     }
