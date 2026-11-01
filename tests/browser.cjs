@@ -6,6 +6,7 @@ const vm = require('node:vm');
 const crypto = require('node:crypto');
 const {chromium} = require('playwright');
 const root = path.resolve(__dirname, '..');
+require('./emergency-copy.cjs').check(fs.readFileSync(path.join(root, 'index.html'), 'utf8'));
 const output = process.env.PHARMASNAP_SCREENSHOTS_DIR;
 if (output) fs.mkdirSync(output,{recursive:true});
 const context={window:{}};
