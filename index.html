@@ -1,11 +1,11 @@
 <!doctype html><html lang="en-AU"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>PharmaSNAP AI · Your health, explained</title>
-<meta name="description" content="Your AI medicine assistant: answers in 24 languages, medication ingredient and allergen checks, medicine reminders and pharmacy product and vitamin listings from nearby pharmacies.">
+<meta name="description" content="Your AI medicine assistant: answers in 24 languages, medication ingredient and allergen checks, medicine reminders, and pharmacy product and vitamin listings with their online prices from nearby pharmacies.">
 <meta name="theme-color" content="#FFFFFF">
 <meta name="color-scheme" content="light">
 <meta property="og:title" content="PharmaSNAP AI · Your health, explained">
-<meta property="og:description" content="Your AI medicine assistant: answers in 24 languages, medication ingredient and allergen checks, medicine reminders and pharmacy product and vitamin listings from nearby pharmacies.">
+<meta property="og:description" content="Your AI medicine assistant: answers in 24 languages, medication ingredient and allergen checks, medicine reminders, and pharmacy product and vitamin listings with their online prices from nearby pharmacies.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://pharmasnap.app/">
 <meta property="og:image" content="https://pharmasnap.app/img/og.jpg">
@@ -46,14 +46,14 @@
   <section class="hero hero--illustrated" aria-labelledby="hero-title">
     <div class="wrap">
       <div class="hero-copy">
-        <p class="hero-kicker"><span aria-hidden="true"></span>Everyday support, all in one place</p>
-        <h1 id="hero-title"><span class="hero-headline">Your medicine<br>assistant.</span><span class="hero-answer">Simplify your routine.</span></h1>
+        <p class="hero-kicker"><span aria-hidden="true"></span>Your medicine assistant</p>
+        <h1 id="hero-title"><span class="hero-headline">Snap it.<br>Chat to it.</span><span class="hero-answer">PharmaSNAP it.</span></h1>
         <!-- "24 languages", not "your language": the count is the languages the app
              READS ALOUD (openaiVoice.OPENAI_SPEECH_LANGUAGES). Punjabi, Bengali,
              Khmer, Burmese, Sinhala and Samoan are shown on screen and have no
              voice. src/lib/__tests__/spokenLanguageClaim.test.ts holds this number
              to the code. -->
-        <p class="lede">Get clear answers about medicines and health documents. Check medication ingredients and allergens, set medicine reminders, and check availability of pharmacy products and vitamins at nearby pharmacies.</p>
+        <p class="lede">Get clear answers about medicines and health documents. Check medication ingredients and allergens, set medicine reminders, and check availability and online prices of pharmacy products and vitamins at nearby pharmacies.</p>
         <p class="hero-methods">Talk, type or share a photo. Hear answers in <span class="nw">24 languages</span>.</p>
         <div class="ctas">
           <a class="hero-explore" href="#features">See how PharmaSNAP helps <span aria-hidden="true">↗</span></a>
@@ -74,7 +74,7 @@
     <div class="hero-highlights" aria-label="PharmaSNAP features">
       <div><span class="hero-highlight-number">01</span><span>Medication ingredient and allergen checks</span></div>
       <div><span class="hero-highlight-number">02</span><span>Reminders to take your medicine</span></div>
-      <div><span class="hero-highlight-number">03</span><span>Pharmacy product and vitamin availability nearby<small>Browse listings. Ask the pharmacy about stock.</small></span></div>
+      <div><span class="hero-highlight-number">03</span><span>Pharmacy product availability and online prices nearby<small>Compare listed prices. Ask the pharmacy about stock.</small></span></div>
     </div>
   </section>
 
@@ -83,7 +83,7 @@
       <div class="service-intro">
         <p class="service-kicker">Inside PharmaSNAP</p>
         <h2 id="features-title">Medicine questions, reminders and nearby pharmacies.</h2>
-        <p>Ask in your own words. Keep your medicines organised. Find a pharmacy to contact.</p>
+        <p>Ask in your own words. Keep your medicines organised. Find a pharmacy and compare online prices.</p>
       </div>
       <div class="feature-overview" aria-labelledby="feature-overview-title">
         <h3 id="feature-overview-title">What you can do in the app</h3>
@@ -92,6 +92,7 @@
           <li>Read medicine photos, prescriptions and health documents, including readable printed doses and directions.</li>
           <li>Use relevant saved Cabinet medicines, allergies and Health details with your permission when asking questions.</li>
           <li>Check several ingredient or dietary concerns together for a selected or custom product.</li>
+          <li>Snap or type a pharmacy product to see nearby pharmacy listings and compare the online prices they show within your chosen distance.</li>
           <li>Save medicines and custom directions, set reminders and track doses in the calendar.</li>
           <li>Reopen chats, choose Voice off, report a problem in Profile, manage or restore your plan, and delete your account.</li>
         </ul>
@@ -106,9 +107,15 @@
           <img src="/img/features/03-ingredients-960.webp" srcset="/img/features/03-ingredients-480.webp 480w, /img/features/03-ingredients-960.webp 960w" sizes="(max-width: 734px) calc(100vw - 32px), (max-width: 1068px) 44vw, 620px" width="1448" height="1086" loading="lazy" decoding="async" alt="Illustration of a magnifying glass over a medicine leaflet, watched by the curious PharmaSNAP sphere.">
           <div class="service-copy"><h3>Check medicine ingredients and allergens.</h3><p>Choose several allergens or dietary concerns, such as gluten, lactose, gelatin or vegan ingredients, and get a result for each. Pick a suggested product or enter your own name. Answers need evidence for that exact product; missing ingredients do not prove absence or allergy suitability.</p></div>
         </article>
+        <!-- PRICES, TRUE CLAIMS ONLY (2026-11-06). Online prices are the ones the
+             supported chains' own storefronts show, read in src/lib/retailerPrice.ts;
+             only pharmacies inside the chosen distance are compared and the lowest is
+             only a price actually found (src/lib/priceCompare.ts rules 1-8). A sponsor
+             gets a labelled slot and keeps its true place in the list, which is what
+             privacy.html promises. Pharmacies with no online listing are left out. -->
         <article class="service-card" id="nearby-products">
           <img src="/img/features/04-nearby-960.webp" srcset="/img/features/04-nearby-480.webp 480w, /img/features/04-nearby-960.webp 960w" sizes="(max-width: 734px) calc(100vw - 32px), (max-width: 1068px) 44vw, 620px" width="1448" height="1086" loading="lazy" decoding="async" alt="Illustrated neighbourhood with a pharmacy and the PharmaSNAP sphere inside a location pin. This is not a live map.">
-          <div class="service-copy"><h3>Check availability of pharmacy products and vitamins at nearby pharmacies.</h3><p>Find nearby pharmacies in Australia. For eligible non-prescription medicines and supplements, look for pharmacy website listings. Listings do not guarantee stock. Ask the pharmacy about availability.</p><a href="#pharmacies">See the pharmacy finder</a></div>
+          <div class="service-copy"><h3>Check availability and compare prices at nearby pharmacies.</h3><p>Find nearby pharmacies in Australia. For eligible non-prescription medicines and supplements, look for pharmacy website listings and the online prices they show, with the lowest online price found within your chosen distance. Sponsored pharmacies are labelled. Pharmacies without online listings are not compared. Listings do not guarantee stock, and the price in store can differ. Ask the pharmacy about availability.</p><a href="#pharmacies">See the pharmacy finder</a></div>
         </article>
         <article class="service-card" id="medicine-reminders">
           <img src="/img/features/05-reminders-960.webp" srcset="/img/features/05-reminders-480.webp 480w, /img/features/05-reminders-960.webp 960w" sizes="(max-width: 734px) calc(100vw - 32px), (max-width: 1068px) 44vw, 620px" width="1448" height="1086" loading="lazy" decoding="async" alt="Illustration of an ivory alarm clock, medicine packaging and the cheeky PharmaSNAP sphere winking above a bell.">
