@@ -79,3 +79,18 @@ The exact live redirect allowlist entry is
 `https://pharmasnap.app/admin/reset.html`; existing native app entries remain.
 
 Recovery failures show a static help code and an allowlisted HTTP status. Account-existence errors use the same neutral fallback. Raw error messages, tokens, passwords and email values are never logged or included in diagnostics. A rejected code or HTTP403 does not establish an email mismatch.
+
+## App Store link and promo video
+
+- Every store link points at `https://apps.apple.com/app/id6800983602` (header
+  "Get the app", hero badge, closing badge, video end card) and the
+  `apple-itunes-app` meta tag shows Safari's banner on iPhone. The listing
+  returns 404 until version 1.0 is released in App Store Connect, so publish
+  this page after the release.
+- `img/app-store-badge.svg` is Apple's official badge from developer.apple.com,
+  unaltered. Only its display height is set in CSS (Apple's minimum is 40px).
+- `media/pharmasnap-promo.mp4` is the 65-second promo, re-encoded to 720x1280
+  H.264 (~5 MB, faststart). `promo.js` loads it only when the hero play button
+  is pressed and plays it in a `<dialog>`; without JavaScript the button links
+  to the MP4. The play button is placed on the phone in the hero artwork with
+  container units in `_illustrations.css`; re-measure if the artwork changes.

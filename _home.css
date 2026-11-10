@@ -739,7 +739,7 @@ p { text-wrap: pretty; }
 
     /* Closing: the mark and line rise once, from .4. */
     .closing .wrap { view-timeline: --c block; }
-    .closing .mark, .closing h2, .soon-quiet { animation: lift linear both; animation-timeline: --c; animation-range: entry 0% entry 100%; }
+    .closing .mark, .closing h2, .closing .store-badge { animation: lift linear both; animation-timeline: --c; animation-range: entry 0% entry 100%; }
 
     /* A targeted tile swaps its scroll animation for the one-off ring. */
     .tile:target { animation: ping 1.6s ease-out 1; animation-timeline: auto; animation-range: normal; }

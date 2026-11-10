@@ -26,7 +26,7 @@ for(const [mode,translations] of Object.entries(samples)) {
   }
 }
 assert.equal(Object.keys(manifest).length,languages.length*Object.keys(samples).length);
-const types={'.html':'text/html','.css':'text/css','.js':'text/javascript','.webp':'image/webp','.png':'image/png','.svg':'image/svg+xml','.mp3':'audio/mpeg'};
+const types={'.html':'text/html','.css':'text/css','.js':'text/javascript','.webp':'image/webp','.png':'image/png','.svg':'image/svg+xml','.mp3':'audio/mpeg','.mp4':'video/mp4','.jpg':'image/jpeg'};
 const server=http.createServer((req,res)=>{
   const pathname=new URL(req.url,'http://localhost').pathname;
   const filename=path.join(root,pathname==='/'?'index.html':pathname);
@@ -48,7 +48,7 @@ const server=http.createServer((req,res)=>{
       const image=await page.locator('.hero-shot').boundingBox(),copy=await page.locator('.hero-copy').boundingBox();assert(image.width>=size.width-1);if(size.width<=1068) assert(image.y>=copy.y+copy.height-1);
       assert((await page.locator('#ingredients').textContent()).includes('Choose several allergens'));
       assert((await page.locator('#ingredients').textContent()).includes('enter your own name'));
-      assert.equal(await page.locator('.feature-overview li').count(),6);
+      assert.equal(await page.locator('.feature-overview li').count(),7);
       assert((await page.locator('#health-details').textContent()).includes('current Cabinet medicines'));
       assert((await page.locator('.feature-overview').textContent()).includes('not a complete check of every interaction'));
       assert((await page.locator('#saved-chats').textContent()).includes('With your permission'));
@@ -58,8 +58,28 @@ const server=http.createServer((req,res)=>{
       assert((await page.locator('#nearby-products').textContent()).includes('Find nearby pharmacies in Australia'));
       assert((await page.locator('#nearby-products').textContent()).includes('Listings do not guarantee stock'));
       assert.equal(await page.locator('.pfs-preview-documents').evaluateAll(nodes=>nodes.every(node=>getComputedStyle(node).transform==='none')),true);
+      // App Store: every store link is the one listing, and the hero badge shows.
+      const storeLinks=await page.locator('a[href*="apps.apple.com"]').evaluateAll(links=>links.map(link=>link.getAttribute('href')));
+      assert(storeLinks.length>=4,'Header, hero, closing and end-card store links');
+      assert(storeLinks.every(href=>href==='https://apps.apple.com/app/id6800983602'),storeLinks.join());
+      assert(await page.locator('.hero-copy .store-badge img').isVisible());
+      assert(await page.locator('.bar-get').isVisible(),`Get the app visible at ${size.width}`);
+      // The play button sits on the artwork, and nothing of the film loads before a press.
+      const play=await page.locator('.hero-play-disc').boundingBox(),art=await page.locator('.hero-shot').boundingBox();
+      assert(play.x>=art.x&&play.x+play.width<=art.x+art.width&&play.y>=art.y&&play.y+play.height<=art.y+art.height,`Play button on the artwork at ${size.width}`);
+      assert.equal(await page.locator('.promo-video').getAttribute('src'),null);
+      assert.equal(await page.evaluate(()=>performance.getEntriesByType('resource').some(entry=>entry.name.includes('/media/'))),false);
       if(output) await page.screenshot({path:path.join(output,`homepage-v2-${size.width}.png`)});
     }
+    // Pressing play opens the film over the page; Escape closes and pauses it.
+    await page.setViewportSize({width:1440,height:1000});await page.goto(base);
+    await page.locator('.hero-play').click();
+    assert(await page.locator('#promo').evaluate(dialog=>dialog.open));
+    assert((await page.locator('.promo-video').evaluate(video=>video.currentSrc)).endsWith('/media/pharmasnap-promo.mp4'));
+    await page.keyboard.press('Escape');
+    assert.equal(await page.locator('#promo').evaluate(dialog=>dialog.open),false);
+    // The dialog's close event is queued, so wait for its handler to run.
+    await page.waitForFunction(()=>document.querySelector('.promo-video').paused&&document.activeElement.classList.contains('hero-play'),null,{timeout:5000});
     // Regression from the owner UI review: decorative artwork must never cover
     // sign-in copy on a small screen. No account request is allowed in this check.
     await page.route('https://rcsuzwkivqejkxdjbhks.supabase.co/**', route=>route.abort());

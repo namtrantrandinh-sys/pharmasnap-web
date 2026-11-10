@@ -14,13 +14,35 @@
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="PharmaSNAP AI: photograph a medicine, a label or a result, then ask about it.">
 <meta name="twitter:card" content="summary_large_image">
+<!-- Safari on iPhone shows its own "Open / Get" banner for the App Store listing. -->
+<meta name="apple-itunes-app" content="app-id=6800983602">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="stylesheet" href="/_home.css">
 <link rel="stylesheet" href="/_preview.css">
 <link rel="stylesheet" href="/_illustrations.css">
+<script src="/promo.js" defer></script>
 </head><body>
+
+<!-- One icon set, drawn once and reused with <use>. Line icons, 24px grid. -->
+<svg class="icon-sprite" width="0" height="0" aria-hidden="true" focusable="false">
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5v7a2.5 2.5 0 0 1-2.5 2.5H10l-4.5 4v-4A1.5 1.5 0 0 1 4 14.5z"/><path d="M8.5 9.5h7M8.5 12.5h4.5"/></symbol>
+  <symbol id="i-camera" viewBox="0 0 24 24"><path d="M3.5 8.5A2.5 2.5 0 0 1 6 6h1.9l1.5-2.2h5.2L16.1 6H18a2.5 2.5 0 0 1 2.5 2.5v8A2.5 2.5 0 0 1 18 19H6a2.5 2.5 0 0 1-2.5-2.5z"/><circle cx="12" cy="12.5" r="3.6"/></symbol>
+  <symbol id="i-id" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2.5"/><circle cx="9" cy="10.8" r="2.2"/><path d="M5.8 16.2c.6-1.6 1.8-2.4 3.2-2.4s2.6.8 3.2 2.4M14.6 10h3.6M14.6 13.6h3.6"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.4 15.4 5 5"/><path d="m7.8 10.7 1.9 1.9 3.5-3.7"/></symbol>
+  <symbol id="i-tag" viewBox="0 0 24 24"><path d="M3.5 12.2V5A1.5 1.5 0 0 1 5 3.5h7.2a1.5 1.5 0 0 1 1.06.44l7.3 7.3a1.5 1.5 0 0 1 0 2.12l-7.2 7.2a1.5 1.5 0 0 1-2.12 0l-7.3-7.3a1.5 1.5 0 0 1-.44-1.06z"/><circle cx="8.3" cy="8.3" r="1.6"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 16.5V11a6 6 0 1 1 12 0v5.5l1.6 2.1H4.4z"/><path d="M10 21a2.1 2.1 0 0 0 4 0"/></symbol>
+  <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 7.5h9.5M18.5 7.5H20M4 16.5h3.5M12.5 16.5H20"/><circle cx="16" cy="7.5" r="2.4"/><circle cx="10" cy="16.5" r="2.4"/></symbol>
+  <symbol id="i-wave" viewBox="0 0 24 24"><path d="M4 10.5v3M8 7v10M12 4v16M16 7.5v9M20 10.5v3"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.4"/></symbol>
+  <symbol id="i-pill" viewBox="0 0 24 24"><path d="M10.2 20.1a4.6 4.6 0 0 1-6.5-6.5l6.1-6.1a4.6 4.6 0 0 1 6.5 6.5z"/><path d="m6.8 10.5 6.6 6.6"/><path d="M17.5 4.5v4M15.5 6.5h4"/></symbol>
+  <symbol id="i-chats" viewBox="0 0 24 24"><path d="M3.5 6.5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H8.5l-3 2.5v-2.6a1.6 1.6 0 0 1-2-1.5z"/><path d="M18.5 9h.5a1.5 1.5 0 0 1 1.5 1.5V16a1.5 1.5 0 0 1-1.5 1.5v2.4l-3-2.4h-5a2 2 0 0 1-2-2"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20s-7.5-4.4-7.5-10A4.3 4.3 0 0 1 12 7.4 4.3 4.3 0 0 1 19.5 10c0 5.6-7.5 10-7.5 10z"/><path d="M7.6 12.6h2.2l1.3-2.2 2 4 1.3-1.8h2"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M8.5 5.2v13.6a.8.8 0 0 0 1.2.7l10.6-6.8a.8.8 0 0 0 0-1.4L9.7 4.5a.8.8 0 0 0-1.2.7z" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-replay" viewBox="0 0 24 24"><path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3"/><path d="M4.5 4.5v4h4"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/></symbol>
+</svg>
 
 <a class="skip" href="#main">Skip to content</a>
 
@@ -34,7 +56,8 @@
       <a class="hide-sm" href="#features">Features</a>
       <a class="hide-xs" href="#languages">Languages</a>
       <a class="hide-sm" href="#pharmacies">Pharmacies</a>
-      <a href="/privacy">Privacy</a>
+      <a class="hide-xs" href="/privacy">Privacy</a>
+      <a class="bar-get" href="https://apps.apple.com/app/id6800983602">Get the app</a>
     </nav>
   </div>
 </header>
@@ -55,13 +78,23 @@
              to the code. -->
         <p class="lede">Get clear answers about medicines and health documents. Check medication ingredients and allergens, set medicine reminders, and check availability and online prices of pharmacy products and vitamins at nearby pharmacies.</p>
         <p class="hero-methods">Talk, type or share a photo. Hear answers in <span class="nw">24 languages</span>.</p>
+        <!-- Apple's own badge artwork (developer.apple.com, unaltered). The
+             listing goes live when 1.0 is released in App Store Connect. -->
         <div class="ctas">
+          <a class="store-badge" href="https://apps.apple.com/app/id6800983602"><img src="/img/app-store-badge.svg" width="120" height="40" alt="Download on the App Store"></a>
           <a class="hero-explore" href="#features">See how PharmaSNAP helps <span aria-hidden="true">↗</span></a>
-          <span class="hero-availability">Coming to the App Store</span>
         </div>
       </div>
     </div>
     <div class="hero-media">
+        <!-- The illustration stays until someone presses play; the film is
+             only fetched then. Without JavaScript the link opens the MP4. -->
+        <div class="hero-play-layer">
+          <a class="hero-play" href="/media/pharmasnap-promo.mp4" data-promo-open aria-haspopup="dialog">
+            <span class="hero-play-disc" aria-hidden="true"><svg><use href="#i-play"/></svg></span>
+            <span class="hero-play-label">Watch the video <span class="hero-play-time">1:05</span></span>
+          </a>
+        </div>
         <picture class="hero-shot">
           <source media="(min-width: 1069px)" srcset="/img/features/hero-medicine-world-960.webp 960w, /img/features/hero-medicine-world-1672.webp 1672w" sizes="100vw">
           <img src="/img/features/hero-medicine-world-mobile-960.webp"
@@ -72,9 +105,9 @@
         </picture>
     </div>
     <div class="hero-highlights" aria-label="PharmaSNAP features">
-      <div><span class="hero-highlight-number">01</span><span>Medication ingredient and allergen checks</span></div>
-      <div><span class="hero-highlight-number">02</span><span>Reminders to take your medicine</span></div>
-      <div><span class="hero-highlight-number">03</span><span>Pharmacy product availability and online prices nearby<small>Compare listed prices. Ask the pharmacy about stock.</small></span></div>
+      <div><span class="hero-highlight-number" aria-hidden="true"><svg><use href="#i-check"/></svg></span><span>Medication ingredient and allergen checks</span></div>
+      <div><span class="hero-highlight-number" aria-hidden="true"><svg><use href="#i-bell"/></svg></span><span>Reminders to take your medicine</span></div>
+      <div><span class="hero-highlight-number" aria-hidden="true"><svg><use href="#i-tag"/></svg></span><span>Pharmacy product availability and online prices nearby<small>Compare listed prices. Ask the pharmacy about stock.</small></span></div>
     </div>
   </section>
 
@@ -82,56 +115,126 @@
     <div class="wrap">
       <div class="service-intro">
         <p class="service-kicker">Inside PharmaSNAP</p>
-        <h2 id="features-title">Medicine questions, reminders and nearby pharmacies.</h2>
+        <h2 id="features-title">Medicine questions, reminders and <span class="accent">nearby pharmacies.</span></h2>
         <p>Ask in your own words. Keep your medicines organised. Find a pharmacy and compare online prices.</p>
       </div>
+      <!-- Every number here is already claimed elsewhere on this page: 24 spoken
+           and 30 display languages (voice card), up to four photos as one set
+           (documents tile), calm voice, cheeky voice or chime (reminders card). -->
+      <ul class="stat-strip" role="list" aria-label="PharmaSNAP in numbers">
+        <li class="stat stat--orange"><strong>24</strong><span>languages read out loud</span></li>
+        <li class="stat stat--night"><strong>30</strong><span>languages on screen</span></li>
+        <li class="stat stat--white"><strong>4</strong><span>photos in one question</span></li>
+        <li class="stat stat--mint"><strong>3</strong><span>reminder sounds: calm, cheeky or chime</span></li>
+      </ul>
       <div class="feature-overview" aria-labelledby="feature-overview-title">
         <h3 id="feature-overview-title">What you can do in the app</h3>
-        <ul role="list">
-          <li>Ask by text or voice, read the sources and keep the conversation going.</li>
-          <li>Read medicine photos, prescriptions and health documents, including readable printed doses and directions.</li>
-          <li>Use relevant saved Cabinet medicines, allergies and Health details with your permission when asking questions.</li>
-          <li>Check several ingredient or dietary concerns together for a selected or custom product.</li>
-          <li>Snap or type a pharmacy product to see nearby pharmacy listings and compare the online prices they show within your chosen distance.</li>
-          <li>Save medicines and custom directions, set reminders and track doses in the calendar.</li>
-          <li>Reopen chats, choose Voice off, report a problem in Profile, manage or restore your plan, and delete your account.</li>
+        <ul class="feature-tiles" role="list">
+          <li class="feature-tile--lead"><span class="fi" aria-hidden="true"><svg><use href="#i-chat"/></svg></span><strong>Ask, and keep asking</strong><span>Ask by text or voice, read the sources and keep the conversation going.</span></li>
+          <li><span class="fi" aria-hidden="true"><svg><use href="#i-camera"/></svg></span><strong>Snap a pack or a page</strong><span>Read medicine photos, prescriptions and health documents, including readable printed doses and directions.</span></li>
+          <li><span class="fi" aria-hidden="true"><svg><use href="#i-id"/></svg></span><strong>Answers that use what you saved</strong><span>Use relevant saved Cabinet medicines, allergies and Health details with your permission when asking questions.</span></li>
+          <li><span class="fi" aria-hidden="true"><svg><use href="#i-check"/></svg></span><strong>Many concerns, one check</strong><span>Check several ingredient or dietary concerns together for a selected or custom product.</span></li>
+          <li><span class="fi" aria-hidden="true"><svg><use href="#i-tag"/></svg></span><strong>Compare nearby prices</strong><span>Snap or type a pharmacy product to see nearby pharmacy listings and compare the online prices they show within your chosen distance.</span></li>
+          <li><span class="fi" aria-hidden="true"><svg><use href="#i-bell"/></svg></span><strong>Reminders and a dose calendar</strong><span>Save medicines and custom directions, set reminders and track doses in the calendar.</span></li>
+          <li><span class="fi" aria-hidden="true"><svg><use href="#i-sliders"/></svg></span><strong>You stay in control</strong><span>Reopen chats, choose Voice off, report a problem in Profile, manage or restore your plan, and delete your account.</span></li>
         </ul>
-        <p>Medicine links can include supported same-ingredient findings and label warnings. They are not a complete check of every interaction. A first document reading may show only what is printed; ask a follow-up to connect relevant saved details.</p>
+        <p class="feature-fine">Medicine links can include supported same-ingredient findings and label warnings. They are not a complete check of every interaction. A first document reading may show only what is printed; ask a follow-up to connect relevant saved details.</p>
       </div>
+      <!-- Each card: one lead line, quick facts as chips, then the limits in
+           small print. The small print is the original card copy, kept whole. -->
       <div class="service-grid">
         <article class="service-card" id="voice-questions">
-          <img src="/img/features/02-talk-960.webp" srcset="/img/features/02-talk-480.webp 480w, /img/features/02-talk-960.webp 960w" sizes="(max-width: 734px) calc(100vw - 32px), (max-width: 1068px) 44vw, 620px" width="1448" height="1086" loading="lazy" decoding="async" alt="Illustration of the listening PharmaSNAP sphere with flowing sound ribbons and speech bubbles.">
-          <div class="service-copy"><h3>Talk to AI about your medicines.</h3><p>Type or speak, then keep asking follow-up questions. Choose text in 30 display languages and speech in 24 spoken languages. Switch Voice off whenever you prefer to read; it stays off until you turn it on.</p><a href="#languages">Explore spoken languages</a></div>
+          <div class="service-art">
+            <img src="/img/features/02-talk-960.webp" srcset="/img/features/02-talk-480.webp 480w, /img/features/02-talk-960.webp 960w" sizes="(max-width: 734px) calc(100vw - 32px), (max-width: 1068px) 44vw, 620px" width="1448" height="1086" loading="lazy" decoding="async" alt="Illustration of the listening PharmaSNAP sphere with flowing sound ribbons and speech bubbles.">
+            <span class="art-tag"><svg aria-hidden="true"><use href="#i-wave"/></svg>Voice and text</span>
+          </div>
+          <div class="service-copy">
+            <h3>Talk to AI about your medicines.</h3>
+            <p class="service-lead">Type or speak, then keep asking follow-up questions.</p>
+            <ul class="service-chips" role="list"><li>24 spoken languages</li><li>30 display languages</li><li>Voice off any time</li></ul>
+            <p class="service-fine">Choose text in 30 display languages and speech in 24 spoken languages. Switch Voice off whenever you prefer to read; it stays off until you turn it on.</p>
+            <a href="#languages">Explore spoken languages</a>
+          </div>
         </article>
         <article class="service-card" id="ingredients">
-          <img src="/img/features/03-ingredients-960.webp" srcset="/img/features/03-ingredients-480.webp 480w, /img/features/03-ingredients-960.webp 960w" sizes="(max-width: 734px) calc(100vw - 32px), (max-width: 1068px) 44vw, 620px" width="1448" height="1086" loading="lazy" decoding="async" alt="Illustration of a magnifying glass over a medicine leaflet, watched by the curious PharmaSNAP sphere.">
-          <div class="service-copy"><h3>Check medicine ingredients and allergens.</h3><p>Choose several allergens or dietary concerns, such as gluten, lactose, gelatin or vegan ingredients, and get a result for each. Pick a suggested product or enter your own name. Answers need evidence for that exact product; missing ingredients do not prove absence or allergy suitability.</p></div>
+          <div class="service-art">
+            <img src="/img/features/03-ingredients-960.webp" srcset="/img/features/03-ingredients-480.webp 480w, /img/features/03-ingredients-960.webp 960w" sizes="(max-width: 734px) calc(100vw - 32px), (max-width: 1068px) 44vw, 620px" width="1448" height="1086" loading="lazy" decoding="async" alt="Illustration of a magnifying glass over a medicine leaflet, watched by the curious PharmaSNAP sphere.">
+            <span class="art-tag"><svg aria-hidden="true"><use href="#i-check"/></svg>Allergen check</span>
+          </div>
+          <div class="service-copy">
+            <h3>Check medicine ingredients and allergens.</h3>
+            <p class="service-lead">Choose several allergens or dietary concerns, such as gluten, lactose, gelatin or vegan ingredients, and get a result for each.</p>
+            <ul class="service-chips" role="list"><li>Gluten</li><li>Lactose</li><li>Gelatin</li><li>Vegan</li></ul>
+            <p class="service-fine">Pick a suggested product or enter your own name. Answers need evidence for that exact product; missing ingredients do not prove absence or allergy suitability.</p>
+          </div>
         </article>
         <!-- PRICES, TRUE CLAIMS ONLY (2026-11-06). Online prices are the ones the
              supported chains' own storefronts show, read in src/lib/retailerPrice.ts;
              only pharmacies inside the chosen distance are compared and the lowest is
              only a price actually found (src/lib/priceCompare.ts rules 1-8). A sponsor
              gets a labelled slot and keeps its true place in the list, which is what
-             privacy.html promises. Pharmacies with no online listing are left out. -->
+             privacy.html promises. Pharmacies with no online listing are left out.
+             Every sentence of the 6 Nov card is still here, word for word. -->
         <article class="service-card" id="nearby-products">
-          <img src="/img/features/04-nearby-960.webp" srcset="/img/features/04-nearby-480.webp 480w, /img/features/04-nearby-960.webp 960w" sizes="(max-width: 734px) calc(100vw - 32px), (max-width: 1068px) 44vw, 620px" width="1448" height="1086" loading="lazy" decoding="async" alt="Illustrated neighbourhood with a pharmacy and the PharmaSNAP sphere inside a location pin. This is not a live map.">
-          <div class="service-copy"><h3>Check availability and compare prices at nearby pharmacies.</h3><p>Find nearby pharmacies in Australia. For eligible non-prescription medicines and supplements, look for pharmacy website listings and the online prices they show, with the lowest online price found within your chosen distance. Sponsored pharmacies are labelled. Pharmacies without online listings are not compared. Listings do not guarantee stock, and the price in store can differ. Ask the pharmacy about availability.</p><a href="#pharmacies">See the pharmacy finder</a></div>
+          <div class="service-art">
+            <img src="/img/features/04-nearby-960.webp" srcset="/img/features/04-nearby-480.webp 480w, /img/features/04-nearby-960.webp 960w" sizes="(max-width: 734px) calc(100vw - 32px), (max-width: 1068px) 44vw, 620px" width="1448" height="1086" loading="lazy" decoding="async" alt="Illustrated neighbourhood with a pharmacy and the PharmaSNAP sphere inside a location pin. This is not a live map.">
+            <span class="art-tag"><svg aria-hidden="true"><use href="#i-tag"/></svg>Price compare</span>
+          </div>
+          <div class="service-copy">
+            <h3>Check availability and compare prices at nearby pharmacies.</h3>
+            <p class="service-lead">Find nearby pharmacies in Australia.</p>
+            <ul class="service-chips" role="list"><li>Lowest online price found</li><li>Your chosen distance</li><li>Sponsors labelled</li></ul>
+            <p class="service-fine">For eligible non-prescription medicines and supplements, look for pharmacy website listings and the online prices they show, with the lowest online price found within your chosen distance. Sponsored pharmacies are labelled. Pharmacies without online listings are not compared. Listings do not guarantee stock, and the price in store can differ. Ask the pharmacy about availability.</p>
+            <a href="#pharmacies">See the pharmacy finder</a>
+          </div>
         </article>
         <article class="service-card" id="medicine-reminders">
-          <img src="/img/features/05-reminders-960.webp" srcset="/img/features/05-reminders-480.webp 480w, /img/features/05-reminders-960.webp 960w" sizes="(max-width: 734px) calc(100vw - 32px), (max-width: 1068px) 44vw, 620px" width="1448" height="1086" loading="lazy" decoding="async" alt="Illustration of an ivory alarm clock, medicine packaging and the cheeky PharmaSNAP sphere winking above a bell.">
-          <div class="service-copy"><h3>Set reminders to take your medicine.</h3><p>Choose your times and a calm voice, a cheeky voice or a chime. Record a dose and see it in Cabinet and the calendar, or edit and remove a reminder. Built-in sounds work offline; a chime may play if a spoken recording is unavailable.</p></div>
+          <div class="service-art">
+            <img src="/img/features/05-reminders-960.webp" srcset="/img/features/05-reminders-480.webp 480w, /img/features/05-reminders-960.webp 960w" sizes="(max-width: 734px) calc(100vw - 32px), (max-width: 1068px) 44vw, 620px" width="1448" height="1086" loading="lazy" decoding="async" alt="Illustration of an ivory alarm clock, medicine packaging and the cheeky PharmaSNAP sphere winking above a bell.">
+            <span class="art-tag"><svg aria-hidden="true"><use href="#i-bell"/></svg>Reminders</span>
+          </div>
+          <div class="service-copy">
+            <h3>Set reminders to take your medicine.</h3>
+            <p class="service-lead">Choose your times and a calm voice, a cheeky voice or a chime.</p>
+            <ul class="service-chips" role="list"><li>Calm voice</li><li>Cheeky voice</li><li>Chime</li></ul>
+            <p class="service-fine">Record a dose and see it in Cabinet and the calendar, or edit and remove a reminder. Built-in sounds work offline; a chime may play if a spoken recording is unavailable.</p>
+          </div>
         </article>
         <article class="service-card service-card--wide" id="save-medicines">
-          <img src="/img/features/06-cabinet-960.webp" srcset="/img/features/06-cabinet-480.webp 480w, /img/features/06-cabinet-960.webp 960w" sizes="(max-width: 734px) calc(100vw - 32px), (max-width: 1068px) 44vw, 620px" width="1448" height="1086" loading="lazy" decoding="async" alt="Illustration of an organised medicine cabinet, a dose-record checklist and the PharmaSNAP sphere peeking from a shelf.">
-          <div class="service-copy"><h3>Save your medicines.<br>Keep track of doses.</h3><p>Search generic and brand names, or add a custom medicine. Save its strength and your own directions, record doses, and choose reminders. Edit or delete medicines when your list changes. Relevant saved medicines can help answer your questions.</p></div>
+          <div class="service-art">
+            <img src="/img/features/06-cabinet-960.webp" srcset="/img/features/06-cabinet-480.webp 480w, /img/features/06-cabinet-960.webp 960w" sizes="(max-width: 734px) calc(100vw - 32px), (max-width: 1068px) 44vw, 620px" width="1448" height="1086" loading="lazy" decoding="async" alt="Illustration of an organised medicine cabinet, a dose-record checklist and the PharmaSNAP sphere peeking from a shelf.">
+            <span class="art-tag"><svg aria-hidden="true"><use href="#i-pill"/></svg>Cabinet</span>
+          </div>
+          <div class="service-copy">
+            <h3>Save your medicines.<br>Keep track of doses.</h3>
+            <p class="service-lead">Search generic and brand names, or add a custom medicine.</p>
+            <ul class="service-chips" role="list"><li>Strength and your directions</li><li>Dose records</li><li>Reminders</li></ul>
+            <p class="service-fine">Save its strength and your own directions, record doses, and choose reminders. Edit or delete medicines when your list changes. Relevant saved medicines can help answer your questions.</p>
+          </div>
         </article>
         <article class="service-card" id="saved-chats">
-          <img src="/img/features/08-saved-chats-960.webp" srcset="/img/features/08-saved-chats-480.webp 480w, /img/features/08-saved-chats-960.webp 960w" sizes="(max-width: 734px) calc(100vw - 32px), 44vw" width="1448" height="1086" loading="lazy" decoding="async" alt="Illustration of conversation shapes organised in an ivory archive tray, with the PharmaSNAP sphere looking on.">
-          <div class="service-copy"><h3>Return to your saved chats.</h3><p>Search and reopen earlier questions and answers. With your permission, recent user-written details about a clearly named person can help later conversations. Historical details keep their dates and stay separate from your own Health records. Reading saved text creates no new AI answer; saving and loading need a connection.</p></div>
+          <div class="service-art">
+            <img src="/img/features/08-saved-chats-960.webp" srcset="/img/features/08-saved-chats-480.webp 480w, /img/features/08-saved-chats-960.webp 960w" sizes="(max-width: 734px) calc(100vw - 32px), 44vw" width="1448" height="1086" loading="lazy" decoding="async" alt="Illustration of conversation shapes organised in an ivory archive tray, with the PharmaSNAP sphere looking on.">
+            <span class="art-tag"><svg aria-hidden="true"><use href="#i-chats"/></svg>Saved chats</span>
+          </div>
+          <div class="service-copy">
+            <h3>Return to your saved chats.</h3>
+            <p class="service-lead">Search and reopen earlier questions and answers.</p>
+            <ul class="service-chips" role="list"><li>Search</li><li>Reopen</li><li>Dated details</li></ul>
+            <p class="service-fine">With your permission, recent user-written details about a clearly named person can help later conversations. Historical details keep their dates and stay separate from your own Health records. Reading saved text creates no new AI answer; saving and loading need a connection.</p>
+          </div>
         </article>
         <article class="service-card" id="health-details">
-          <img src="/img/features/10-health-details-960.webp" srcset="/img/features/10-health-details-480.webp 480w, /img/features/10-health-details-960.webp 960w" sizes="(max-width: 734px) calc(100vw - 32px), 44vw" width="1448" height="1086" loading="lazy" decoding="async" alt="Illustration of an ivory health organiser with turquoise dividers, abstract cards, a medicine bottle and the attentive PharmaSNAP sphere. No personal records are shown.">
-          <div class="service-copy"><h3>Keep your health details together.</h3><p>Save allergies, reactions, conditions and dated readings. With your permission, relevant Health details and current Cabinet medicines help answer medicine and health questions, including questions about a new medicine photo or a chosen saved health document. Keep your list current and say whose medicines you mean.</p></div>
+          <div class="service-art">
+            <img src="/img/features/10-health-details-960.webp" srcset="/img/features/10-health-details-480.webp 480w, /img/features/10-health-details-960.webp 960w" sizes="(max-width: 734px) calc(100vw - 32px), 44vw" width="1448" height="1086" loading="lazy" decoding="async" alt="Illustration of an ivory health organiser with turquoise dividers, abstract cards, a medicine bottle and the attentive PharmaSNAP sphere. No personal records are shown.">
+            <span class="art-tag"><svg aria-hidden="true"><use href="#i-heart"/></svg>Health details</span>
+          </div>
+          <div class="service-copy">
+            <h3>Keep your health details together.</h3>
+            <p class="service-lead">Save allergies, reactions, conditions and dated readings.</p>
+            <ul class="service-chips" role="list"><li>Allergies</li><li>Conditions</li><li>Readings</li></ul>
+            <p class="service-fine">With your permission, relevant Health details and current Cabinet medicines help answer medicine and health questions, including questions about a new medicine photo or a chosen saved health document. Keep your list current and say whose medicines you mean.</p>
+          </div>
         </article>
       </div>
       <p class="service-limit">PharmaSNAP provides information, not medical advice. AI can make mistakes. Ask a pharmacist or doctor about a treatment decision.</p>
@@ -588,13 +691,12 @@
     </div>
   </section>
 
-  <!-- CLOSING. Still not on the store: a quiet label, no link, no badge, no
-       Apple glyph. -->
+  <!-- CLOSING. Apple approved 1.0; the official badge links to the listing. -->
   <section class="closing" aria-labelledby="h-close">
     <div class="wrap">
       <img class="mark" src="/img/pharmasnap-logo.png" width="512" height="512" alt="">
       <h2 id="h-close">Point. Listen. Ask.</h2>
-      <p class="soon-quiet">Coming to the App Store</p>
+      <a class="store-badge store-badge--close" href="https://apps.apple.com/app/id6800983602"><img src="/img/app-store-badge.svg" width="120" height="40" alt="Download on the App Store"></a>
     </div>
   </section>
 
@@ -606,5 +708,20 @@
     <nav aria-label="Legal"><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="/support">Support</a><a href="mailto:support@lordly.com.au">Contact</a></nav>
   </div>
 </footer>
+
+<!-- The promo film. Opens over the page only when someone presses play. -->
+<dialog class="promo" id="promo" aria-label="PharmaSNAP AI promo video">
+  <div class="promo-stage">
+    <video class="promo-video" controls playsinline preload="none" width="720" height="1280"
+           data-src="/media/pharmasnap-promo.mp4" data-poster="/media/pharmasnap-promo-poster.jpg"></video>
+    <div class="promo-end" hidden>
+      <img class="promo-end-mark" src="/img/pharmasnap-logo.png" width="512" height="512" alt="">
+      <p class="promo-end-title">Snap it. Chat to it.<br>PharmaSNAP it.</p>
+      <a class="store-badge" href="https://apps.apple.com/app/id6800983602"><img src="/img/app-store-badge.svg" width="120" height="40" alt="Download on the App Store"></a>
+      <button class="promo-replay" type="button" data-promo-replay><svg aria-hidden="true"><use href="#i-replay"/></svg>Watch again</button>
+    </div>
+  </div>
+  <button class="promo-close" type="button" aria-label="Close video"><svg aria-hidden="true"><use href="#i-close"/></svg></button>
+</dialog>
 
 </body></html>
