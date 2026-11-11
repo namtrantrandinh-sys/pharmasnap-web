@@ -315,3 +315,121 @@ html:has(.promo[open]) { overflow: hidden; }
     .stat:nth-child(4) { animation-range: entry 60px entry 180px; }
   }
 }
+
+/* ══ MOTION, ROUND 2 (founder, 11 Nov 2026: "more animation and motion") ══
+   Same contract as the motion notes at the top of _home.css: all optional,
+   all under prefers-reduced-motion: no-preference, scroll-driven parts also
+   under @supports (animation-timeline: view()). Text never starts below
+   opacity .4 and nothing nested in a fading block fades again. Only links
+   and buttons react to hover (tiles are not links). Transforms and opacity
+   only: no blur, no layout properties, no JavaScript.
+   .hero-play is positioned with `translate`, so its pop animates scale only. */
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes m2-enter { from { opacity: .4; translate: 0 24px; } to { opacity: 1; translate: none; } }
+  @keyframes m2-art { from { scale: 1.07; } to { scale: 1; } }
+  @keyframes m2-pop { 0% { opacity: .4; scale: .6; } 70% { opacity: 1; scale: 1.08; } 100% { opacity: 1; scale: 1; } }
+  @keyframes m2-draw-x { from { scale: 0 1; } to { scale: 1 1; } }
+  @keyframes m2-dot { 0% { box-shadow: 0 0 0 0 #A0EEE5A6; } 100% { box-shadow: 0 0 0 11px #A0EEE500; } }
+  @keyframes m2-sheen-sweep { 0% { translate: -100% 0; } 35%, 100% { translate: 100% 0; } }
+  @keyframes m2-sway { 0%, 100% { rotate: -5deg; } 50% { rotate: 5deg; } }
+  @keyframes m2-bob { 0%, 100% { translate: 0 0; } 50% { translate: 0 -10px; } }
+
+  /* Hero opening, in reading order: kicker, headline, answer (its mint
+     underline draws), copy, buttons, highlights. The artwork eases in from a
+     slight zoom and the play button pops on last. */
+  .hero-kicker { animation: m2-enter .8s var(--ease-out) .05s both; }
+  .hero-kicker > span { animation: m2-dot 2.4s ease-out 1.2s infinite; }
+  .hero-headline { animation: m2-enter .9s var(--ease-out) .15s both; }
+  .hero-answer { animation: m2-enter .9s var(--ease-out) .32s both; }
+  .hero-answer::after { transform-origin: 0 50%; animation: m2-draw-x .7s var(--ease-out) 1s both; }
+  .hero--illustrated .lede { animation: m2-enter .9s var(--ease-out) .45s both; }
+  .hero-methods { animation: m2-enter .9s var(--ease-out) .55s both; }
+  .hero--illustrated .ctas { animation: m2-enter .9s var(--ease-out) .65s both; }
+  .hero-highlights > div { animation: m2-enter .8s var(--ease-out) .8s both; }
+  .hero-highlights > div:nth-child(2) { animation-delay: .9s; }
+  .hero-highlights > div:nth-child(3) { animation-delay: 1s; }
+  .hero--illustrated .hero-shot img { transform-origin: 100% 50%; animation: m2-art 1.5s var(--ease-out) both; }
+  .hero-play { animation: m2-pop .7s var(--ease-out) 1.1s both; }
+
+  /* "PharmaSNAP it." catches a mint glint every few seconds. */
+  @supports ((-webkit-background-clip: text) or (background-clip: text)) {
+    .hero-answer {
+      background: linear-gradient(100deg, #fff 0 42%, #A0EEE5 50%, #fff 58% 100%) 120% 0 / 250% 100%;
+      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+      animation: m2-enter .9s var(--ease-out) .32s both, m2-glint 7s ease-in-out 1.8s infinite;
+    }
+    @keyframes m2-glint { 0% { background-position: 120% 0; } 30%, 100% { background-position: -20% 0; } }
+  }
+  @media (forced-colors: active) { .hero-answer { background: none; -webkit-text-fill-color: CanvasText; } }
+
+  /* A soft light passes over the two orange feature blocks. */
+  .feature-tiles .feature-tile--lead, .stat--orange { position: relative; overflow: hidden; }
+  .feature-tiles .feature-tile--lead::after, .stat--orange::after {
+    content: ''; position: absolute; inset: 0; pointer-events: none;
+    background: linear-gradient(105deg, transparent 35%, #FFFFFF29 50%, transparent 65%);
+    translate: -100% 0; animation: m2-sheen-sweep 6.5s ease-in-out 1.5s infinite;
+  }
+  .stat--orange::after { animation-delay: 3.2s; }
+
+  /* The closing logo sways; the preview orb floats. */
+  .closing .mark { animation: m2-sway 6s ease-in-out infinite; }
+  .pfs-preview-orb { animation: m2-bob 5.6s ease-in-out infinite; }
+
+  /* Links and buttons answer the pointer. */
+  .store-badge { transition: translate .25s var(--ease), box-shadow .25s ease; }
+  .store-badge:hover { translate: 0 -3px; box-shadow: 0 14px 24px -14px #000000A6; }
+  .bar nav a.bar-get { transition: scale .2s var(--ease), background-color .2s ease; }
+  .bar nav a.bar-get:hover { scale: 1.05; }
+  .hero-explore { transition: translate .25s var(--ease), box-shadow .25s ease, background-color .25s ease; }
+  .hero-explore:hover { translate: 0 -2px; box-shadow: 0 18px 30px #51200633; }
+  .hero-explore > span { transition: translate .25s var(--ease); }
+  .hero-explore:hover > span { translate: 3px -3px; }
+  .pfs-preview-card a { transition: translate .2s var(--ease), background-color .2s ease; }
+  .pfs-preview-card a:hover { translate: 0 -2px; }
+}
+
+/* Scroll-driven: Chrome 115+, Safari 26+. Elsewhere the page is still complete. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes m2-rise { 0% { opacity: .4; translate: 0 30px; } 60% { opacity: 1; } 100% { opacity: 1; translate: none; } }
+    @keyframes m2-progress { from { scale: 0 1; } to { scale: 1 1; } }
+    @keyframes m2-line { from { scale: 0 1; } to { scale: 1 1; } }
+    @keyframes m2-grow { from { scale: .5; } to { scale: 1; } }
+    @keyframes m2-spin { from { scale: .3; rotate: -45deg; } to { scale: 1; rotate: 0deg; } }
+    @keyframes m2-chip { from { scale: .6; translate: 0 14px; } to { scale: 1; translate: none; } }
+    @keyframes m2-tag { from { scale: .85; translate: -28px 0; } to { scale: 1; translate: none; } }
+    @keyframes m2-drift { from { scale: 1.1; translate: 0 3%; } to { scale: 1.04; translate: 0 -2%; } }
+
+    /* Reading progress: a thin orange line along the top edge of the window. */
+    body::before {
+      content: ''; position: fixed; z-index: 30; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, #FF8A2A, #D84000); transform-origin: 0 50%; pointer-events: none;
+      animation: m2-progress linear both; animation-timeline: scroll(root);
+    }
+
+    /* Section headings rise in; the orange rule above each band heading draws. */
+    .service-intro > *, .feature-overview > h3, .band .head, .head-sub,
+    .pfs-preview-label, #pfs-preview-title, .pfs-preview-card {
+      animation: m2-rise linear both; animation-timeline: view(); animation-range: entry 0% entry 100%;
+    }
+    .head::before { transform-origin: 0 50%; animation: m2-line linear both; animation-timeline: view(); animation-range: entry 30% entry 100%; }
+
+    /* Big numbers grow, icons spin in, chips pop in one after another. */
+    .stat strong { transform-origin: 0 100%; animation: m2-grow linear both; animation-timeline: view(); animation-range: entry 10% entry 100%; }
+    .fi { animation: m2-spin linear both; animation-timeline: view(); animation-range: entry 0% entry 100%; }
+    .service-chips li, .lang-lists .chips li { animation: m2-chip linear both; animation-timeline: view(); animation-range: entry 0% entry 100%; }
+    .service-chips li:nth-child(2), .lang-lists .chips li:nth-child(3n+2) { animation-range: entry 12% entry 100%; }
+    .service-chips li:nth-child(3), .lang-lists .chips li:nth-child(3n) { animation-range: entry 24% entry 100%; }
+
+    /* Service art: the label slides in, the illustration drifts as you scroll
+       (the art's own ground colour fills any edge). */
+    .art-tag { animation: m2-tag linear both; animation-timeline: view(); animation-range: entry 20% entry 100%; }
+    .service-art > img { animation: m2-drift linear both; animation-timeline: view(); animation-range: cover 0% cover 100%; }
+
+    /* Keep the closing logo's scroll lift and add the sway on top. */
+    .closing .mark {
+      animation: lift linear both, m2-sway 6s ease-in-out 1s infinite;
+      animation-timeline: --c, auto; animation-range: entry 0% entry 100%, normal;
+    }
+  }
+}

@@ -83,6 +83,25 @@ const server=http.createServer((req,res)=>{
       assert.equal(await page.evaluate(()=>performance.getEntriesByType('resource').some(entry=>entry.name.includes('/media/'))),false);
       if(output) await page.screenshot({path:path.join(output,`homepage-v2-${size.width}.png`)});
     }
+    // Reduce Motion: none of the round-2 motion runs (this page was opened with reducedMotion 'reduce').
+    assert.equal(await page.evaluate(()=>document.getAnimations().some(a=>/^m2-/.test(a.animationName))),false,'No motion under Reduce Motion');
+    // Motion on: the hero opening finishes fully visible, with no sideways scroll, at phone and desktop width.
+    {
+      const moving=await browser.newPage({reducedMotion:'no-preference'});
+      for(const size of [{width:390,height:844},{width:1440,height:1000}]) {
+        await moving.setViewportSize(size);await moving.goto(base);
+        assert(await moving.evaluate(()=>document.getAnimations().some(a=>a.animationName==='m2-enter')),'Hero opening runs');
+        await moving.waitForFunction(()=>document.getAnimations().filter(a=>['m2-enter','m2-pop','m2-art'].includes(a.animationName)).every(a=>a.playState==='finished'),null,{timeout:5000});
+        assert.equal(await moving.locator('.hero--illustrated .lede').evaluate(el=>getComputedStyle(el).opacity),'1');
+        const play=await moving.locator('.hero-play-disc').boundingBox(),art=await moving.locator('.hero-shot').boundingBox();
+        assert(play.x>=art.x&&play.x+play.width<=art.x+art.width&&play.y>=art.y&&play.y+play.height<=art.y+art.height,`Play button on the artwork after the opening at ${size.width}`);
+        for(const sel of ['.stat-strip','.lang-lists','.service-card','.closing']) {
+          await moving.locator(sel).first().scrollIntoViewIfNeeded();
+          assert.equal(await moving.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false,`No sideways scroll with motion at ${sel} ${size.width}`);
+        }
+      }
+      await moving.close();
+    }
     // Pressing play opens the film over the page; Escape closes and pauses it.
     await page.setViewportSize({width:1440,height:1000});await page.goto(base);
     await page.locator('.hero-play').click();
