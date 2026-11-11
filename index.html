@@ -400,30 +400,56 @@
           <p>For anyone who cannot read the small print.</p>
         </div>
 
-        <!-- Native scripts, each tagged with its language and direction.
-             "and 12 more" = 24 voiced minus the 12 shown; recount if this changes.
-             Every language shown here must be one the app reads aloud. -->
+        <!-- ALL THIRTY languages, in the app's own order and native script
+             (src/lib/langCodes.ts LANGS), each tagged with its language and direction.
+             First list: the 24 the app reads aloud (openaiVoice OPENAI_SPEECH_LANGUAGES).
+             Second list: the 6 shown on screen with no voice (builtInVoicePolicy).
+             If the app's voice list changes, move the language between the lists
+             and change every "24 languages" on this page to match. -->
         <div class="tile t-wave t-wave--illustrated s7">
           <img class="ph" src="/img/features/09-languages-960.webp"
                srcset="/img/features/09-languages-480.webp 480w, /img/features/09-languages-960.webp 960w"
                sizes="(max-width: 734px) calc(100vw - 32px), (max-width: 1068px) 52vw, 730px"
                width="2048" height="1536" loading="lazy" decoding="async"
                alt="Illustration of a globe, speech shapes and flowing sound ribbons, with the listening PharmaSNAP sphere.">
-          <ul class="chips" role="list" aria-label="Some of the languages the app speaks">
-            <li lang="en">English</li>
-            <li lang="zh-Hans">简体中文</li>
-            <li lang="ar" dir="rtl">العربية</li>
-            <li lang="vi">Tiếng Việt</li>
-            <li lang="ta">தமிழ்</li>
-            <li lang="el">Ελληνικά</li>
-            <li lang="it">Italiano</li>
-            <li lang="hi">हिन्दी</li>
-            <li lang="fil">Filipino</li>
-            <li lang="ne">नेपाली</li>
-            <li lang="ko">한국어</li>
-            <li lang="es">Español</li>
-            <li class="and">and 12 more</li>
-          </ul>
+          <div class="lang-lists">
+            <p class="lang-head" id="lang-spoken">Read aloud and on screen</p>
+            <ul class="chips" role="list" aria-labelledby="lang-spoken" data-lang-list="spoken">
+              <li lang="en">English</li>
+              <li lang="vi">Tiếng Việt</li>
+              <li lang="zh-Hans">简体中文</li>
+              <li lang="es">Español</li>
+              <li lang="ko">한국어</li>
+              <li lang="hi">हिन्दी</li>
+              <li lang="fil">Filipino</li>
+              <li lang="it">Italiano</li>
+              <li lang="ar" dir="rtl">العربية</li>
+              <li lang="fr">Français</li>
+              <li lang="de">Deutsch</li>
+              <li lang="el">Ελληνικά</li>
+              <li lang="pt">Português</li>
+              <li lang="ru">Русский</li>
+              <li lang="ja">日本語</li>
+              <li lang="th">ไทย</li>
+              <li lang="tr">Türkçe</li>
+              <li lang="ta">தமிழ்</li>
+              <li lang="id">Bahasa Indonesia</li>
+              <li lang="ne">नेपाली</li>
+              <li lang="ur" dir="rtl">اردو</li>
+              <li lang="fa" dir="rtl">فارسی</li>
+              <li lang="pl">Polski</li>
+              <li lang="uk">Українська</li>
+            </ul>
+            <p class="lang-head" id="lang-screen">On screen only</p>
+            <ul class="chips chips--quiet" role="list" aria-labelledby="lang-screen" data-lang-list="screen">
+              <li lang="pa">ਪੰਜਾਬੀ</li>
+              <li lang="bn">বাংলা</li>
+              <li lang="km">ភាសាខ្មែរ</li>
+              <li lang="my">မြန်မာဘာသာ</li>
+              <li lang="si">සිංහල</li>
+              <li lang="sm">Gagana Samoa</li>
+            </ul>
+          </div>
         </div>
 
         <!-- The cabinet. Labels only: no counts, no reminders. -->

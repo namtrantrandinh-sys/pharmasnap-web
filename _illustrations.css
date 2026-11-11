@@ -121,6 +121,16 @@
 .t-wave--illustrated { background: #FFF4E7; }
 .t-wave--illustrated .ph { aspect-ratio: 4 / 3; object-fit: contain; -webkit-mask-image: none; mask-image: none; }
 .t-wave--illustrated .chips { padding-top: 20px; }
+/* All thirty languages: the 24 read aloud, then the 6 shown on screen only (outlined). */
+.lang-lists { margin-top: auto; padding: 16px var(--pad) var(--pad); }
+.lang-lists .chips { margin: 0; padding: 0; gap: 6px; }
+.lang-lists .chips li { font-size: 15px; padding: 9px 13px; }
+.lang-head { margin: 0 0 10px; font-size: 13px; line-height: 1.2; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: #9B3100; }
+.lang-lists .chips + .lang-head { margin-top: 20px; }
+.lang-lists .chips--quiet li { background: transparent; box-shadow: inset 0 0 0 1px #E3C3A8; color: var(--ink2); }
+@media (max-width: 734px) {
+  .lang-lists .chips li { font-size: 14px; padding: 8px 11px; }
+}
 @media (max-width: 734px) {
   .t-docs--illustrated { grid-template-columns: minmax(0, 1fr); }
   .t-docs--illustrated .docs-cap { padding: 28px 24px; }

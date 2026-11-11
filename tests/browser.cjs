@@ -7,6 +7,18 @@ const crypto = require('node:crypto');
 const {chromium} = require('playwright');
 const root = path.resolve(__dirname, '..');
 require('./emergency-copy.cjs').check(fs.readFileSync(path.join(root, 'index.html'), 'utf8'));
+// Languages tile: all thirty of the app's languages, 24 read aloud and 6 on screen only,
+// and the big numeral is the spoken count (app: src/lib/langCodes.ts + openaiVoice.ts).
+{
+  const page=fs.readFileSync(path.join(root,'index.html'),'utf8').replace(/<!--[\s\S]*?-->/g,'');
+  const list=name=>[...(page.match(new RegExp(`data-lang-list="${name}">([\\s\\S]*?)</ul>`))||[,''])[1].matchAll(/<li lang="([a-z]+)/g)].map(m=>m[1]);
+  const spoken=list('spoken'),screen=list('screen');
+  assert.deepEqual(spoken,['en','vi','zh','es','ko','hi','fil','it','ar','fr','de','el','pt','ru','ja','th','tr','ta','id','ne','ur','fa','pl','uk']);
+  assert.deepEqual(screen,['pa','bn','km','my','si','sm']);
+  assert.equal(new Set([...spoken,...screen]).size,30);
+  assert.equal(Number(page.match(/id="languages">\s*<h2><span class="n">(\d+)/)[1]),spoken.length);
+  assert(!/and \d+ more/.test(page),'No "and N more": every language is listed');
+}
 const output = process.env.PHARMASNAP_SCREENSHOTS_DIR;
 if (output) fs.mkdirSync(output,{recursive:true});
 const context={window:{}};
