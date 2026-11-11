@@ -12,6 +12,11 @@
   const fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
   const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
   const svgNS = 'http://www.w3.org/2000/svg';
+  /* While the promo film is open (promo.js), every loop here stops so the film
+     gets the whole screen's effort; they carry on when it closes. */
+  let filmOpen = false;
+  const resync = new Set();
+  document.addEventListener('pharmasnap:promo', e => { filmOpen = !!(e.detail && e.detail.open); resync.forEach(fn => fn()); });
   const watch = (el, cb, threshold = 0.3) => {
     const io = new IntersectionObserver(([e]) => cb(e.isIntersecting), {threshold});
     io.observe(el);
@@ -20,12 +25,13 @@
   const every = (ms, el, fn) => {
     let timer = 0, seen = false, held = false;
     const sync = () => {
-      const run = seen && !held && !document.hidden;
+      const run = seen && !held && !document.hidden && !filmOpen;
       if (run && !timer) timer = setInterval(fn, ms);
       if (!run && timer) { clearInterval(timer); timer = 0; }
     };
     watch(el, v => { seen = v; sync(); });
     document.addEventListener('visibilitychange', sync);
+    resync.add(sync);
     return {hold(h) { held = h; sync(); }};
   };
   /* Pointer position over an element, at most once a frame. */
@@ -129,7 +135,7 @@
     if (img.complete) paint(); else img.addEventListener('load', paint, {once: true});
     const frame = now => {
       raf = 0;
-      if (!shown) return;
+      if (!shown || filmOpen) return;
       if (now > steering) {
         const t = (now - t0) / 1000;
         tx = .5 + .3 * Math.sin(t * .5); ty = .5 + .22 * Math.sin(t * .83 + 1);
@@ -141,7 +147,8 @@
       lens.style.backgroundPosition = `${size / 2 - x * w * ZOOM}px ${size / 2 - y * h * ZOOM}px`;
       raf = requestAnimationFrame(frame);
     };
-    const run = () => { if (shown && !raf) raf = requestAnimationFrame(frame); };
+    const run = () => { if (shown && !filmOpen && !raf) raf = requestAnimationFrame(frame); };
+    resync.add(run);
     watch(host, v => { shown = v; host.classList.toggle('is-lens', v); run(); }, 0.15);
     document.addEventListener('visibilitychange', () => { shown = !document.hidden && host.classList.contains('is-lens'); run(); });
     const steer = (e, hold) => {

@@ -123,6 +123,26 @@ const server=http.createServer((req,res)=>{
       assert(await moving.locator('#languages').evaluate(el=>el.classList.contains('is-silent')),'Waveform lies flat for an on-screen-only language');
       assert.equal(await moving.locator('.spark').count(),5);
       assert.equal(await moving.locator('.t-ask .bubble .sr').textContent(),'Example question: What is paracetamol used for?');
+      // The film plays over a page that holds still (founder: the video was "lagging a bit"):
+      // no animation runs behind it, no blur under it, and motion.js loops stop
+      // (the magnifier stays put). All of it carries on once the film closes.
+      // CSS animations only: a short transition from the last click may still be finishing.
+      const behind=()=>moving.evaluate(()=>document.getAnimations().filter(a=>a.playState==='running'&&!a.effect.target.closest('.promo')).map(a=>`${a.constructor.name}:${a.animationName||a.transitionProperty}`));
+      const animating=async()=>(await behind()).filter(name=>name.startsWith('CSSAnimation')).length;
+      const lensAt=()=>moving.locator('.lens').evaluate(el=>el.style.translate);
+      await moving.mouse.move(2,2);
+      await moving.locator('.docs-lens-host').scrollIntoViewIfNeeded();
+      await moving.evaluate(()=>document.querySelector('[data-promo-open]').click());
+      assert(await moving.locator('#promo').evaluate(dialog=>dialog.open));
+      assert.equal(await animating(),0,'Nothing animates behind the film');
+      assert.equal(await moving.locator('#promo').evaluate(dialog=>getComputedStyle(dialog,'::backdrop').backdropFilter),'none','No blur under the film');
+      const held=await lensAt();await moving.waitForTimeout(500);
+      assert.equal(await lensAt(),held,'Magnifier holds still behind the film');
+      await moving.keyboard.press('Escape');
+      await moving.waitForFunction(()=>!document.documentElement.classList.contains('is-promo'),null,{timeout:3000});
+      assert(await animating()>0,'Page motion carries on after the film');
+      const resumed=await lensAt();await moving.waitForTimeout(500);
+      assert.notEqual(await lensAt(),resumed,'Magnifier moves again after the film');
       assert.deepEqual(pageErrors,[]);
       await moving.close();
     }

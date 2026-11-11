@@ -254,11 +254,16 @@
 /* ── Promo dialog ─────────────────────────────────────────────────────── */
 .promo { width: 100%; height: 100%; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; background: transparent; color: #fff; overflow: hidden; }
 .promo[open] { display: grid; place-items: center; }
-.promo::backdrop { background: #120802E6; }
-@supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
-  .promo::backdrop { background: #120802C2; -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); }
-}
+/* A plain tint, no blur: a full-screen blur under a playing film is redrawn with
+   every frame and made the film stutter (founder, 11 Nov 2026: "lagging a bit"). */
+.promo::backdrop { background: #120802F0; }
 html:has(.promo[open]) { overflow: hidden; }
+/* While the film is open the page behind it holds still (promo.js sets .is-promo),
+   so nothing under the dialog repaints and every frame goes to the film. The
+   page picks up where it was when the film closes. */
+html.is-promo :not(.promo, .promo *),
+html.is-promo :not(.promo, .promo *)::before,
+html.is-promo :not(.promo, .promo *)::after { animation-play-state: paused !important; }
 .promo-stage {
   position: relative; height: min(88vh, calc(90vw * 16 / 9)); aspect-ratio: 9 / 16;
   border-radius: 26px; overflow: hidden; background: #000;

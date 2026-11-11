@@ -10,6 +10,13 @@
   const replay = dialog.querySelector('[data-promo-replay]');
   const closeButton = dialog.querySelector('.promo-close');
 
+  // The page behind the film holds still while it plays: CSS pauses its
+  // animations (html.is-promo) and motion.js stops its loops on this event.
+  const still = on => {
+    document.documentElement.classList.toggle('is-promo', on);
+    document.dispatchEvent(new CustomEvent('pharmasnap:promo', {detail: {open: on}}));
+  };
+
   const play = () => {
     endCard.hidden = true;
     if (video.ended) video.currentTime = 0;
@@ -24,12 +31,14 @@
       video.poster = video.dataset.poster;
       video.src = video.dataset.src;
     }
+    still(true);
     dialog.showModal();
     play();
   });
 
   dialog.addEventListener('close', () => {
     video.pause();
+    still(false);
     trigger.focus({preventScroll: true});
   });
   closeButton.addEventListener('click', () => dialog.close());
