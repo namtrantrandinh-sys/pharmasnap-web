@@ -94,3 +94,14 @@ Recovery failures show a static help code and an allowlisted HTTP status. Accoun
   is pressed and plays it in a `<dialog>`; without JavaScript the button links
   to the MP4. The play button is placed on the phone in the hero artwork with
   container units in `_illustrations.css`; re-measure if the artwork changes.
+
+## Interactive motion (lower page)
+
+`motion.js` (deferred) adds the moving and interactive parts below the feature
+cards: language chips become buttons that say hello over the globe (the 24
+read aloud make the waveform talk; the 6 on-screen-only lay it flat), a
+spotlight across "What you can photograph", a magnifier over the documents
+illustration, sparks along the joining lines, map ripples and parallax, the
+typing question, tile tilt and the closing glow. Without the script, or with
+Reduce Motion on, the page is the finished still picture; only the language
+buttons still work. Its styles are the "ROUND 3" block in `_illustrations.css`.

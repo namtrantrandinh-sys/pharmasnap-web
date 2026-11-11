@@ -31,7 +31,7 @@
 .hero--illustrated .hero-shot { position: absolute; inset: 0; width: 100%; border-radius: 0; background: #F36C0F; overflow: hidden; }
 .hero--illustrated .hero-shot img { width: 100%; height: 100%; object-fit: cover; object-position: right center; -webkit-mask-image: none; mask-image: none; }
 .hero--illustrated h1, .hero--illustrated .lede, .hero--illustrated .ctas, .hero--illustrated .hero-shot { opacity: 1; translate: none; transition: none; }
-.hero-highlights { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); width: 100%; margin: 0; position: relative; z-index: 2; background: #63230AD9; border-top: 1px solid #FFFFFF52; padding: 23px max(5vw, calc((100vw - 1360px) / 2)) 26px; gap: 24px; }
+.hero-highlights { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); width: 100%; margin: 0; position: relative; z-index: 2; background: #63230AD9; border-top: 1px solid #FFFFFF52; padding: 23px max(5vw, calc((100vw - 1360px) / 2)) 26px; gap: 24px; }
 .hero-highlights > div { display: flex; align-items: center; gap: 14px; color: #fff; font-size: 14px; line-height: 1.4; }
 .hero-highlights small { display: block; margin-top: 4px; color: #fff; font-size: 12px; line-height: 1.4; }
 .hero-highlight-number { display: inline-flex; align-items: center; justify-content: center; flex: none; width: 29px; height: 29px; border: 1px solid #FFFFFF73; border-radius: 50%; color: #fff; font-size: 11px; }
@@ -348,6 +348,7 @@ html:has(.promo[open]) { overflow: hidden; }
   .hero-highlights > div { animation: m2-enter .8s var(--ease-out) .8s both; }
   .hero-highlights > div:nth-child(2) { animation-delay: .9s; }
   .hero-highlights > div:nth-child(3) { animation-delay: 1s; }
+  .hero-highlights > div:nth-child(4) { animation-delay: 1.1s; }
   .hero--illustrated .hero-shot img { transform-origin: 100% 50%; animation: m2-art 1.5s var(--ease-out) both; }
   .hero-play { animation: m2-pop .7s var(--ease-out) 1.1s both; }
 
@@ -431,5 +432,193 @@ html:has(.promo[open]) { overflow: hidden; }
       animation: lift linear both, m2-sway 6s ease-in-out 1s infinite;
       animation-timeline: --c, auto; animation-range: entry 0% entry 100%, normal;
     }
+  }
+}
+
+/* ══ MOTION, ROUND 3: THE LOWER PAGE, INTERACTIVE (founder, 11 Nov 2026) ══
+   motion.js adds the moving parts and classes used below. Without it, or
+   under Reduce Motion, every tile stays the finished still picture; only the
+   language chips stay interactive (a state change, not motion). This round
+   deliberately adds pointer effects to tiles (the founder asked for
+   interactive); they are mouse/trackpad only and never carry information. */
+
+/* Language chips as buttons, and the greeting over the globe. */
+.lang-lists .chips li.has-btn { padding: 0; }
+.chip-btn {
+  display: block; margin: 0; padding: 9px 13px; border: 0; border-radius: inherit;
+  background: none; color: inherit; font: inherit; letter-spacing: inherit; cursor: pointer;
+  transition: background-color .2s ease, color .2s ease;
+}
+.chip-btn:hover { background: #FFF0E7; }
+.chip-btn[aria-pressed="true"] { background: #D84000; color: #fff; }
+.chips--quiet .chip-btn[aria-pressed="true"] { background: #6E6E73; color: #fff; }
+.chip-btn:focus-visible { outline: 3px solid #D84000; outline-offset: 2px; }
+.lang-say {
+  position: absolute; z-index: 2; top: 40cqw; left: 62%; translate: -50% 0; margin: 0;
+  display: flex; flex-direction: column; align-items: center; gap: 4px; max-width: calc(100% - 32px);
+  padding: 12px 22px 10px; border-radius: 24px 24px 24px 8px; background: #fff; color: #1D1D1F;
+  box-shadow: 0 18px 36px -18px #7A2E0080; pointer-events: none; white-space: nowrap;
+}
+.lang-say[hidden] { display: none; }
+/* The bubble sits on the illustration, beside the orb, clear of the sticky header: the
+   picture is 4:3, so its height is 75% of the tile's width (cqw). */
+.t-wave--illustrated { container-type: inline-size; }
+.lang-say-text { font-size: 30px; line-height: 1.25; font-weight: 700; letter-spacing: -.01em; }
+.lang-say-note { font-size: 12px; line-height: 1.2; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: #9B3100; }
+.lang-say.is-silent .lang-say-note { color: #6E6E73; }
+#languages .voice-line { transition: scale .45s var(--ease); }
+#languages.is-silent .voice-line { scale: 1 .16; }
+@media (max-width: 734px) {
+  .chip-btn { padding: 8px 11px; }
+  .lang-say { padding: 9px 16px 8px; }
+  .lang-say-text { font-size: 22px; }
+}
+
+/* The lineup spotlight's position, registered so it can glide (top level: @property cannot sit in @media). */
+@property --sx { syntax: '<percentage>'; inherits: true; initial-value: 50%; }
+
+/* Four highlights: two by two on tablets (phones stack them, see above). */
+@media (min-width: 735px) and (max-width: 1068px) { .hero-highlights { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* Magnifier host (the lens itself only shows when motion.js runs it). */
+.docs-lens-host { position: relative; min-width: 0; }
+.lens { display: none; }
+
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes m3-talk { from { scale: 1 .5; } to { scale: 1 1.08; } }
+  @keyframes m3-spark { from { stroke-dashoffset: .07; } to { stroke-dashoffset: -1.05; } }
+  @keyframes m3-ripple { 0% { scale: .5; opacity: .85; } 100% { scale: 3.2; opacity: 0; } }
+  @keyframes m3-breathe { 0%, 100% { scale: 1; opacity: 1; } 50% { scale: 1.5; opacity: .45; } }
+  @keyframes m3-bob { 0%, 100% { translate: 0 0; } 50% { translate: 0 -7px; } }
+  @keyframes m3-dot { 0%, 30%, 100% { fill: var(--night-tile); stroke: #6E6C6A; } 6%, 22% { fill: var(--brand); stroke: var(--brand); } }
+  @keyframes m3-card { 0%, 30%, 100% { fill: #2A2927; } 6%, 22% { fill: #3A3633; } }
+  @keyframes m3-caret { 50% { opacity: 0; } }
+  @keyframes m3-eq { from { scale: 1 .3; } to { scale: 1 1.1; } }
+  @keyframes m3-mic { 0% { box-shadow: 0 0 0 0 #F26B1D80; } 100% { box-shadow: 0 0 0 18px #F26B1D00; } }
+  @keyframes m3-word { 0%, 30%, 100% { color: var(--ink); translate: none; } 8%, 22% { color: #D84000; translate: 0 -6px; } }
+  @keyframes m3-blobs { from { translate: -4% -3%; rotate: 0deg; } to { translate: 4% 3%; rotate: 8deg; } }
+  @keyframes m3-nope { 20% { rotate: -14deg; } 40% { rotate: 12deg; } 60% { rotate: -8deg; } 80% { rotate: 4deg; } }
+
+  /* Languages: the waveform talks while a spoken language is chosen. */
+  #languages.is-talking .voice-line { animation: m3-talk .42s ease-in-out infinite alternate; }
+
+  /* What you can photograph: the spotlight, its label, a slight lean in. */
+  .t-lineup { transition: --sx .7s var(--ease-out); }
+  .spot {
+    position: absolute; inset: 0; z-index: 1; pointer-events: none; opacity: 0; transition: opacity .6s ease;
+    background: radial-gradient(ellipse 13% 38% at var(--sx) 52%, transparent 62%, #1D1D1F33 100%);
+  }
+  .t-lineup.is-spot .spot { opacity: 1; }
+  .t-lineup .ph { transform-origin: var(--sx) 55%; transition: scale .9s var(--ease-out); }
+  .t-lineup.is-spot .ph { scale: 1.035; }
+  .labels .tag { transition: background-color .35s ease, color .35s ease, translate .35s var(--ease-out), box-shadow .35s ease; }
+  .labels li.is-on .tag { background: #D84000; color: #fff; translate: 0 -4px; box-shadow: 0 10px 22px -10px #B53600; }
+  .labels li.is-on .tag::before { background: #D84000; }
+  @media (max-width: 734px) {
+    .spot { display: none; }
+    .labels .crop { transition: scale .45s var(--ease-out); }
+    .labels li.is-on .crop { scale: 1.07; }
+  }
+
+  /* Health documents: the magnifier, with a handle. */
+  .lens {
+    display: block; position: absolute; left: 0; top: 0; z-index: 2; width: 150px; height: 150px; border-radius: 50%;
+    pointer-events: none; opacity: 0; background: #fff no-repeat; transition: opacity .4s ease;
+    box-shadow: 0 0 0 4px #fff, 0 0 0 6px #D8400040, 0 22px 40px -14px #5A1F0499;
+  }
+  .lens::after {
+    content: ''; position: absolute; left: 85.4%; top: 85.4%; width: 46px; height: 12px; border-radius: 6px;
+    background: #D84000; rotate: 45deg; transform-origin: 0 50%; translate: 0 -6px;
+  }
+  .docs-lens-host.is-lens .lens { opacity: 1; }
+  .docs-lens-host.is-steer { cursor: none; }
+  @media (max-width: 734px) { .lens { width: 110px; height: 110px; } .lens::after { width: 34px; height: 10px; } }
+
+  /* Sparks along the joining lines. */
+  .spark {
+    fill: none; stroke-linecap: round; stroke-dasharray: .07 1.2; stroke-dashoffset: .07; pointer-events: none;
+    animation: m3-spark 2.6s cubic-bezier(.45, 0, .55, 1) infinite;
+  }
+  .sum .spark { stroke: #FF8A2A; stroke-width: 5; }
+  .me .spark { stroke: #FFC79E; stroke-width: 5; }
+  .thread .spark { stroke: #FF8A2A; stroke-width: 1.6; animation-duration: 2.2s; }
+
+  /* Your health in one place: each row lights in turn. */
+  .me .dot { animation: m3-dot 6s ease-in-out infinite; }
+  .me .card { animation: m3-card 6s ease-in-out infinite; }
+  .me .r2 .dot, .me .r2 .card { animation-delay: 1.5s; }
+  .me .r3 .dot, .me .r3 .card { animation-delay: 3s; }
+  .me .r4 .dot, .me .r4 .card { animation-delay: 4.5s; }
+
+  /* The map: ripples, a breathing "you", bobbing pins, parallax layers. */
+  .ripple { fill: none; stroke: var(--brand); stroke-width: 2; transform-box: fill-box; transform-origin: center; opacity: 0; animation: m3-ripple 3s ease-out infinite; }
+  .you .halo { transform-box: fill-box; transform-origin: center; animation: m3-breathe 2.6s ease-in-out infinite; }
+  .bob { animation: m3-bob 2.8s ease-in-out infinite; }
+  .map .layer-far, .map .layer-near { transition: transform .5s var(--ease-out); }
+  .map .layer-far { transform: translate(calc(var(--mx, 0) * -8px), calc(var(--my, 0) * -8px)); }
+  .map .layer-near { transform: translate(calc(var(--mx, 0) * 14px), calc(var(--my, 0) * 14px)); }
+
+  /* Speak or type: the sphere's gaze, the typing caret, the listening bars. */
+  .ask-orb img { translate: var(--ox, 0px) var(--oy, 0px); transition: translate .6s var(--ease-out); }
+  .bubble .ghost { color: transparent; }
+  .bubble .typed::after {
+    content: ''; display: inline-block; width: 3px; height: .95em; margin: 0 -3px -.12em 1px;
+    background: var(--brand); animation: m3-caret 1s steps(1) infinite;
+  }
+  .t-ask.is-listening .bars rect {
+    transform-box: fill-box; transform-origin: center;
+    animation: m3-eq .46s ease-in-out infinite alternate; animation-timeline: auto;
+  }
+  .t-ask.is-listening .bars rect:nth-child(3n+2) { animation-duration: .38s; animation-delay: -.2s; }
+  .t-ask.is-listening .bars rect:nth-child(3n) { animation-duration: .54s; animation-delay: -.1s; }
+  .t-ask.is-listening .mic { animation: m3-mic 1s ease-out infinite; }
+
+  /* Scan: the mouse holds the scan plane. */
+  .scan-feature.is-manual .scan-line { animation: none; opacity: .9; left: calc(var(--sx, 50%) - 9%); transition: left .15s linear; }
+
+  /* What it will not do: a small "no" shake on hover. */
+  .nots li:hover svg { animation: m3-nope .55s ease-in-out; }
+
+  /* Tilt and glare. */
+  .is-tiltable { transform: perspective(1400px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transition: transform .6s var(--ease-out); }
+  .is-tiltable.is-tilt { transition: transform .12s linear; }
+  .pfs-preview-card.is-tiltable { position: relative; overflow: hidden; }
+  .glare {
+    position: absolute; inset: 0; z-index: 4; pointer-events: none; border-radius: inherit; opacity: 0; transition: opacity .4s ease;
+    background: radial-gradient(520px circle at var(--gx, 50%) var(--gy, 50%), #FFFFFF2E, transparent 45%);
+  }
+  .is-tilt > .glare { opacity: 1; }
+
+  /* Closing: drifting colour, a glow under the mouse, words in turn, a gentle pull. */
+  .closing { position: relative; overflow: hidden; isolation: isolate; }
+  .closing::before {
+    content: ''; position: absolute; z-index: -1; inset: -30% -10%; pointer-events: none;
+    background:
+      radial-gradient(28% 38% at 28% 42%, #FFE6D3, transparent 70%),
+      radial-gradient(24% 34% at 72% 58%, #FFEFE2, transparent 70%),
+      radial-gradient(18% 26% at 52% 80%, #DDF6F2, transparent 70%);
+    animation: m3-blobs 16s ease-in-out infinite alternate;
+  }
+  .closing-glow {
+    position: absolute; z-index: -1; left: var(--cx, 50%); top: var(--cy, 50%); width: 560px; height: 560px;
+    translate: -50% -50%; border-radius: 50%; pointer-events: none; opacity: 0; transition: opacity .5s ease;
+    background: radial-gradient(circle, #FF8A2A33, transparent 62%);
+  }
+  .closing.is-glow .closing-glow { opacity: 1; }
+  .closing h2 .w { display: inline-block; animation: m3-word 4.5s ease-in-out infinite; }
+  .closing h2 .w:nth-child(2) { animation-delay: 1.5s; }
+  .closing h2 .w:nth-child(3) { animation-delay: 3s; }
+  .closing .mark { transform: translate(var(--mgx, 0px), var(--mgy, 0px)); transition: transform .45s var(--ease-out); }
+  .closing .store-badge { transform: translate(var(--mgx, 0px), var(--mgy, 0px)); transition: transform .45s var(--ease-out), translate .25s var(--ease), box-shadow .25s ease; }
+}
+
+/* Scroll-driven: the "no" signs draw themselves as the list arrives. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes m3-circle { from { stroke-dashoffset: 58; } to { stroke-dashoffset: 0; } }
+    @keyframes m3-slash { from { stroke-dashoffset: 19; } to { stroke-dashoffset: 0; } }
+    .nots li { view-timeline: --n block; }
+    .nots svg circle { stroke-dasharray: 58; animation: m3-circle linear both; animation-timeline: --n; animation-range: entry 20% entry 90%; }
+    .nots svg path { stroke-dasharray: 19; animation: m3-slash linear both; animation-timeline: --n; animation-range: entry 60% entry 100%; }
   }
 }

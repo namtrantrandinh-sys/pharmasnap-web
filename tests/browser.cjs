@@ -95,13 +95,45 @@ const server=http.createServer((req,res)=>{
         assert.equal(await moving.locator('.hero--illustrated .lede').evaluate(el=>getComputedStyle(el).opacity),'1');
         const play=await moving.locator('.hero-play-disc').boundingBox(),art=await moving.locator('.hero-shot').boundingBox();
         assert(play.x>=art.x&&play.x+play.width<=art.x+art.width&&play.y>=art.y&&play.y+play.height<=art.y+art.height,`Play button on the artwork after the opening at ${size.width}`);
-        for(const sel of ['.stat-strip','.lang-lists','.service-card','.closing']) {
+        for(const sel of ['.stat-strip','.lang-lists','.service-card','.t-lineup','.docs-lens-host','.t-map','.closing']) {
           await moving.locator(sel).first().scrollIntoViewIfNeeded();
           assert.equal(await moving.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false,`No sideways scroll with motion at ${sel} ${size.width}`);
         }
       }
+      // Lower page, interactive (motion.js): language buttons, spotlight, magnifier, sparks.
+      const pageErrors=[];moving.on('pageerror',e=>pageErrors.push(String(e)));
+      await moving.goto(base);
+      await moving.locator('.t-lineup').scrollIntoViewIfNeeded();
+      const lineupBox=await moving.locator('.t-lineup').boundingBox();
+      await moving.mouse.move(lineupBox.x+lineupBox.width*.62,lineupBox.y+lineupBox.height*.5,{steps:5});
+      await moving.waitForFunction(()=>document.querySelector('.labels li:nth-child(3)').classList.contains('is-on'),null,{timeout:3000});
+      await moving.locator('.docs-lens-host').scrollIntoViewIfNeeded();
+      const docsBox=await moving.locator('.docs-lens-host img').boundingBox();
+      await moving.mouse.move(docsBox.x+docsBox.width*.4,docsBox.y+docsBox.height*.4,{steps:5});
+      await moving.waitForTimeout(1500);
+      const lens=await moving.locator('.lens').boundingBox();
+      assert(Math.abs(lens.x+lens.width/2-(docsBox.x+docsBox.width*.4))<12&&Math.abs(lens.y+lens.height/2-(docsBox.y+docsBox.height*.4))<12,'Magnifier stays under the mouse');
+      await moving.locator('.lang-lists').scrollIntoViewIfNeeded();
+      await moving.getByRole('button',{name:'Tiếng Việt'}).click();
+      assert.equal(await moving.locator('.lang-say-text').textContent(),'Xin chào');
+      assert.equal(await moving.getByRole('button',{name:'Tiếng Việt'}).getAttribute('aria-pressed'),'true');
+      assert(await moving.locator('#languages').evaluate(el=>el.classList.contains('is-talking')),'Waveform talks for a spoken language');
+      await moving.getByRole('button',{name:'Gagana Samoa'}).click();
+      assert.equal(await moving.locator('.lang-say-note').textContent(),'On screen only');
+      assert(await moving.locator('#languages').evaluate(el=>el.classList.contains('is-silent')),'Waveform lies flat for an on-screen-only language');
+      assert.equal(await moving.locator('.spark').count(),5);
+      assert.equal(await moving.locator('.t-ask .bubble .sr').textContent(),'Example question: What is paracetamol used for?');
+      assert.deepEqual(pageErrors,[]);
       await moving.close();
     }
+    // Reduce Motion: the language chips still work as buttons; nothing else is added.
+    await page.locator('.lang-lists').scrollIntoViewIfNeeded();
+    await page.getByRole('button',{name:'Español'}).click();
+    assert.equal(await page.locator('.lang-say-text').textContent(),'Hola');
+    assert.equal(await page.locator('.spark, .glare, .spot, .ripple, .closing h2 .w').count(),0,'No interactive motion under Reduce Motion');
+    // The highlight strip leads with the core feature.
+    assert.equal(await page.locator('.hero-highlights > div').count(),4);
+    assert.equal((await page.locator('.hero-highlights > div').first().textContent()).trim(),'Snap and talk to AI about your medicines');
     // Pressing play opens the film over the page; Escape closes and pauses it.
     await page.setViewportSize({width:1440,height:1000});await page.goto(base);
     await page.locator('.hero-play').click();
